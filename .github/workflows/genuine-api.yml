@@ -75,14 +75,14 @@ jobs:
 #        # via gcloud command-line tool.
 #        gcloud auth configure-docker
 
-#    - name: Build and push images
-#      uses: docker/build-push-action@v2
-#      with:
-#        file: Dockerfile
-#        push: true
-#        load: false
-#        tags: ${{ steps.prep.outputs.gcr_tags }}
-#        build-args: version=${{ steps.prep.outputs.version }}
+    - name: Build and push images
+      uses: docker/build-push-action@v2
+      with:
+        file: genuine-api/Dockerfile
+        push: true
+        load: false
+        tags: ${{ steps.prep.outputs.gcr_tags }}
+        build-args: version=${{ steps.prep.outputs.version }}
 
 #    - name: show job status
 #      if: always()
