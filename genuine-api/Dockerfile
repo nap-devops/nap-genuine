@@ -17,7 +17,7 @@ RUN apt-get -y install curl
 
 WORKDIR /app
 COPY --from=build /app .
-COPY run.bash /app
+COPY ./run.bash /app
 RUN ls -lrt
 
 EXPOSE 8080
