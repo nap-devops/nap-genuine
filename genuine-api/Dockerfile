@@ -4,7 +4,7 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /source
 
 # copy csproj and restore as distinct layers
-COPY ./* ./genuine-api/
+COPY genuine-api/* ./genuine-api/
 
 RUN dotnet restore genuine-api/genuine-api.csproj
 RUN dotnet publish genuine-api/genuine-api.csproj -c release -o /app --no-restore -p:PackageVersion=${version}
@@ -17,7 +17,7 @@ RUN apt-get -y install curl
 
 WORKDIR /app
 COPY --from=build /app .
-COPY ./run.bash /app
+COPY genuine-api/run.bash /app
 RUN ls -lrt
 
 EXPOSE 8080
