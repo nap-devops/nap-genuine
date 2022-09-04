@@ -84,9 +84,9 @@ jobs:
         tags: ${{ steps.prep.outputs.gcr_tags }}
         build-args: version=${{ steps.prep.outputs.version }}
 
-#    - name: show job status
-#      if: always()
-#      uses: snow-actions/line-notify@v1.0.0
-#      with:
-#        access_token: ${{ secrets.LINE_ACCESS_TOKEN }}
-#        message: "Done building [genuine-api] [${{ steps.prep.outputs.version }}] with status [${{job.status}}]"
+    - name: show job status
+      if: always()
+      uses: snow-actions/line-notify@v1.0.0
+      with:
+        access_token: ${{ secrets.LINE_ACCESS_TOKEN }}
+        message: "Done building [genuine-api] [${{ steps.prep.outputs.version }}] with status [${{job.status}}]"
