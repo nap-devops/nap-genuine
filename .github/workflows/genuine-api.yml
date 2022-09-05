@@ -6,7 +6,6 @@ on:
     tags: ['v*.*.*']
 
 env:
-  ENV_GCR_IMAGE: gcr.io/its-artifact-commons/genuine-api
   SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
@@ -35,8 +34,11 @@ jobs:
         cat ${VALUE_FILE}
         git add ${VALUE_FILE}; git commit --m "Update image tag by auto deploy script"; git push
 
-  build-genuine-api:
+  build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [ genuine-api ]
     outputs:
       imageTag: ${{ steps.prep.outputs.version }}
     steps:
@@ -46,8 +48,8 @@ jobs:
     - name: Prepare
       id: prep
       run: |
-        DOCKER_IMAGE=itssoftware/genuine-api
-        GCR_IMAGE=$ENV_GCR_IMAGE
+        DOCKER_IMAGE=itssoftware/${{matrix.service}}
+        GCR_IMAGE=gcr.io/its-artifact-commons/${{matrix.service}}
         VERSION=latest
         GIT_HASH=$(git rev-parse --short "$GITHUB_SHA")
 
@@ -77,7 +79,7 @@ jobs:
       uses: snow-actions/line-notify@v1.0.0
       with:
         access_token: ${{ secrets.LINE_ACCESS_TOKEN }}
-        message: "Start building [genuine-api] [${{ steps.prep.outputs.version }}]..."
+        message: "Start building [${{matrix.service}}] [${{ steps.prep.outputs.version }}]..."
 
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v1
@@ -100,7 +102,7 @@ jobs:
     - name: Build and push images
       uses: docker/build-push-action@v2
       with:
-        file: genuine-api/Dockerfile
+        file: ${{matrix.service}}/Dockerfile
         push: true
         load: false
         tags: ${{ steps.prep.outputs.gcr_tags }}
@@ -111,4 +113,4 @@ jobs:
       uses: snow-actions/line-notify@v1.0.0
       with:
         access_token: ${{ secrets.LINE_ACCESS_TOKEN }}
-        message: "Done building [genuine-api] [${{ steps.prep.outputs.version }}] with status [${{job.status}}]"
+        message: "Done building [${{matrix.service}}] [${{ steps.prep.outputs.version }}] with status [${{job.status}}]"
