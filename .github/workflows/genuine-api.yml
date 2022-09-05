@@ -89,7 +89,9 @@ jobs:
       run: |
         export VALUE_FILE_DIR="manifests/genuine-dev"
         export VALUE_FILE=${VALUE_FILE_DIR}/values-tags.yaml
-        export IMAGE_TAG=${{ steps.prep.outputs.gcr_tags }}
+        export IMAGE_TAG=${{ steps.prep.outputs.version }}
+        git config --global user.email "cicd-auto@napbiotec.io"
+        git config --global user.name "CICD"
 
         git clone "https://cicd-token:${GH_TOKEN}@github.com/nap-devops/nap-devops-argocd-apps.git" deployment        
         cd deployment
