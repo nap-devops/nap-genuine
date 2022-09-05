@@ -87,7 +87,8 @@ jobs:
     - name: Deploy
       id: deployment
       run: |
-        export VALUE_FILE_DIR="manifests/genuine-dev"
+        export ENVIRONMENT=dev
+        export VALUE_FILE_DIR="manifests/genuine-${ENVIRONMENT}"
         export VALUE_FILE=${VALUE_FILE_DIR}/values-tags.yaml
         export IMAGE_TAG=${{ steps.prep.outputs.version }}
         git config --global user.email "cicd-auto@napbiotec.io"
