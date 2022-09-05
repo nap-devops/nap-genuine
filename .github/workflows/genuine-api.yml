@@ -87,10 +87,18 @@ jobs:
     - name: Deploy
       id: deployment
       run: |
+        export VALUE_FILE_DIR="manifests/genuine-dev"
+        export VALUE_FILE=${VALUE_FILE_DIR}/values-tags.yaml
+        export IMAGE_TAG=${{ steps.prep.outputs.gcr_tags }}
+
         git clone "https://cicd-token:${GH_TOKEN}@github.com/nap-devops/nap-devops-argocd-apps.git" deployment        
-        cd deployment # manifests/genuine-dev/values-template.yaml
+        cd deployment
         git checkout production
+        cp ${VALUE_FILE_DIR}/values-template.yaml ${VALUE_FILE}
+        sed -i "s#<<genuine-api-image-tag>>#${IMAGE_TAG}#g" ${VALUE_FILE}
         ls -lrt
+        cat ${VALUE_FILE}
+        git add ${VALUE_FILE}; git commit --m "Update image tag by auto deploy script"; git push
 
     - name: show job status
       if: always()
