@@ -11,7 +11,7 @@ env:
 
 jobs:
   deploy:
-    needs: [ build-genuine-api ]
+    needs: [ build ]
     runs-on: ubuntu-latest
     steps:
     # Auto deploy
@@ -21,7 +21,7 @@ jobs:
         export ENVIRONMENT=dev
         export VALUE_FILE_DIR="manifests/genuine-${ENVIRONMENT}"
         export VALUE_FILE=${VALUE_FILE_DIR}/values-tags.yaml
-        export IMAGE_TAG=${{ needs.build-genuine-api.outputs.imageTag }}
+        export IMAGE_TAG=${{ needs.build.outputs.imageTag }}
         git config --global user.email "cicd-auto@napbiotec.io"
         git config --global user.name "CICD"
 
