@@ -22,7 +22,7 @@ jobs:
         export ENVIRONMENT=dev
         export VALUE_FILE_DIR="manifests/genuine-${ENVIRONMENT}"
         export VALUE_FILE=${VALUE_FILE_DIR}/values-tags.yaml
-        export IMAGE_TAG=${{ steps.prep.outputs.version }}
+        export IMAGE_TAG=${{ needs.build-genuine-api.outputs.imageTag }}
         git config --global user.email "cicd-auto@napbiotec.io"
         git config --global user.name "CICD"
 
@@ -37,6 +37,8 @@ jobs:
 
   build-genuine-api:
     runs-on: ubuntu-latest
+    outputs:
+      imageTag: ${{ steps.prep.outputs.version }}
     steps:
     - name: Checkout repo
       uses: actions/checkout@v2
