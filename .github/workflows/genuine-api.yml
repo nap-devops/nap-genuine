@@ -7,9 +7,8 @@ on:
 
 env:
   ENV_GCR_IMAGE: gcr.io/its-artifact-commons/genuine-api
-  RUN_REGION: asia-southeast1
   SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
 jobs:
 
@@ -83,6 +82,15 @@ jobs:
         load: false
         tags: ${{ steps.prep.outputs.gcr_tags }}
         build-args: version=${{ steps.prep.outputs.version }}
+
+    # Auto deploy
+    - name: Deploy
+      id: deployment
+      run: |
+        git clone "https://cicd-token:${GH_TOKEN}@github.com/nap-devops/nap-devops-argocd-apps.git" deployment        
+        cd deployment # manifests/genuine-dev/values-template.yaml
+        git checkout production
+        ls -lrt
 
     - name: show job status
       if: always()
