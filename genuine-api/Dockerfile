@@ -24,3 +24,4 @@ EXPOSE 8080
 
 ENTRYPOINT ["./run.bash"]
 
+# test demo
