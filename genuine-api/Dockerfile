@@ -23,3 +23,4 @@ RUN ls -lrt
 EXPOSE 8080
 
 ENTRYPOINT ["./run.bash"]
+
