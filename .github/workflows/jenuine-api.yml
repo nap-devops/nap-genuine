@@ -102,7 +102,7 @@ jobs:
     - name: Build and push images
       uses: docker/build-push-action@v3
       with:
-        file: ${{matrix.service}}/Dockerfile-API
+        file: Dockerfile-API
         push: true
         load: false
         tags: ${{ steps.prep.outputs.gcr_tags }}
