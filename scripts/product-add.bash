@@ -1,7 +1,7 @@
 #!/bin/bash
 
-#HOST=localhost:5001
-HOST=api.genuine-dev.napbiotec.io
+HOST=localhost:5001
+#HOST=api.genuine-dev.napbiotec.io
 
 id=$(shuf -i 1-100000 -n 1)
 
