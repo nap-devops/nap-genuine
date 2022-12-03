@@ -1,5 +1,5 @@
 ARG version
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 
 WORKDIR /install
 
@@ -18,7 +18,7 @@ RUN dotnet restore jenuine-api/jenuine-api.csproj
 RUN dotnet publish jenuine-api/jenuine-api.csproj -c release -o /app --no-restore -p:PackageVersion=${version}
 
 ##### final stage/image
-FROM mcr.microsoft.com/dotnet/aspnet:5.0
+FROM mcr.microsoft.com/dotnet/aspnet:6.0
 
 RUN apt-get -y update
 RUN apt-get -y install curl
