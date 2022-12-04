@@ -33,6 +33,8 @@ namespace Its.Jenuiue.Api
             var conn = new MongoClient(connStr);
             var db = new MongoDatabase(conn);
 
+            BasicAuthenticationRepo.SetConfiguration(Configuration);
+
             services.AddScoped<IProductsService>(sp => new ProductsService(db));
             services.AddScoped<IAssetsService>(sp => new AssetsService(db));
             services.AddSingleton<IBasicAuthenticationRepo, BasicAuthenticationRepo>();
@@ -44,7 +46,7 @@ namespace Its.Jenuiue.Api
 
             services.AddControllers()
                 .AddJsonOptions(options => options.JsonSerializerOptions.WriteIndented = true);
-                
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "jenuine_api", Version = "v1" });

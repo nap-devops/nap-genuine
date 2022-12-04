@@ -22,7 +22,7 @@ namespace Its.Jenuiue.Api.Authentications
             IBasicAuthenticationRepo authRepo,
             ISystemClock clock) : base(options, logger, encoder, clock)
         {
-            authenRepo = authRepo;
+            authenRepo = authRepo;            
         }
 
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()

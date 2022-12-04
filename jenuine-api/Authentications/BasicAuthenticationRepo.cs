@@ -1,30 +1,35 @@
 using Serilog;
+using System.IO;
+using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 
 namespace Its.Jenuiue.Api.Authentications
 {
     public class BasicAuthenticationRepo : IBasicAuthenticationRepo
     {
+        private static IConfiguration cfg = null;
         private Dictionary<string, User> coll = new Dictionary<string, User>();
-        private readonly string[] arrs = {
-            "james,ThisIsPassw0rd,Admin", 
-            "supreeya,xsAdsddew,Viewed", 
-            "prakaporn,sedsEq12432d@3,Editor"
-        };
         
-        public BasicAuthenticationRepo()
+        public static void SetConfiguration(IConfiguration config)
         {
-            Log.Information("[BasicAuthenticationRepo] Loading users to cache...");
-            LoadUsers();
+            cfg = config;
         }
 
-        private void LoadUsers()
+        public BasicAuthenticationRepo()
+        {
+            var fname = cfg["BasicAuthen:File"];
+
+            Log.Information($"[BasicAuthenticationRepo] Loading users from file [{fname}] to cache...");
+            LoadUsers(fname);
+        }
+
+        private void LoadUsers(string fname)
         {
             coll.Clear();
 
-            foreach (string item in arrs) 
+            foreach (string line in File.ReadLines(fname))
             {
-                var tokens = item.Split(',');
+                var tokens = line.Split(',');
                 var u = new User() {
                     UserName = tokens[0],
                     Password = tokens[1],
