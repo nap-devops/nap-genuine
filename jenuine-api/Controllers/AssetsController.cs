@@ -7,11 +7,13 @@ using Its.Jenuiue.Core.Models;
 using Its.Jenuiue.Core.Models.Organization;
 using Its.Jenuiue.Core.Services.Assets;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Its.Jenuiue.Api.Controllers
 {
     [ApiController]
     [Route("/api/[controller]")]
+    [Authorize]
     public class AssetsController : ControllerBase
     {
         private readonly IAssetsService service;

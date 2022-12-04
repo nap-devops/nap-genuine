@@ -7,10 +7,12 @@ using Its.Jenuiue.Core.Models;
 using Its.Jenuiue.Core.Models.Organization;
 using Its.Jenuiue.Core.Services.Products;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Its.Jenuiue.Api.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("/api/[controller]")]
     public class ProductsController : ControllerBase
     {

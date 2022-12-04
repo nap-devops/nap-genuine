@@ -14,5 +14,5 @@ https://${HOST}/api/products/org/napbiotec/action/AddProduct/
 
 #https://api.genuine-dev.napbiotec.io/api/products/org/napbiotec/action/AddProduct/
 
-#https://localhost:5001/api/products/org/napbiotec/action/GetProducts
+#https://james:ThisIsPassw0rd@localhost:5001/api/products/org/napbiotec/action/GetProducts
 #https://api.genuine-dev.napbiotec.io/api/products/org/napbiotec/action/GetProducts

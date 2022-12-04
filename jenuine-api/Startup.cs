@@ -7,8 +7,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Authentication;
+
 using Its.Jenuiue.Core.Services.Products;
 using Its.Jenuiue.Core.Services.Assets;
+using Its.Jenuiue.Api.Authentications;
 
 namespace Its.Jenuiue.Api
 {
@@ -29,15 +32,15 @@ namespace Its.Jenuiue.Api
 
             var conn = new MongoClient(connStr);
             var db = new MongoDatabase(conn);
-            
-            
+
             services.AddScoped<IProductsService>(sp => new ProductsService(db));
             services.AddScoped<IAssetsService>(sp => new AssetsService(db));
-            
-            
+            services.AddSingleton<IBasicAuthenticationRepo, BasicAuthenticationRepo>();
+
+            services.AddAuthentication("BasicAuthentication")
+                .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);            
 
             services.AddAutoMapper(typeof(Startup));
-            
 
             services.AddControllers()
                 .AddJsonOptions(options => options.JsonSerializerOptions.WriteIndented = true);
@@ -62,6 +65,7 @@ namespace Its.Jenuiue.Api
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
