@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authentication;
 using Its.Jenuiue.Core.Services.Products;
 using Its.Jenuiue.Core.Services.Assets;
 using Its.Jenuiue.Api.Authentications;
+using Its.Jenuiue.Api.Middlewares.AuditLog;
 
 namespace Its.Jenuiue.Api
 {
@@ -64,7 +65,7 @@ namespace Its.Jenuiue.Api
             }
 
             app.UseHttpsRedirection();
-
+            app.UseAuditLogMiddleware();
             app.UseRouting();
 
             app.UseAuthentication();
@@ -73,7 +74,7 @@ namespace Its.Jenuiue.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-            });
+            });            
         }
     }
 }
