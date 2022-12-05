@@ -81,5 +81,13 @@ namespace Its.Jenuiue.Core.Services.Assets
 
             return result;
         }
+
+        public MAsset RegisterAsset(MAsset param)
+        {
+            var act = new UpdateAssetRegisterStatusByIdAction(database, orgId); //Will change
+            var result = act.Apply<MAsset>(param);
+
+            return result;
+        }        
     }
 }

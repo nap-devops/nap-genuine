@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using Its.Jenuiue.Core.Models.Organization;
 
 namespace Its.Jenuiue.Api.ModelsViews.Organization
 {
@@ -7,7 +6,9 @@ namespace Its.Jenuiue.Api.ModelsViews.Organization
     {
         [Required]
         public string AssetId { get; set; }
-        
+        [Required]
+        public string ProductId { get; set; }
+
         [Required]
         public string AssetName { get; set; }
         
@@ -19,7 +20,5 @@ namespace Its.Jenuiue.Api.ModelsViews.Organization
         public string SerialNo { get; set; }
         [Required]
         public string IsRegistered { get; set; }
-           
-        
     }
 }

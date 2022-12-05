@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Its.Jenuiue.Api.Authentications.Utils;
 
 namespace Its.Jenuiue.Api.Authentications
 {
@@ -27,6 +28,14 @@ namespace Its.Jenuiue.Api.Authentications
 
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
+            if (!AuthenticationUtils.IsAuthenticationNeed(Request))
+            {
+                var idt = new ClaimsIdentity(null, Scheme.Name);
+                var pcp = new ClaimsPrincipal(idt);
+                var tck = new AuthenticationTicket(pcp, Scheme.Name);                
+                return AuthenticateResult.Success(tck);
+            }
+
             if (!Request.Headers.ContainsKey("Authorization"))
             {
                 return AuthenticateResult.Fail("Missing Authorization Header");

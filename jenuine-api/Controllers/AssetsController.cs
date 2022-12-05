@@ -118,6 +118,23 @@ namespace Its.Jenuiue.Api.Controllers
             var result = mapper.Map<MAsset, MVAsset>(updateObj);
 
             return Ok(result);
-        }    
+        }
+
+        [HttpGet]
+        [Route("org/{id}/action/RegisterAsset/{serialNo}/{pinNo}")]
+        public IActionResult RegisterAsset(string id, string serialNo, string pinNo)
+        {
+            service.SetOrgId(id);
+
+            var asset = new MAsset();
+            asset.PinNo = pinNo;
+            asset.SerialNo = serialNo;
+
+            //var updateObj = service.RegisterAsset(asset);
+
+            //var result = mapper.Map<MAsset, MVAsset>(updateObj);
+
+            return Ok("xxxOKxxx");
+        }        
     }
 }
