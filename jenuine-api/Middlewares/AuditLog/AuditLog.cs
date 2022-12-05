@@ -4,7 +4,6 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using System.Text.RegularExpressions;
 using System.IO;
-using System.Threading.Tasks;
 
 namespace Its.Jenuiue.Api.Middlewares.AuditLog
 {
