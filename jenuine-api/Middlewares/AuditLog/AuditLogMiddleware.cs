@@ -1,6 +1,9 @@
+using System;
 using Serilog;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace Its.Jenuiue.Api.Middlewares.AuditLog
 {
@@ -15,9 +18,18 @@ namespace Its.Jenuiue.Api.Middlewares.AuditLog
 
         public async Task InvokeAsync(HttpContext httpContext)
         {
-            Log.Information($"Begin audit log ...[{httpContext.Request.Path}]");
+            DateTime beginTime = DateTime.Now;
             await next(httpContext);
-            Log.Information($"End audit log [{httpContext.Connection.RemoteIpAddress}]");
+            DateTime endTime = DateTime.Now;
+
+            TimeSpan ts = endTime - beginTime;
+
+            var auditLog = new AuditLog(httpContext);
+            auditLog.latencyMs = ts.TotalMilliseconds;
+
+            var json = JsonConvert.SerializeObject(auditLog);
+
+            Log.Information(json);
         }
     }
 }

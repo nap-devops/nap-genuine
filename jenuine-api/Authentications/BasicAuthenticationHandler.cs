@@ -53,7 +53,7 @@ namespace Its.Jenuiue.Api.Authentications
                 return AuthenticateResult.Fail("Invalid Username or Password");
             }
 
-            var claims = new Claim[] 
+            var claims = new Claim[]
             {
                 new Claim(ClaimTypes.NameIdentifier, user.UserName.ToString()),
                 new Claim(ClaimTypes.Name, user.UserName),
@@ -64,7 +64,7 @@ namespace Its.Jenuiue.Api.Authentications
             var principal = new ClaimsPrincipal(identity);
             var ticket = new AuthenticationTicket(principal, Scheme.Name);
 
-            return AuthenticateResult.Success(ticket);                    
+            return AuthenticateResult.Success(ticket);
         }
     }
 }
