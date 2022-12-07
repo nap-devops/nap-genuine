@@ -10,8 +10,9 @@ namespace Its.Jenuiue.Api.Middlewares.AuditLog
     public class Api
     {
         private HttpContext ctx;
-        private readonly string pattern1 = @"^\/api\/(.+?)\/org\/(.+)\/action\/(.+)$";
-        private readonly string pattern2 = @"^\/api\/(.+?)\/org\/(.+)\/action\/(.+)\/(.+)$";
+        private readonly string pattern3 = @"^\/api\/(.+?)\/org\/(.+?)\/action\/(.+?)$";
+        private readonly string pattern2 = @"^\/api\/(.+?)\/org\/(.+?)\/action\/(.+?)\/(.+?)$";
+        private readonly string pattern1 = @"^\/api\/(.+?)\/org\/(.+?)\/action\/(.+?)\/(.+?)\/(.+?)$";
 
         public Api(HttpContext httpContext)
         {
@@ -22,23 +23,30 @@ namespace Its.Jenuiue.Api.Middlewares.AuditLog
 
             // /api/products/org/napbiotec/action/GetProducts
 
-            MatchCollection matches = Regex.Matches(path, pattern1);
-            if (matches.Count > 0)
+            MatchCollection matches1 = Regex.Matches(path, pattern1);
+            MatchCollection matches2 = Regex.Matches(path, pattern2);
+            MatchCollection matches3 = Regex.Matches(path, pattern3);
+
+            if (matches1.Count > 0)
             {
-                resourceType = matches[0].Groups[1].Value;
-                organzation = matches[0].Groups[2].Value;
-                action = matches[0].Groups[3].Value;
+                resourceType = matches1[0].Groups[1].Value;
+                organzation = matches1[0].Groups[2].Value;
+                action = matches1[0].Groups[3].Value;
+                data1 = matches1[0].Groups[4].Value;
+                data2 = matches1[0].Groups[5].Value;
             }
-            else
+            else if (matches2.Count > 0)
             {
-                matches = Regex.Matches(path, pattern2);
-                if (matches.Count > 0)
-                {
-                    resourceType = matches[0].Groups[1].Value;
-                    organzation = matches[0].Groups[2].Value;
-                    action = matches[0].Groups[3].Value;
-                    resourceId = matches[0].Groups[4].Value;
-                }
+                resourceType = matches2[0].Groups[1].Value;
+                organzation = matches2[0].Groups[2].Value;
+                action = matches2[0].Groups[3].Value;
+                resourceId = matches2[0].Groups[4].Value;
+            }
+            else if (matches3.Count > 0)
+            {
+                resourceType = matches3[0].Groups[1].Value;
+                organzation = matches3[0].Groups[2].Value;
+                action = matches3[0].Groups[3].Value;
             }
 
             foreach (Claim clm in ctx.User.Claims)
@@ -48,11 +56,6 @@ namespace Its.Jenuiue.Api.Middlewares.AuditLog
             }
 
             method = ctx.Request.Method;
-
-            //StreamReader reader = new StreamReader(ctx.Request.Body);
-            //var t = reader.ReadToEndAsync();
-            //t.Wait();
-            //inputParam = t.Result;
         }
 
         public string path { get; set; }
@@ -61,7 +64,9 @@ namespace Its.Jenuiue.Api.Middlewares.AuditLog
         public string organzation { get; set; }
         public string action { get; set; }
         public string resourceId { get; set; }
-        //public string inputParam { get; set; }
+        public string data1 { get; set; }
+        public string data2 { get; set; }
+
         public Dictionary<string, string> claims { get; set; }
     }
 

@@ -6,6 +6,7 @@ namespace Its.Jenuiue.Api.ModelsViews
 {
     public class BaseModelView
     {
+        public string LastActionStatus { get; set; }
         public string Id { get; set; }
         public QueryParam QueryParam { get; set; }
     }

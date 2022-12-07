@@ -34,8 +34,16 @@ namespace Its.Jenuiue.Core.Services.Assets
         {
             var act = new AddAssetAction(database, orgId);
 
+            var result = new MAsset();
             param.AssetId = string.Format("{0}-{1}", param.PinNo, param.SerialNo);
-            var result = act.Apply<MAsset>(param);
+            try
+            {
+                result = act.Apply<MAsset>(param);
+            }
+            catch (Exception e)
+            {
+                result.LastActionStatus = e.Message;
+            }
 
             return result;
         }
@@ -84,7 +92,7 @@ namespace Its.Jenuiue.Core.Services.Assets
 
         public MAsset RegisterAsset(MAsset param)
         {
-            var act = new UpdateAssetRegisterStatusByIdAction(database, orgId); //Will change
+            var act = new RegisterAssetAction(database, orgId);
             var result = act.Apply<MAsset>(param);
 
             return result;

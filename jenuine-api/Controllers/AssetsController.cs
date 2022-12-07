@@ -70,9 +70,13 @@ namespace Its.Jenuiue.Api.Controllers
             var addedAsset = service.AddAsset(asset);
             var result = mapper.Map<MAsset, MVAsset>(addedAsset);
             
-            //var assetid = data;
+            var status = result.LastActionStatus;
+            if (string.IsNullOrEmpty(status))
+            {
+                return Ok(result);
+            }
 
-            return Ok(result);
+            return BadRequest(status);
         }
 
         [HttpDelete]
@@ -130,11 +134,16 @@ namespace Its.Jenuiue.Api.Controllers
             asset.PinNo = pinNo;
             asset.SerialNo = serialNo;
 
-            //var updateObj = service.RegisterAsset(asset);
+            var updateObj = service.RegisterAsset(asset);
+            var result = mapper.Map<MAsset, MVAsset>(updateObj);
 
-            //var result = mapper.Map<MAsset, MVAsset>(updateObj);
+            var status = result.LastActionStatus;
+            if (string.IsNullOrEmpty(status))
+            {
+                return Ok(result);
+            }
 
-            return Ok("xxxOKxxx");
+            return BadRequest(status);
         }        
     }
 }
