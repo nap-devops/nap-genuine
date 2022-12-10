@@ -144,7 +144,7 @@ namespace Its.Jenuiue.Api.Middlewares.AuditLog
         public Response response { get; set; }
         public Api api { get; set; }
 
-        public string id { get; set; }
+        public string connectionId { get; set; }
         public DateTime eventDtm { get; set; }
         public double latencyMs { get; set; }
         
@@ -157,7 +157,7 @@ namespace Its.Jenuiue.Api.Middlewares.AuditLog
             response = new Response(ctx);
             api = new Api(ctx);
 
-            id = ctx.Connection.Id;
+            connectionId = ctx.Connection.Id;
             eventDtm = DateTime.Now;
         }
     }
