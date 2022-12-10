@@ -87,7 +87,7 @@ namespace Its.Jenuiue.Api.Middlewares.AuditLog
         public string remoteIP { get; set; }
         public int remotePort { get; set; }
         public string localIP { get; set; }
-        public int localPort { get; set; }
+        public int localPort { get; set; }        
     }
 
     public class Response
@@ -122,6 +122,7 @@ namespace Its.Jenuiue.Api.Middlewares.AuditLog
             method = ctx.Request.Method;
             contentType = ctx.Request.ContentType;
             userAgent = ctx.Request.Headers["User-Agent"];
+            forwardedFor = ctx.Request.Headers["X-Forwarded-For"];
             host = ctx.Request.Host.Host;
         }
 
@@ -133,6 +134,7 @@ namespace Its.Jenuiue.Api.Middlewares.AuditLog
         public string contentType { get; set; }
         public string userAgent { get; set; }
         public string host { get; set; }
+        public string forwardedFor { get; set; }
     }
 
     public class AuditLog
