@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication;
 
 using Its.Jenuiue.Core.Services.Products;
 using Its.Jenuiue.Core.Services.Assets;
+using Its.Jenuiue.Core.Services.Jobs;
 using Its.Jenuiue.Api.Authentications;
 using Its.Jenuiue.Api.Middlewares.AuditLog;
 
@@ -39,6 +40,7 @@ namespace Its.Jenuiue.Api
 
             services.AddScoped<IProductsService>(sp => new ProductsService(db));
             services.AddScoped<IAssetsService>(sp => new AssetsService(db));
+            services.AddScoped<IJobsService>(sp => new JobsService(db));
             services.AddSingleton<IBasicAuthenticationRepo, BasicAuthenticationRepo>();
 
             services.AddAuthentication("BasicAuthentication")
