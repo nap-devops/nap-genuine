@@ -17,6 +17,9 @@ namespace Its.Jenuiue.Api.ModelsViews.Organization
 
         public int Progress { get; set; }
 
-        public string Tags { get; set; }        
+        public string Tags { get; set; }
+
+        public string ProductId { get; set; }
+        public string ProductName { get; set; }
     }
 }

@@ -11,5 +11,8 @@ namespace Its.Jenuiue.Core.Models.Organization
         public string Status { get; set; }
         public int Progress { get; set; }
         public string Tags { get; set; }
+
+        public string ProductId { get; set; }
+        public string ProductName { get; set; }
     }
 }
