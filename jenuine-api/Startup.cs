@@ -35,6 +35,7 @@ namespace Its.Jenuiue.Api
             var db = new MongoDatabase(conn);
 
             BasicAuthenticationRepo.SetConfiguration(Configuration);
+            AuditLogMiddleware.SetConfiguration(Configuration);
 
             services.AddScoped<IProductsService>(sp => new ProductsService(db));
             services.AddScoped<IAssetsService>(sp => new AssetsService(db));
