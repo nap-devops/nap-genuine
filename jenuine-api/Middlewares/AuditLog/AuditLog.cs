@@ -122,7 +122,10 @@ namespace Its.Jenuiue.Api.Middlewares.AuditLog
             method = ctx.Request.Method;
             contentType = ctx.Request.ContentType;
             userAgent = ctx.Request.Headers["User-Agent"];
-            forwardedFor = ctx.Request.Headers["X-Forwarded-For"];
+
+            var h = ctx.Request.Headers["X-Forwarded-For"];
+            forwardedFor = String.Join(',', h.ToArray());
+
             host = ctx.Request.Host.Host;
         }
 
