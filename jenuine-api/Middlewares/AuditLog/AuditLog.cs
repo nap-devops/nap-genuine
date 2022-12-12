@@ -124,13 +124,12 @@ namespace Its.Jenuiue.Api.Middlewares.AuditLog
             contentType = ctx.Request.ContentType;
             userAgent = ctx.Request.Headers["User-Agent"];
 
-            var h = ctx.Request.Headers["X-Forwarded-For"];
-            forwardedFor = String.Join(',', h.ToArray());
-
-            var hdr = ctx.Request.Headers;
-            foreach(var entry in hdr)
+            var h = ctx.Request.Headers["X-Original-Forwarded-For"];
+            var headers = h.ToArray();
+            forwardedFor = String.Join(',', headers);
+            if (headers.Length > 0)
             {
-                Log.Information($"DEBUG header, key=[{entry.Key} value=[{entry.Value}]");
+                clientIP = headers[0];
             }
 
             host = ctx.Request.Host.Host;
@@ -145,6 +144,7 @@ namespace Its.Jenuiue.Api.Middlewares.AuditLog
         public string userAgent { get; set; }
         public string host { get; set; }
         public string forwardedFor { get; set; }
+        public string clientIP { get; set; }
     }
 
     public class AuditLog
