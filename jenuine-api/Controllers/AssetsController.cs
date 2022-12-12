@@ -133,6 +133,7 @@ namespace Its.Jenuiue.Api.Controllers
             var asset = new MAsset();
             asset.PinNo = pinNo;
             asset.SerialNo = serialNo;
+            asset.NeedRedirect = false;
 
             var updateObj = service.RegisterAsset(asset);
             var result = mapper.Map<MAsset, MVAsset>(updateObj);
@@ -155,6 +156,7 @@ namespace Its.Jenuiue.Api.Controllers
             var asset = new MAsset();
             asset.PinNo = pinNo;
             asset.SerialNo = serialNo;
+            asset.NeedRedirect = true;
 
             var updateObj = service.RegisterAsset(asset);
             var result = mapper.Map<MAsset, MVAsset>(updateObj);

@@ -1,13 +1,16 @@
 using System;
+using Serilog;
 using MongoDB.Driver;
 using Its.Jenuiue.Core.Database;
 using Its.Jenuiue.Core.Models.Organization;
 using Its.Jenuiue.Core.Actions.Registration;
+using Its.Jenuiue.Core.Actions.Products;
 
 namespace Its.Jenuiue.Core.Actions.Assets
 {
     public class RegisterAssetAction : IActionManipulate
     {
+        private readonly string defaultUrl = "https://aldamex.com/register-product/default?status={0}&serial={1}&pin={2}";
         private IDatabase dbConn;
         private IMongoDatabase db;
         private string org;
@@ -35,21 +38,48 @@ namespace Its.Jenuiue.Core.Actions.Assets
             return filter;
         }
 
+        private string FormatUrl(string url, string status, string serial, string pin)
+        {
+            String formattedUrl = String.Format(url, status, serial, pin);
+            return formattedUrl;
+        }
+
         private string CreateRedirectUrl(MAsset asset, string status)
         {
-            string redirectUrl = "https://aldamex.com/register-product/result?status={0}&serial={1}&pin={2}";
-
             string serial = asset.SerialNo;
             string pin = asset.PinNo;
 
-            String url = String.Format(redirectUrl, status, serial, pin);
+            if (!asset.NeedRedirect)
+            {
+                return "";
+            }
 
-            return url;
+            if (String.IsNullOrEmpty(asset.ProductId))
+            {
+                Log.Error($"Unable to find [ProductId] value for asset serial=[{serial}] pin=[{pin}]");
+                return FormatUrl(defaultUrl, status, serial, pin);
+            }
+
+            var p = new MProduct()
+            {
+                Id = asset.ProductId
+            };
+            var act = new GetProductByIdAction(dbConn, org);
+            var assetProduct = act.Apply<MProduct>(p);
+            if (assetProduct == null)
+            {
+                Log.Error($"Unable to find [Production] object for asset serial=[{serial}] pin=[{pin}]");
+                return FormatUrl(defaultUrl, status, serial, pin);
+            }
+
+            return FormatUrl(assetProduct.RedirectUrl, status, serial, pin);;
         }
 
         public T Apply<T>(T param)
         {
             string status = "";
+            string serial = (param as MAsset).SerialNo;
+            string pin = (param as MAsset).PinNo;
 
             string collName = GetCollectionName();
             var collection = db.GetCollection<T>(collName);
@@ -61,7 +91,7 @@ namespace Its.Jenuiue.Core.Actions.Assets
             {
                 status = "Serial and pin not found!!!";
                 (param as MAsset).LastActionStatus = status;
-                (param as MAsset).RedirectUrl = CreateRedirectUrl((param as MAsset), status);
+                (param as MAsset).RedirectUrl = FormatUrl(defaultUrl, status, serial, pin);
 
                 return param;
             }
@@ -70,23 +100,24 @@ namespace Its.Jenuiue.Core.Actions.Assets
             {
                 status = "Found serial and pin more than one instance!!!";
                 (param as MAsset).LastActionStatus = status;
-                (param as MAsset).RedirectUrl = CreateRedirectUrl((param as MAsset), status);
+                (param as MAsset).RedirectUrl = FormatUrl(defaultUrl, status, serial, pin);
 
                 return param;
             }
 
             var asset = results[0];
+            (asset as MAsset).NeedRedirect = (param as MAsset).NeedRedirect;
+
             if ((asset as MAsset).IsRegistered)
             {
                 status = "Serial and pin is already registered!!!";
                 (param as MAsset).LastActionStatus = status;
                 (param as MAsset).RegisteredInfo = (asset as MAsset).RegisteredInfo;
-                (param as MAsset).RedirectUrl = CreateRedirectUrl((param as MAsset), status);
+                (param as MAsset).RedirectUrl = CreateRedirectUrl((asset as MAsset), status);
 
                 return param;
             }
-
-            (asset as MAsset).IsRegistered = true;
+            
             Guid guid = Guid.NewGuid();
             string regId = guid.ToString();
 
@@ -98,13 +129,14 @@ namespace Its.Jenuiue.Core.Actions.Assets
             var addAct = new AddRegistrationAction(dbConn, org);
             var addResult = addAct.Apply<MRegistration>(reg);            
 
-            (asset as MAsset).RegisteredInfo = addResult;
+            (asset as MAsset).IsRegistered = true;
+            (asset as MAsset).RegisteredInfo = addResult;            
 
             var updateAct = new UpdateAssetRegisterStatusByIdAction(dbConn, org);
             var updateResult = updateAct.Apply<MAsset>(asset as MAsset);
 
             status = "Serial and pin registered succesfully";
-            updateResult.RedirectUrl = CreateRedirectUrl((param as MAsset), status);
+            updateResult.RedirectUrl = CreateRedirectUrl((asset as MAsset), status);
 
             return (T)(object) updateResult;
         }

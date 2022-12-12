@@ -12,5 +12,6 @@ namespace Its.Jenuiue.Core.Models.Organization
         public MRegistration RegisteredInfo { get; set; }
 
         public string RedirectUrl { get; set; }
+        public bool NeedRedirect { get; set; }
     }
 }

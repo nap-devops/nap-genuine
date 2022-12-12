@@ -12,5 +12,8 @@ namespace Its.Jenuiue.Api.ModelsViews.Organization
 
         [StringLength(200)]
         public string Description { get; set; }
+
+        [Required]
+        public string RedirectUrl { get; set; }
     }
 }
