@@ -124,12 +124,14 @@ namespace Its.Jenuiue.Api.Middlewares.AuditLog
             contentType = ctx.Request.ContentType;
             userAgent = ctx.Request.Headers["User-Agent"];
 
-            var h = ctx.Request.Headers["X-Original-Forwarded-For"];
-            var headers = h.ToArray();
-            forwardedFor = String.Join(',', headers);
-            if (headers.Length > 0)
+            forwardedFor = ctx.Request.Headers["X-Original-Forwarded-For"];
+            if (forwardedFor != null)
             {
-                clientIP = headers[0];
+                var arr = forwardedFor.Split(',', StringSplitOptions.TrimEntries);
+                if (arr.Length > 0)
+                {
+                    clientIP = arr[0];
+                }
             }
 
             host = ctx.Request.Host.Host;
