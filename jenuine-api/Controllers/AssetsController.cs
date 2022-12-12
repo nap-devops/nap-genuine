@@ -144,6 +144,22 @@ namespace Its.Jenuiue.Api.Controllers
             }
 
             return BadRequest(status);
-        }        
+        }
+
+        [HttpGet]
+        [Route("org/{id}/action/RegisterAssetRedirect/{serialNo}/{pinNo}")]
+        public IActionResult RegisterAssetRedirect(string id, string serialNo, string pinNo)
+        {
+            service.SetOrgId(id);
+
+            var asset = new MAsset();
+            asset.PinNo = pinNo;
+            asset.SerialNo = serialNo;
+
+            var updateObj = service.RegisterAsset(asset);
+            var result = mapper.Map<MAsset, MVAsset>(updateObj);
+
+            return Redirect(updateObj.RedirectUrl);
+        }
     }
 }

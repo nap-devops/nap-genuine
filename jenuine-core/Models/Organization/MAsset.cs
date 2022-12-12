@@ -10,5 +10,7 @@ namespace Its.Jenuiue.Core.Models.Organization
         public string AssetName { get; set; }
         public bool IsRegistered { get; set; }
         public MRegistration RegisteredInfo { get; set; }
+
+        public string RedirectUrl { get; set; }
     }
 }

@@ -5,7 +5,7 @@ namespace Its.Jenuiue.Api.Authentications.Utils
 {
     public static class AuthenticationUtils
     {
-        private static readonly string pattern1 = @"^\/api\/assets\/org\/(.+)\/action\/RegisterAsset\/(.+)/(.+)$";
+        private static readonly string pattern1 = @"^\/api\/assets\/org\/(.+)\/action\/RegisterAssetRedirect\/(.+)/(.+)$";
 
         public static bool IsAuthenticationNeed(HttpRequest request)
         {

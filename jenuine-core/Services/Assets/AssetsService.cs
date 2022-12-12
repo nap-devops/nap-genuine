@@ -96,6 +96,6 @@ namespace Its.Jenuiue.Core.Services.Assets
             var result = act.Apply<MAsset>(param);
 
             return result;
-        }        
+        }
     }
 }

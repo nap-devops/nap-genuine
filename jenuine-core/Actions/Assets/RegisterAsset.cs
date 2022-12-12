@@ -35,8 +35,22 @@ namespace Its.Jenuiue.Core.Actions.Assets
             return filter;
         }
 
+        private string CreateRedirectUrl(MAsset asset, string status)
+        {
+            string redirectUrl = "https://aldamex.com/register-product/result?status={0}&serial={1}&pin={2}";
+
+            string serial = asset.SerialNo;
+            string pin = asset.PinNo;
+
+            String url = String.Format(redirectUrl, status, serial, pin);
+
+            return url;
+        }
+
         public T Apply<T>(T param)
         {
+            string status = "";
+
             string collName = GetCollectionName();
             var collection = db.GetCollection<T>(collName);
 
@@ -45,21 +59,30 @@ namespace Its.Jenuiue.Core.Actions.Assets
 
             if (results.Count <= 0)
             {
-                (param as MAsset).LastActionStatus = "Serial and pin not found!!!";
+                status = "Serial and pin not found!!!";
+                (param as MAsset).LastActionStatus = status;
+                (param as MAsset).RedirectUrl = CreateRedirectUrl((param as MAsset), status);
+
                 return param;
             }
 
             if (results.Count > 1)
             {
-                (param as MAsset).LastActionStatus = "Found serial and pin more than one instance!!!";
+                status = "Found serial and pin more than one instance!!!";
+                (param as MAsset).LastActionStatus = status;
+                (param as MAsset).RedirectUrl = CreateRedirectUrl((param as MAsset), status);
+
                 return param;
             }
 
             var asset = results[0];
             if ((asset as MAsset).IsRegistered)
             {
-                (param as MAsset).LastActionStatus = "Serial and pin is already registered!!!";
+                status = "Serial and pin is already registered!!!";
+                (param as MAsset).LastActionStatus = status;
                 (param as MAsset).RegisteredInfo = (asset as MAsset).RegisteredInfo;
+                (param as MAsset).RedirectUrl = CreateRedirectUrl((param as MAsset), status);
+
                 return param;
             }
 
@@ -73,11 +96,15 @@ namespace Its.Jenuiue.Core.Actions.Assets
                 RegisteredDate = DateTime.Now
             };
             var addAct = new AddRegistrationAction(dbConn, org);
-            var addResult = addAct.Apply<MRegistration>(reg);
+            var addResult = addAct.Apply<MRegistration>(reg);            
 
             (asset as MAsset).RegisteredInfo = addResult;
+
             var updateAct = new UpdateAssetRegisterStatusByIdAction(dbConn, org);
             var updateResult = updateAct.Apply<MAsset>(asset as MAsset);
+
+            status = "Serial and pin registered succesfully";
+            updateResult.RedirectUrl = CreateRedirectUrl((param as MAsset), status);
 
             return (T)(object) updateResult;
         }
