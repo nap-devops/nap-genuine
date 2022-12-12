@@ -1,4 +1,5 @@
 using System;
+using Serilog;
 using System.Collections.Generic;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
@@ -125,6 +126,12 @@ namespace Its.Jenuiue.Api.Middlewares.AuditLog
 
             var h = ctx.Request.Headers["X-Forwarded-For"];
             forwardedFor = String.Join(',', h.ToArray());
+
+            var hdr = ctx.Request.Headers;
+            foreach(var entry in hdr)
+            {
+                Log.Information($"DEBUG header, key=[{entry.Key} value=[{entry.Value}]");
+            }
 
             host = ctx.Request.Host.Host;
         }
