@@ -15,7 +15,7 @@ namespace Its.Jenuiue.Core.Actions.Assets
         private IDatabase dbConn;
         private IMongoDatabase db;
         private string org;
-        private string key = null;
+        private string key = null; //This should get from DB instead
 
         public RegisterAssetAction(IDatabase conn, string orgId)
         {
