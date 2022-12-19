@@ -14,6 +14,6 @@ namespace Its.Jenuiue.Core.Services.Assets
         public MAsset UpdateAsset(MAsset param);
         public MAsset UpdateAssetRegisterFlag(MAsset param);
         public MAsset DeleteAsset(MAsset param);
-        public MAsset RegisterAsset(MAsset param);
+        public MAsset RegisterAsset(MAsset param, string key);
     }
 }

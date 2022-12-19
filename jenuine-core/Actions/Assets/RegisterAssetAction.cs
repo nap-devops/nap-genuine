@@ -5,6 +5,7 @@ using Its.Jenuiue.Core.Database;
 using Its.Jenuiue.Core.Models.Organization;
 using Its.Jenuiue.Core.Actions.Registration;
 using Its.Jenuiue.Core.Actions.Products;
+using Its.Jenuiue.Core.Utils;
 
 namespace Its.Jenuiue.Core.Actions.Assets
 {
@@ -14,6 +15,7 @@ namespace Its.Jenuiue.Core.Actions.Assets
         private IDatabase dbConn;
         private IMongoDatabase db;
         private string org;
+        private string key = null;
 
         public RegisterAssetAction(IDatabase conn, string orgId)
         {
@@ -40,7 +42,11 @@ namespace Its.Jenuiue.Core.Actions.Assets
 
         private string FormatUrl(string url, string status, string serial, string pin)
         {
-            String formattedUrl = String.Format(url, status, serial, pin);
+            String formattedUrl = String.Format(url, 
+                EncryptUtil.EncryptString(status, key),
+                EncryptUtil.EncryptString(serial, key), 
+                EncryptUtil.EncryptString(pin, key));
+
             return formattedUrl;
         }
 
@@ -73,6 +79,11 @@ namespace Its.Jenuiue.Core.Actions.Assets
             }
 
             return FormatUrl(assetProduct.RedirectUrl, status, serial, pin);;
+        }
+
+        public void SetSymetricKey(string keyStr)
+        {
+            key = keyStr;
         }
 
         public T Apply<T>(T param)

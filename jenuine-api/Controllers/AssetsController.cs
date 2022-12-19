@@ -8,6 +8,7 @@ using Its.Jenuiue.Core.Models.Organization;
 using Its.Jenuiue.Core.Services.Assets;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Configuration;
 
 namespace Its.Jenuiue.Api.Controllers
 {
@@ -18,11 +19,13 @@ namespace Its.Jenuiue.Api.Controllers
     {
         private readonly IAssetsService service;
         private readonly IMapper mapper;
+        private readonly IConfiguration cfg;
 
-        public AssetsController(IAssetsService svc, IMapper mppr)
+        public AssetsController(IAssetsService svc, IMapper mppr, IConfiguration configuration)
         {
             service = svc;
             mapper = mppr;
+            cfg = configuration;
         }
 
         [HttpGet]
@@ -135,7 +138,7 @@ namespace Its.Jenuiue.Api.Controllers
             asset.SerialNo = serialNo;
             asset.NeedRedirect = false;
 
-            var updateObj = service.RegisterAsset(asset);
+            var updateObj = service.RegisterAsset(asset, "");
             var result = mapper.Map<MAsset, MVAsset>(updateObj);
 
             var status = result.LastActionStatus;
@@ -158,7 +161,8 @@ namespace Its.Jenuiue.Api.Controllers
             asset.SerialNo = serialNo;
             asset.NeedRedirect = true;
 
-            var updateObj = service.RegisterAsset(asset);
+            var key = cfg["AssetRegistration:SymetricKey"];
+            var updateObj = service.RegisterAsset(asset, key);
             var result = mapper.Map<MAsset, MVAsset>(updateObj);
 
             return Redirect(updateObj.RedirectUrl);

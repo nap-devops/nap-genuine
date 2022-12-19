@@ -90,9 +90,11 @@ namespace Its.Jenuiue.Core.Services.Assets
             return result;
         }
 
-        public MAsset RegisterAsset(MAsset param)
+        public MAsset RegisterAsset(MAsset param, string key)
         {
             var act = new RegisterAssetAction(database, orgId);
+
+            act.SetSymetricKey(key);
             var result = act.Apply<MAsset>(param);
 
             return result;
