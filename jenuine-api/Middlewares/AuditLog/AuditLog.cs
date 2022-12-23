@@ -102,11 +102,13 @@ namespace Its.Jenuiue.Api.Middlewares.AuditLog
             status = ctx.Response.StatusCode;
             size = ctx.Response.ContentLength;
             contentType = ctx.Response.ContentType;
+            redirectLocation = ctx.Response.Headers["location"];
         }
 
         public int status { get; set; }
         public long? size { get; set; }
         public string contentType { get; set; }
+        public string redirectLocation { get; set; }
     }
 
     public class Request
