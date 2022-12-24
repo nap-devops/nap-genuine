@@ -110,6 +110,7 @@ namespace Its.Jenuiue.Core.Actions.Assets
                 (param as MAsset).LastActionStatus = status;
                 (param as MAsset).RedirectUrl = FormatUrl(defaultUrl, status, serial, pin);
 
+                Log.Error($"Status=[{status}] serial=[{serial}] pin=[{pin}]");
                 return param;
             }
 
@@ -119,6 +120,7 @@ namespace Its.Jenuiue.Core.Actions.Assets
                 (param as MAsset).LastActionStatus = status;
                 (param as MAsset).RedirectUrl = FormatUrl(defaultUrl, status, serial, pin);
 
+                Log.Error($"Status=[{status}] serial=[{serial}] pin=[{pin}]");
                 return param;
             }
 
@@ -132,6 +134,7 @@ namespace Its.Jenuiue.Core.Actions.Assets
                 (param as MAsset).RegisteredInfo = (asset as MAsset).RegisteredInfo;
                 (param as MAsset).RedirectUrl = CreateRedirectUrl((asset as MAsset), status);
 
+                Log.Error($"Status=[{status}] serial=[{serial}] pin=[{pin}]");
                 return param;
             }
             
@@ -154,6 +157,7 @@ namespace Its.Jenuiue.Core.Actions.Assets
 
             status = "Serial and pin registered succesfully";
             updateResult.RedirectUrl = CreateRedirectUrl((asset as MAsset), status);
+            Log.Information($"Status=[{status}] serial=[{serial}] pin=[{pin}]");
 
             return (T)(object) updateResult;
         }
