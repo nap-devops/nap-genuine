@@ -11,7 +11,7 @@ namespace Its.Jenuiue.Core.Actions.Assets
 {
     public class RegisterAssetAction : IActionManipulate
     {
-        private readonly string defaultUrl = "https://aldamex.com/register-product/default?status={0}&serial={1}&pin={2}";
+        private readonly string defaultUrl = "https://aldamex.com/product-registration/?status={0}&serial={1}&pin={2}";
         private IDatabase dbConn;
         private IMongoDatabase db;
         private string org;
