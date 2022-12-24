@@ -42,7 +42,13 @@ namespace Its.Jenuiue.Core.Actions.Assets
 
         private string FormatUrl(string url, string status, string serial, string pin)
         {
-            String formattedUrl = String.Format(url, 
+            var templateUrl = url;
+            if (string.IsNullOrEmpty(url))
+            {
+                templateUrl = defaultUrl;
+            }
+
+            String formattedUrl = String.Format(templateUrl, 
                 EncryptUtil.EncryptString(status, key),
                 EncryptUtil.EncryptString(serial, key), 
                 EncryptUtil.EncryptString(pin, key));
