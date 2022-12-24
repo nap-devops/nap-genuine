@@ -1,6 +1,7 @@
 using Serilog;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Its.Jenuiue.Core.Utils;
 
 namespace Its.Jenuiue.Api
 {

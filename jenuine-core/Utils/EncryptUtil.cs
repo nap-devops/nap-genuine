@@ -3,6 +3,9 @@ using System.IO;
 using System.Text;
 using System.Security.Cryptography;
 
+/*
+    Example - https://odan.github.io/2017/08/10/aes-256-encryption-and-decryption-in-php-and-csharp.html
+*/
 namespace Its.Jenuiue.Core.Utils
 {
     public class EncryptUtil
@@ -17,13 +20,16 @@ namespace Its.Jenuiue.Core.Utils
             // Instantiate a new Aes object to perform string symmetric encryption
             Aes encryptor = Aes.Create();
 
+            byte[] aesKey = new byte[32];
+            Array.Copy(key, 0, aesKey, 0, 32);
+
             encryptor.Mode = CipherMode.CBC;
             //encryptor.KeySize = 256;
             //encryptor.BlockSize = 128;
             //encryptor.Padding = PaddingMode.Zeros;
 
             // Set key and IV
-            encryptor.Key = key;
+            encryptor.Key = aesKey;
             encryptor.IV = iv;
 
             // Instantiate a new MemoryStream object to contain the encrypted bytes
@@ -64,13 +70,18 @@ namespace Its.Jenuiue.Core.Utils
             // Instantiate a new Aes object to perform string symmetric encryption
             Aes encryptor = Aes.Create();
 
+            byte[] key = mySHA256.ComputeHash(Encoding.ASCII.GetBytes(keyStr));
+
             encryptor.Mode = CipherMode.CBC;
             //encryptor.KeySize = 256;
             //encryptor.BlockSize = 128;
             //encryptor.Padding = PaddingMode.Zeros;
 
+            byte[] aesKey = new byte[32];
+            Array.Copy(key, 0, aesKey, 0, 32);
+
             // Set key and IV
-            encryptor.Key = mySHA256.ComputeHash(Encoding.ASCII.GetBytes(keyStr));
+            encryptor.Key = aesKey;
             encryptor.IV = iv;
 
             // Instantiate a new MemoryStream object to contain the encrypted bytes
