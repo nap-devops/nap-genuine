@@ -7,7 +7,7 @@
             while (true)
             {
                 System.Threading.Thread.Sleep(10000);
-                Console.WriteLine("Hello World!");
+                //Console.WriteLine("Hello World!");
             }
         }
     }
