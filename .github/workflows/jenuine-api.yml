@@ -18,7 +18,7 @@ jobs:
     - name: Deploy
       id: deployment
       run: |
-        export ENVIRONMENT=dev
+        export ENVIRONMENT=${{ needs.build.outputs.autoDeployEnv }}
         export VALUE_FILE_DIR="manifests/genuine-${ENVIRONMENT}"
         export VALUE_FILE=${VALUE_FILE_DIR}/values-tags.yaml
         export IMAGE_TAG=${{ needs.build.outputs.imageTag }}
@@ -41,6 +41,7 @@ jobs:
         service: [ jenuine-api ]
     outputs:
       imageTag: ${{ steps.prep.outputs.version }}
+      autoDeployEnv: ${{ steps.prep.outputs.deployEnv }}
     steps:
     - name: Checkout repo
       uses: actions/checkout@v2
@@ -52,9 +53,11 @@ jobs:
         GCR_IMAGE=gcr.io/its-artifact-commons/${{matrix.service}}
         VERSION=latest
         GIT_HASH=$(git rev-parse --short "$GITHUB_SHA")
+        ENV=dev
 
         if [[ $GITHUB_REF == refs/tags/* ]]; then
           VERSION=${GITHUB_REF#refs/tags/}
+          ENV=prod
         elif [[ $GITHUB_REF == refs/heads/* ]]; then
           BRANCH=$(echo ${GITHUB_REF#refs/heads/} | sed -r 's#/+#-#g')
           VERSION=$BRANCH-$GIT_HASH
@@ -74,6 +77,7 @@ jobs:
         echo ::set-output name=tags::${TAGS}
         echo ::set-output name=gcr_tags::${GCR_TAGS}
         echo ::set-output name=version::${VERSION}
+        echo ::set-output name=deployEnv::${ENV}
 
     - name: Line notification start
       uses: snow-actions/line-notify@v1.0.0
