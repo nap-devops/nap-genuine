@@ -1,4 +1,4 @@
-name: Genuine API
+name: Genuine
 
 on:
   push:
@@ -11,17 +11,17 @@ env:
 
 jobs:
   deploy:
-    needs: [ build ]
+    needs: [ build1 ]
     runs-on: ubuntu-latest
     steps:
     # Auto deploy
     - name: Deploy
       id: deployment
       run: |
-        export ENVIRONMENT=${{ needs.build.outputs.autoDeployEnv }}
+        export ENVIRONMENT=${{ needs.build1.outputs.autoDeployEnv }}
         export VALUE_FILE_DIR="manifests/genuine-${ENVIRONMENT}"
         export VALUE_FILE=${VALUE_FILE_DIR}/values-tags.yaml
-        export IMAGE_TAG=${{ needs.build.outputs.imageTag }}
+        export IMAGE_TAG1=${{ needs.build1.outputs.imageTag }}
         git config --global user.email "cicd-auto@napbiotec.io"
         git config --global user.name "CICD"
 
@@ -29,16 +29,17 @@ jobs:
         cd deployment
         git checkout production
         cp ${VALUE_FILE_DIR}/values-template.yaml ${VALUE_FILE}
-        sed -i "s#<<genuine-api-image-tag>>#${IMAGE_TAG}#g" ${VALUE_FILE}
+        sed -i "s#<<genuine-api-image-tag>>#${IMAGE_TAG1}#g" ${VALUE_FILE}
+        sed -i "s#<<genuine-worker-image-tag>>#${IMAGE_TAG1}#g" ${VALUE_FILE}
         ls -lrt
         cat ${VALUE_FILE}
         git add ${VALUE_FILE}; git commit --m "Update image tag by auto deploy script"; git push
 
-  build:
+  build1:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        service: [ jenuine-api ]
+        service: [ jenuine-api, jenuine-worker ]
     outputs:
       imageTag: ${{ steps.prep.outputs.version }}
       autoDeployEnv: ${{ steps.prep.outputs.deployEnv }}
@@ -54,6 +55,7 @@ jobs:
         VERSION=latest
         GIT_HASH=$(git rev-parse --short "$GITHUB_SHA")
         ENV=dev
+        SERVICE=${{matrix.service}}
 
         if [[ $GITHUB_REF == refs/tags/* ]]; then
           VERSION=${GITHUB_REF#refs/tags/}
@@ -74,10 +76,16 @@ jobs:
           TAGS="$TAGS,${DOCKER_IMAGE}:sha-${GITHUB_SHA::8}"
         fi
 
+        DOCKERFILE=Dockerfile-API
+        if [ "$SERVICE" = "jenuine-worker" ]; then
+          DOCKERFILE=Dockerfile-Worker
+        fi
+
         echo ::set-output name=tags::${TAGS}
         echo ::set-output name=gcr_tags::${GCR_TAGS}
         echo ::set-output name=version::${VERSION}
         echo ::set-output name=deployEnv::${ENV}
+        echo ::set-output name=dockerFile::${DOCKERFILE}
 
     - name: Line notification start
       uses: snow-actions/line-notify@v1.0.0
@@ -106,7 +114,7 @@ jobs:
     - name: Build and push images
       uses: docker/build-push-action@v3
       with:
-        file: Dockerfile-API
+        file: ${{ steps.prep.outputs.dockerFile }}
         push: true
         load: false
         tags: ${{ steps.prep.outputs.gcr_tags }}
