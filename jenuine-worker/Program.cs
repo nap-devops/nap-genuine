@@ -4,7 +4,11 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            while (true)
+            {
+                System.Threading.Thread.Sleep(10);
+                Console.WriteLine("Hello World!");
+            }
         }
     }
 }
