@@ -14,6 +14,12 @@ jobs:
     needs: [ build1 ]
     runs-on: ubuntu-latest
     steps:
+    - name: Line notification start
+      uses: snow-actions/line-notify@v1.0.0
+      with:
+        access_token: ${{ secrets.LINE_ACCESS_TOKEN }}
+        message: "Start deploying [genuine] [${{ needs.build1.outputs.imageTag }}] to [${{ needs.build1.outputs.autoDeployEnv }}]..."
+
     # Auto deploy
     - name: Deploy
       id: deployment
@@ -35,6 +41,13 @@ jobs:
         ls -lrt
         cat ${VALUE_FILE}
         git add ${VALUE_FILE}; git commit --m "Update image tag by auto deploy script"; git push
+
+    - name: show job status
+      if: always()
+      uses: snow-actions/line-notify@v1.0.0
+      with:
+        access_token: ${{ secrets.LINE_ACCESS_TOKEN }}
+        message: "Done deploying [genuine] [${{ needs.build1.outputs.imageTag }}] to [${{ needs.build1.outputs.autoDeployEnv }}]..."
 
   build1:
     runs-on: ubuntu-latest
