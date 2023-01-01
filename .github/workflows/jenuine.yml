@@ -19,15 +19,16 @@ jobs:
       id: deployment
       run: |
         export ENVIRONMENT=${{ needs.build1.outputs.autoDeployEnv }}
-        export VALUE_FILE_DIR="manifests/genuine-${ENVIRONMENT}"
+        export ARGOCD_BRANCH=${{ needs.build1.outputs.autoDeployBranch }}
+        export VALUE_FILE_DIR="genuine-common"
         export VALUE_FILE=${VALUE_FILE_DIR}/values-tags.yaml
         export IMAGE_TAG1=${{ needs.build1.outputs.imageTag }}
         git config --global user.email "cicd-auto@napbiotec.io"
         git config --global user.name "CICD"
 
-        git clone "https://cicd-token:${GH_TOKEN}@github.com/nap-devops/nap-devops-argocd-apps.git" deployment        
+        git clone "https://cicd-token:${GH_TOKEN}@github.com/nap-devops/nap-genuine-deployment.git" deployment
         cd deployment
-        git checkout production
+        git checkout ${ARGOCD_BRANCH}
         cp ${VALUE_FILE_DIR}/values-template.yaml ${VALUE_FILE}
         sed -i "s#<<genuine-api-image-tag>>#${IMAGE_TAG1}#g" ${VALUE_FILE}
         sed -i "s#<<genuine-worker-image-tag>>#${IMAGE_TAG1}#g" ${VALUE_FILE}
@@ -43,6 +44,7 @@ jobs:
     outputs:
       imageTag: ${{ steps.prep.outputs.version }}
       autoDeployEnv: ${{ steps.prep.outputs.deployEnv }}
+      autoDeployBranch: ${{ steps.prep.outputs.autoDeployBranch }}
     steps:
     - name: Checkout repo
       uses: actions/checkout@v2
@@ -55,11 +57,13 @@ jobs:
         VERSION=latest
         GIT_HASH=$(git rev-parse --short "$GITHUB_SHA")
         ENV=dev
+        DEPLOYMENT_BRANCH=development
         SERVICE=${{matrix.service}}
 
         if [[ $GITHUB_REF == refs/tags/* ]]; then
           VERSION=${GITHUB_REF#refs/tags/}
           ENV=prod
+          DEPLOYMENT_BRANCH=production
         elif [[ $GITHUB_REF == refs/heads/* ]]; then
           BRANCH=$(echo ${GITHUB_REF#refs/heads/} | sed -r 's#/+#-#g')
           VERSION=$BRANCH-$GIT_HASH
@@ -85,6 +89,7 @@ jobs:
         echo ::set-output name=gcr_tags::${GCR_TAGS}
         echo ::set-output name=version::${VERSION}
         echo ::set-output name=deployEnv::${ENV}
+        echo ::set-output name=autoDeployBranch::${DEPLOYMENT_BRANCH}
         echo ::set-output name=dockerFile::${DOCKERFILE}
 
     - name: Line notification start
