@@ -20,7 +20,7 @@ jobs:
       run: |
         export ENVIRONMENT=${{ needs.build1.outputs.autoDeployEnv }}
         export ARGOCD_BRANCH=${{ needs.build1.outputs.autoDeployBranch }}
-        export VALUE_FILE_DIR="genuine-common/genuine-${ENVIRONMENT}"
+        export VALUE_FILE_DIR="genuine-common"
         export VALUE_FILE=${VALUE_FILE_DIR}/values-tags.yaml
         export IMAGE_TAG1=${{ needs.build1.outputs.imageTag }}
         git config --global user.email "cicd-auto@napbiotec.io"
