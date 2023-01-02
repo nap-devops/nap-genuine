@@ -23,6 +23,8 @@ namespace Its.Jenuiue.Core.MessageQue
 
         private async Task<int> SubscribePubSub()
         {
+            Log.Information($"Subscribe Pub/Sub project=[{projectId}] subscription=[{subscriptionId}]");
+
             var subscriptionName = SubscriptionName.FromProjectSubscription(projectId, subscriptionId);
             var subscriber = await SubscriberClient.CreateAsync(subscriptionName);
 
@@ -34,6 +36,9 @@ namespace Its.Jenuiue.Core.MessageQue
                 queue.Enqueue(text);
                 return Task.FromResult(SubscriberClient.Reply.Ack);
             });
+
+            //startTask.Start();
+            await startTask;
 
             return 0;
         }
