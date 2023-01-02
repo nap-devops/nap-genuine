@@ -11,7 +11,7 @@ namespace Its.Jenuiue.Worker.Processors
     {
         private Hashtable threadMap = new Hashtable();
 
-        protected IMessageQue messageQue = new PubSubMQ();
+        protected IMessageQue messageQue = new PubSubMQ("nap-devops-prod", "genuine-dev-sub");
 
         protected override void Init()
         {
