@@ -1,3 +1,4 @@
+using Its.Jenuiue.Core.MessageQue;
 
 namespace Its.Jenuiue.Worker.Processors
 {
