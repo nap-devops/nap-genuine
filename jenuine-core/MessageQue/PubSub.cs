@@ -11,7 +11,7 @@ namespace Its.Jenuiue.Core.MessageQue
 {
     public class PubSubMQ : BaseMessageQue
     {
-        private Queue<string> queue = new Queue<string>();
+        private Queue<MJob> queue = new Queue<MJob>();
         private string projectId = "";
         private string subscriptionId = "";
 
@@ -28,44 +28,62 @@ namespace Its.Jenuiue.Core.MessageQue
             var subscriptionName = SubscriptionName.FromProjectSubscription(projectId, subscriptionId);
             var subscriber = await SubscriberClient.CreateAsync(subscriptionName);
 
-            Task startTask = subscriber.StartAsync((PubsubMessage message, CancellationToken cancel) =>
+            await subscriber.StartAsync((PubsubMessage message, CancellationToken cancel) =>
             {
                 string text = System.Text.Encoding.UTF8.GetString(message.Data.ToArray());
                 //Console.WriteLine($"Message {message.MessageId}: {text}");
 
-                queue.Enqueue(text);
+                //queue.Enqueue(text);
                 return Task.FromResult(SubscriberClient.Reply.Ack);
             });
 
             //startTask.Start();
-            await startTask;
-
             return 0;
+        }
+
+        private void EnQueue()
+        {
+            while (true)
+            {
+                Guid guid = Guid.NewGuid();
+                string regId = guid.ToString();            
+
+                MJob m = new MJob
+                {
+                    JobDate = DateTime.Now,
+                    JobId = regId,
+                    Type = "CreateAsset",
+                    ProductId = "", //This need to be found in the Products collection
+                    Quantity = 100
+                };
+
+                queue.Enqueue(m);
+                Thread.Sleep(1 * 3600 * 1000); //Every 1 hour
+            }
+        }
+
+        private void SubscribePubSubSimulate()
+        {
+            Thread t = new Thread(new ThreadStart(EnQueue));
+            t.Start();
         }
 
         protected override void Initlize()
         {
             Log.Information("Initialize Pub/Sub message retrieval");
-            SubscribePubSub();
+            //SubscribePubSub();
+            SubscribePubSubSimulate();
         }
 
         public override MJob GetMessage()
         {
-            Guid guid = Guid.NewGuid();
-            string regId = guid.ToString();
-
             MJob m = null;
             try
             {
-                var txt = queue.Dequeue();
-                m = new MJob()
-                {
-                    JobId = regId,
-                    Description = txt
-                };
+                m = queue.Dequeue();
             }
             catch
-            {         
+            {
             }
 
             return m;

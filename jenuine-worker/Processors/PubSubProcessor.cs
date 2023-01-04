@@ -1,22 +1,31 @@
-using System;
-using System.Threading;
 using System.Collections;
 using Serilog;
 using Its.Jenuiue.Core.MessageQue;
 using Its.Jenuiue.Worker.Executors;
+using Microsoft.Extensions.Configuration;
 
 namespace Its.Jenuiue.Worker.Processors
 {
     public class PubSubProcessor : BaseProcessor
     {
+        private readonly IConfiguration configuration;
         private Hashtable threadMap = new Hashtable();
 
         protected IMessageQue messageQue = new PubSubMQ("nap-devops-prod", "genuine-dev-sub");
 
         protected override void Init()
         {
+            var bnHost = configuration["backend:url"];
+
             Log.Information("Started Pub/Sub processor");
+            Log.Information($"Backend host -> [{bnHost}]");
+
             messageQue.Init();
+        }
+
+        public PubSubProcessor(IConfiguration cfg)
+        {
+            configuration = cfg;
         }
 
         public void SetMessageQue(IMessageQue mq)
