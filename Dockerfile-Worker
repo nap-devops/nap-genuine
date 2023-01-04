@@ -26,7 +26,7 @@ RUN apt-get -y install curl
 WORKDIR /app
 COPY --from=build /app .
 COPY run-worker.bash /app
-COPY jenuine-worker/Properties/* /app/Properties
+COPY jenuine-worker/Properties/* /app/Properties/
 
 RUN ls -lrt
 
