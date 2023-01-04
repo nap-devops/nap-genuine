@@ -1,5 +1,5 @@
-using System.Collections;
 using Serilog;
+using System.Collections;
 using Its.Jenuiue.Core.MessageQue;
 using Its.Jenuiue.Worker.Executors;
 using Microsoft.Extensions.Configuration;
@@ -11,15 +11,13 @@ namespace Its.Jenuiue.Worker.Processors
         private readonly IConfiguration configuration;
         private Hashtable threadMap = new Hashtable();
 
-        protected IMessageQue messageQue = new PubSubMQ("nap-devops-prod", "genuine-dev-sub");
+        protected IMessageQue messageQue = new PubSubMQ("", "");
 
         protected override void Init()
         {
-            var bnHost = configuration["backend:url"];
+            Log.Information("Started Pub/Sub processor");            
 
-            Log.Information("Started Pub/Sub processor");
-            Log.Information($"Backend host -> [{bnHost}]");
-
+            messageQue = new PubSubMQ("nap-devops-prod", "genuine-dev-sub");
             messageQue.Init();
         }
 
@@ -69,7 +67,7 @@ namespace Its.Jenuiue.Worker.Processors
                     if (job != null)
                     {
                         var executor = ExectorFactory.GetExecutor("dummy");
-                        var t = executor.Execute(job);
+                        var t = executor.Execute(job, configuration);
 
                         threadMap.Add(t.ManagedThreadId, t);
                     }

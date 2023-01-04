@@ -1,6 +1,5 @@
 using System;
 using Serilog;
-using Its.Jenuiue.Worker.Executors;
 
 namespace Its.Jenuiue.Worker.Executors
 {
@@ -8,7 +7,10 @@ namespace Its.Jenuiue.Worker.Executors
     {
         protected override void Init()
         {
-            Log.Information($"Started CreateAsset job [{jobParam.JobId}]");
+            var bnHost = configuration["backend:url"];
+
+            Log.Information($"Started CreateAsset job [{jobParam.JobId}]");            
+            Log.Information($"Backend host -> [{bnHost}]");
         }
 
         protected override void ThreadExecutor()
