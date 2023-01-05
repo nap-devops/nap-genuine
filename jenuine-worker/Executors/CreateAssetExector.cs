@@ -67,6 +67,9 @@ namespace Its.Jenuiue.Worker.Executors
             var requestMessage = new HttpRequestMessage(HttpMethod.Post, $"/api/assets/org/{org}/action/AddAsset");
             requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Basic", base64EncodedAuthenticationString);
 
+            var productValue = new ProductInfoHeaderValue("genuine-worker", "1.0");
+            requestMessage.Headers.UserAgent.Add(productValue);
+
             return requestMessage;
         }
 
