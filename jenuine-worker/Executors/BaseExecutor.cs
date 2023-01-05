@@ -5,7 +5,6 @@ namespace Its.Jenuiue.Worker.Executors
 {
     public abstract class BaseExecutor : IExecutor
     {
-        protected IConfiguration configuration;
         protected MJob jobParam = new MJob();
 
         protected abstract void ThreadExecutor();
@@ -14,7 +13,6 @@ namespace Its.Jenuiue.Worker.Executors
         public Thread Execute(MJob job, IConfiguration cfg)
         {
             jobParam = job;
-            configuration = cfg;
 
             Init();
 

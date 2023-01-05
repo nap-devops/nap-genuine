@@ -1,14 +1,12 @@
-using System;
-using System.Threading;
-using Serilog;
+using Microsoft.Extensions.Configuration;
 
 namespace Its.Jenuiue.Worker.Executors
 {
     public class ExectorFactory
     {
-        public static IExecutor GetExecutor(string type)
+        public static IExecutor GetExecutor(string type, IConfiguration cfg)
         {
-            return new CreateAssetExector();
+            return new CreateAssetExector(cfg);
         }
     }
 }

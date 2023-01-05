@@ -53,8 +53,9 @@ namespace Its.Jenuiue.Core.MessageQue
                     JobDate = DateTime.Now,
                     JobId = regId,
                     Type = "CreateAsset",
-                    ProductId = "", //This need to be found in the Products collection
-                    Quantity = 100
+                    Quantity = 100,
+                    ProductId = "638b1360a853c317ed000b77",
+                    Organization = "napbiotec"
                 };
 
                 queue.Enqueue(m);

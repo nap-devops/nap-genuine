@@ -3,6 +3,7 @@ using System.Collections;
 using Its.Jenuiue.Core.MessageQue;
 using Its.Jenuiue.Worker.Executors;
 using Microsoft.Extensions.Configuration;
+using Its.Jenuiue.Worker.Utils;
 
 namespace Its.Jenuiue.Worker.Processors
 {
@@ -15,9 +16,12 @@ namespace Its.Jenuiue.Worker.Processors
 
         protected override void Init()
         {
-            Log.Information("Started Pub/Sub processor");            
+            var projectId = ConfigUtils.GetConfig(configuration, "pubsub:projectId");
+            var subscriptionId = ConfigUtils.GetConfig(configuration, "pubsub:subscriptionId");
 
-            messageQue = new PubSubMQ("nap-devops-prod", "genuine-dev-sub");
+            Log.Information($"Started Pub/Sub processor ProjectID=[{projectId}], SubscriptionID=[{subscriptionId}]");
+
+            messageQue = new PubSubMQ(projectId, subscriptionId);
             messageQue.Init();
         }
 
@@ -66,7 +70,7 @@ namespace Its.Jenuiue.Worker.Processors
                     var job = messageQue.GetMessage();
                     if (job != null)
                     {
-                        var executor = ExectorFactory.GetExecutor("dummy");
+                        var executor = ExectorFactory.GetExecutor("dummy", configuration);
                         var t = executor.Execute(job, configuration);
 
                         threadMap.Add(t.ManagedThreadId, t);
