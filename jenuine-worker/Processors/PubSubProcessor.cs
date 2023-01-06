@@ -1,22 +1,33 @@
-using System;
-using System.Threading;
-using System.Collections;
 using Serilog;
+using System.Collections;
 using Its.Jenuiue.Core.MessageQue;
 using Its.Jenuiue.Worker.Executors;
+using Microsoft.Extensions.Configuration;
+using Its.Jenuiue.Worker.Utils;
 
 namespace Its.Jenuiue.Worker.Processors
 {
     public class PubSubProcessor : BaseProcessor
     {
+        private readonly IConfiguration configuration;
         private Hashtable threadMap = new Hashtable();
 
-        protected IMessageQue messageQue = new PubSubMQ();
+        protected IMessageQue messageQue = new PubSubMQ("", "");
 
         protected override void Init()
         {
-            Log.Information("Started Pub/Sub processor");
+            var projectId = ConfigUtils.GetConfig(configuration, "pubsub:projectId");
+            var subscriptionId = ConfigUtils.GetConfig(configuration, "pubsub:subscriptionId");
+
+            Log.Information($"Started Pub/Sub processor ProjectID=[{projectId}], SubscriptionID=[{subscriptionId}]");
+
+            messageQue = new PubSubMQ(projectId, subscriptionId);
             messageQue.Init();
+        }
+
+        public PubSubProcessor(IConfiguration cfg)
+        {
+            configuration = cfg;
         }
 
         public void SetMessageQue(IMessageQue mq)
@@ -59,8 +70,8 @@ namespace Its.Jenuiue.Worker.Processors
                     var job = messageQue.GetMessage();
                     if (job != null)
                     {
-                        var executor = ExectorFactory.GetExecutor("dummy");
-                        var t = executor.Execute(job);
+                        var executor = ExectorFactory.GetExecutor("dummy", configuration);
+                        var t = executor.Execute(job, configuration);
 
                         threadMap.Add(t.ManagedThreadId, t);
                     }

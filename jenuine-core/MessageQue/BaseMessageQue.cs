@@ -9,6 +9,7 @@ namespace Its.Jenuiue.Core.MessageQue
 
         public void Init()
         {
+            Initlize();
         }
 
         public virtual MJob GetMessage()

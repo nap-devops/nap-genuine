@@ -1,5 +1,4 @@
-using System;
-using System.Threading;
+using Microsoft.Extensions.Configuration;
 using Its.Jenuiue.Core.Models.Organization;
 
 namespace Its.Jenuiue.Worker.Executors
@@ -11,7 +10,7 @@ namespace Its.Jenuiue.Worker.Executors
         protected abstract void ThreadExecutor();
         protected abstract void Init();
 
-        public Thread Execute(MJob job)
+        public Thread Execute(MJob job, IConfiguration cfg)
         {
             jobParam = job;
 
