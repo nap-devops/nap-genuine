@@ -85,7 +85,8 @@ namespace Its.Jenuiue.Worker.Executors
                 ProductId = dummyProductId, //jobParam.ProductId,
                 IsRegistered = false,
                 AssetName = "",
-                AssetId = "DUMMY"
+                AssetId = "DUMMY",
+                JobId = jobParam.JobId
             };
 
             for (int i=0; i<quantity; i++)

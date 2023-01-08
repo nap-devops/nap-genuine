@@ -9,6 +9,8 @@ namespace Its.Jenuiue.Api.ModelsViews.Organization
         [Required]
         public string ProductId { get; set; }
 
+        public string JobId { get; set; }
+
         [Required]
         public string AssetName { get; set; }
         
