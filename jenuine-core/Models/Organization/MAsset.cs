@@ -4,6 +4,7 @@ namespace Its.Jenuiue.Core.Models.Organization
     {
         public string AssetId { get; set; }
         public string ProductId { get; set; }
+        public string JobId { get; set; }
         public string PinNo { get; set; }
         public string SerialNo { get; set; }
         

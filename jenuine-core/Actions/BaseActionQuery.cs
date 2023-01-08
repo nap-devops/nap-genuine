@@ -41,7 +41,16 @@ namespace Its.Jenuiue.Core.Actions
             }
 
             var filter = GetFilter<T>(param);
-            var results = collection.Find(filter).ToList();
+
+            List<T> results = null;
+            if (queryParam == null)
+            {
+                results = collection.Find(filter).ToList();
+            }
+            else
+            {
+                results = collection.Find(filter).Skip(queryParam.Offset).Limit(queryParam.Limit).ToList();
+            }
 
             return results;
         }

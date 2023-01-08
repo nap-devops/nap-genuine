@@ -30,7 +30,19 @@ namespace Its.Jenuiue.Api.Controllers
 
         [HttpGet]
         [Route("org/{id}/action/GetAssets")]
-        public IEnumerable<MVAsset> GetAssets(string id) //[FromBody] MVAsset data
+        public IEnumerable<MVAsset> GetAssets(string id, [FromBody] MVAssetQuery data)
+        {
+            service.SetOrgId(id);
+            var asset = mapper.Map<MVAssetQuery, MAsset>(data);
+            var assets = service.GetAssets(asset, data.QueryParam);
+
+            var result = mapper.Map<IEnumerable<MAsset>, IEnumerable<MVAsset>>(assets);
+            return result;
+        }
+
+        [HttpGet]
+        [Route("org/{id}/action/GetAssetsNoFilter")]
+        public IEnumerable<MVAsset> GetAssets(string id)
         {
             service.SetOrgId(id);
             var assets = service.GetAssets(null, new QueryParam());
@@ -61,7 +73,7 @@ namespace Its.Jenuiue.Api.Controllers
             var result = mapper.Map<MAsset, MVAsset>(asset);
 
             return Ok(result);
-        }
+        }        
 
         [HttpPost]
         [Route("org/{id}/action/AddAsset")]

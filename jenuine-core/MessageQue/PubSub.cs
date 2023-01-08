@@ -46,7 +46,7 @@ namespace Its.Jenuiue.Core.MessageQue
             while (true)
             {
                 Guid guid = Guid.NewGuid();
-                string regId = guid.ToString();            
+                string regId = guid.ToString();
 
                 MJob m = new MJob
                 {
