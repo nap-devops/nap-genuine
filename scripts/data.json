@@ -1,4 +1,8 @@
 {
-  "PinNo": "pin-24388",
-  "SerialNo": "serial-24388"
+  "PinNo": "",
+  "SerialNo": "",
+  "QueryParam": {
+    "Offset": 0,
+    "Limit": 10
+  }
 }
