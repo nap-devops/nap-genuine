@@ -21,5 +21,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\jenuine-core\jenuine-core.csproj" />
+    <ProjectReference Include="..\jenuine-api\jenuine-api.csproj" />
   </ItemGroup>
 </Project>

@@ -6,7 +6,12 @@ namespace Its.Jenuiue.Worker.Executors
     {
         public static IExecutor GetExecutor(string type, IConfiguration cfg)
         {
-            return new CreateAssetExector(cfg);
+            if (type.Equals("CreateAsset"))
+            {
+                return new CreateAssetExector(cfg);
+            }
+
+            return new ExportAssetExector(cfg);
         }
     }
 }

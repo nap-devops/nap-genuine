@@ -57,8 +57,21 @@ namespace Its.Jenuiue.Core.MessageQue
                     ProductId = "638b1360a853c317ed000b77",
                     Organization = "napbiotec"
                 };
-
                 queue.Enqueue(m);
+
+                Thread.Sleep(30 * 1000); //Every 3 minutes
+
+                m = new MJob
+                {
+                    JobDate = DateTime.Now,
+                    JobId = regId,
+                    Type = "ExportAsset",
+                    Quantity = 100,
+                    ProductId = "638b1360a853c317ed000b77",
+                    Organization = "napbiotec"
+                };
+                queue.Enqueue(m);
+
                 Thread.Sleep(1 * 3600 * 1000); //Every 1 hour
             }
         }
