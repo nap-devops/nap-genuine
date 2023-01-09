@@ -3,8 +3,6 @@ using System.Text;
 using System.Text.Json;
 using System.Net.Http.Headers;
 using Microsoft.Extensions.Configuration;
-using Its.Jenuiue.Core.Models.Organization;
-using Its.Jenuiue.Core.Utils;
 using Its.Jenuiue.Worker.Utils;
 using Its.Jenuiue.Api.ModelsViews.Organization;
 
@@ -65,7 +63,8 @@ namespace Its.Jenuiue.Worker.Executors
             var authenticationString = $"{user}:{password}";
             var base64EncodedAuthenticationString = Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(authenticationString));
 
-            var requestMessage = new HttpRequestMessage(HttpMethod.Get, $"/api/assets/org/{org}/action/GetAssets");
+            //GET method with JSON body won't work with NGINX
+            var requestMessage = new HttpRequestMessage(HttpMethod.Post, $"/api/assets/org/{org}/action/GetAssets");
             requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Basic", base64EncodedAuthenticationString);
 
             var productValue = new ProductInfoHeaderValue("genuine-worker", "1.0");
@@ -76,12 +75,27 @@ namespace Its.Jenuiue.Worker.Executors
 
         private void ExportAssets(string json)
         {
-            Console.WriteLine(json);
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
+            var assets = JsonSerializer.Deserialize<IList<MVAsset>>(json, options);
+            if (assets == null)
+            {
+                Log.Error("Unable to parse JSON result in method [ExportAssets]");
+                return;
+            }
+            
+            foreach(var asset in assets)
+            {
+                Log.Information($"[{jobParam.Type}:{jobParam.JobId}] - Writing [{asset.SerialNo}/{asset.PinNo}] to temp file...");
+            }
         }
 
         protected override void ThreadExecutor()
         {
-            int pageSize = 100;
+            int pageSize = 10;
             int quantity = jobParam.Quantity;
 
             int pageCount = quantity/pageSize;
@@ -107,12 +121,14 @@ namespace Its.Jenuiue.Worker.Executors
             
             for (int i=0; i<pageCount; i++)
             {
+                Log.Information($"[{jobParam.Type}:{jobParam.JobId}] - Exporting page [{i+1}] from [{pageCount}]");
+
                 int offset = i * pageSize;
                 asset.QueryParam.Offset = offset;
 
                 var json = JsonSerializer.Serialize(asset);
                 var ctn = new StringContent(json, Encoding.Default, "application/json");
-Console.WriteLine(json);
+
                 var requestMessage = GetRequestMessage(org);
                 requestMessage.Content = ctn;
 
