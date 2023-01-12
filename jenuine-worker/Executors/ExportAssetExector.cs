@@ -11,6 +11,7 @@ namespace Its.Jenuiue.Worker.Executors
     public class ExportAssetExector : BaseExecutor
     {
         private readonly IConfiguration? configuration;
+        private string exportedFileName = "";
         private string url = "";
         private string user = "";
         private string dummyProductId = "";
@@ -40,6 +41,9 @@ namespace Its.Jenuiue.Worker.Executors
             Log.Information($"[{jobParam.Type}:{jobParam.JobId}] - Started ExtractAsset job");
             Log.Information($"[{jobParam.Type}:{jobParam.JobId}] - Generating [{jobParam.Quantity}] assets");
             Log.Information($"[{jobParam.Type}:{jobParam.JobId}] - Backend host -> [{url}]");
+
+            var ts = DateTime.Now.ToString("yyyyMMddhhmm");
+            exportedFileName = $"/tmp/{jobParam.Type}_{jobParam.JobId}.{ts}.csv";
         }
 
         private void Final()
@@ -73,7 +77,7 @@ namespace Its.Jenuiue.Worker.Executors
             return requestMessage;
         }
 
-        private void ExportAssets(string json)
+        private void ExportAssets(StreamWriter writer, string json)
         {
             var options = new JsonSerializerOptions
             {
@@ -86,10 +90,14 @@ namespace Its.Jenuiue.Worker.Executors
                 Log.Error("Unable to parse JSON result in method [ExportAssets]");
                 return;
             }
-            
+
             foreach(var asset in assets)
             {
-                Log.Information($"[{jobParam.Type}:{jobParam.JobId}] - Writing [{asset.SerialNo}/{asset.PinNo}] to temp file...");
+                string registerUrl = $"{url}/api/assets/org/{jobParam.Organization}/action/RegisterAssetRedirect/{asset.SerialNo}/{asset.PinNo}";
+                string dat = $"{asset.SerialNo},{asset.PinNo},{asset.JobId},{registerUrl}";
+                writer.WriteLine(dat);
+
+                Log.Information($"[{jobParam.Type}:{jobParam.JobId}] - Writing [{registerUrl}]");
             }
         }
 
@@ -118,7 +126,9 @@ namespace Its.Jenuiue.Worker.Executors
                 QueryParam = new Core.Models.QueryParam()
             };
             asset.QueryParam.Limit = pageSize;
-            
+
+            StreamWriter writer = new StreamWriter(exportedFileName);
+
             for (int i=0; i<pageCount; i++)
             {
                 Log.Information($"[{jobParam.Type}:{jobParam.JobId}] - Exporting page [{i+1}] from [{pageCount}]");
@@ -141,7 +151,7 @@ namespace Its.Jenuiue.Worker.Executors
                     succeedCount++;
 
                     string result = response.Content.ReadAsStringAsync().Result;
-                    ExportAssets(result);
+                    ExportAssets(writer, result);
                 }
                 catch (Exception e)
                 {
@@ -152,6 +162,8 @@ namespace Its.Jenuiue.Worker.Executors
                     Log.Error(e.Message);
                 }
             }
+
+            writer.Close();
 
             Final();
         }
