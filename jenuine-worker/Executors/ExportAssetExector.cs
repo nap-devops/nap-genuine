@@ -5,6 +5,7 @@ using System.Net.Http.Headers;
 using Microsoft.Extensions.Configuration;
 using Its.Jenuiue.Worker.Utils;
 using Its.Jenuiue.Api.ModelsViews.Organization;
+using Google.Cloud.Storage.V1;
 
 namespace Its.Jenuiue.Worker.Executors
 {
@@ -18,6 +19,8 @@ namespace Its.Jenuiue.Worker.Executors
         private string password = "";
         private int failedCount = 0;
         private int succeedCount = 0;
+        private string gcsProjectId = "";
+        private string gcsBucket = "";
 
         public ExportAssetExector(IConfiguration? cfg)
         {
@@ -33,6 +36,8 @@ namespace Its.Jenuiue.Worker.Executors
                 user = ConfigUtils.GetConfig(configuration, "backend:user");
                 password = ConfigUtils.GetConfig(configuration, "backend:password");
                 dummyProductId = ConfigUtils.GetConfig(configuration, "backend:dummyProductId");
+                gcsProjectId = ConfigUtils.GetConfig(configuration, "storage:projectId");
+                gcsBucket = ConfigUtils.GetConfig(configuration, "storage:bucket");
             }
         }
 
@@ -101,6 +106,20 @@ namespace Its.Jenuiue.Worker.Executors
             }
         }
 
+        private void UploadFile(string localPath) 
+        {
+            var objectName = Path.GetFileName(localPath);
+            string gcsPath = $"gs://{gcsBucket}/{jobParam.Organization}/{objectName}";
+
+            Log.Information($"[{jobParam.Type}:{jobParam.JobId}] - Uploading file [{gcsPath}]");
+
+            StorageClient storageClient = StorageClient.Create();
+            using (var f = File.OpenRead(localPath))
+            {
+                storageClient.UploadObject(gcsBucket, $"{jobParam.Organization}/{objectName}", null, f);
+            }
+        }
+
         protected override void ThreadExecutor()
         {
             int pageSize = 10;
@@ -164,6 +183,7 @@ namespace Its.Jenuiue.Worker.Executors
             }
 
             writer.Close();
+            UploadFile(exportedFileName);
 
             Final();
         }
