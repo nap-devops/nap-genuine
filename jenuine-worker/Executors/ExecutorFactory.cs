@@ -2,7 +2,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Its.Jenuiue.Worker.Executors
 {
-    public class ExectorFactory
+    public class ExecutorFactory
     {
         public static IExecutor GetExecutor(string type, IConfiguration cfg)
         {

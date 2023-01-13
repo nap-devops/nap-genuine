@@ -70,7 +70,7 @@ namespace Its.Jenuiue.Worker.Processors
                     var job = messageQue.GetMessage();
                     if (job != null)
                     {
-                        var executor = ExectorFactory.GetExecutor(job.Type, configuration);
+                        var executor = ExecutorFactory.GetExecutor(job.Type, configuration);
                         var t = executor.Execute(job, configuration);
 
                         threadMap.Add(t.ManagedThreadId, t);
