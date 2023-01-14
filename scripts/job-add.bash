@@ -1,8 +1,8 @@
 #!/bin/bash
 
-. ./export.bash
+. ./export-prod.bash
 
-HOST="${USER_PASSWORD}@api.genuine-dev.napbiotec.io"
+HOST="${USER_PASSWORD}@${DOMAIN}"
 
 id=$(shuf -i 1-100000 -n 1)
 
