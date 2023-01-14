@@ -15,6 +15,7 @@ namespace Its.Jenuiue.Core.Models.Organization
         public string Organization { get; set; }
 
         public string ProductId { get; set; }
+        public string ReferedJobId { get; set; }
         public string ProductName { get; set; }
     }
 }

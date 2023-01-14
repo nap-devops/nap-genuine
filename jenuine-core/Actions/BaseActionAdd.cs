@@ -13,6 +13,10 @@ namespace Its.Jenuiue.Core.Actions
 
         protected abstract string GetCollectionName();
 
+        protected virtual void PostAction<T>(T Param)
+        {
+        }
+
         protected virtual bool UseGlobalDb()
         {
             return false;
@@ -52,6 +56,8 @@ namespace Its.Jenuiue.Core.Actions
             IMongoCollection<T> collection = GetCollection<T>();
 
             collection.InsertOne(param);
+            PostAction(param);
+
             return param;
         }
     }

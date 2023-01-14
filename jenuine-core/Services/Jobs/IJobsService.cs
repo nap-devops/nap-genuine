@@ -13,6 +13,6 @@ namespace Its.Jenuiue.Core.Services.Jobs
 
         public long GetJobsCount();
 
-        public MJob AddJob(MJob param);
+        public MJob AddJob(MJob param, string projectId, string topicName);
     }
 }

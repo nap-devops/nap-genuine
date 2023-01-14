@@ -9,10 +9,7 @@ id=$(shuf -i 1-100000 -n 1)
 
 curl --header "Content-Type: application/json" \
 -k -v \
---data "{\"JobId\":\"job-${id}\", \"Description\":\"Job xxx desc\", \"Type\": \"GenerateAssets\"}" \
-https://${HOST}/api/jobs/org/napbiotec/action/AddJob
+--data @"job.json" \
+https://${HOST}/api/jobs/org/napbiotec/action/ExportAssets
 
-#https://api.genuine-dev.napbiotec.io/api/products/org/napbiotec/action/AddProduct/
-
-#https://james:xxxxxxxx@localhost:5001/api/products/org/napbiotec/action/GetProducts
-#https://api.genuine-dev.napbiotec.io/api/products/org/napbiotec/action/GetProducts
+#https://${HOST}/api/jobs/org/napbiotec/action/CreateAssets

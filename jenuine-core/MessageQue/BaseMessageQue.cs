@@ -16,5 +16,9 @@ namespace Its.Jenuiue.Core.MessageQue
         {
             return null;
         }
+
+        public virtual void PutMessage(MJob job)
+        {
+        }        
     }
 }

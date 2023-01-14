@@ -137,7 +137,7 @@ namespace Its.Jenuiue.Worker.Executors
             MVAssetQuery asset = new MVAssetQuery()
             {
                 Id = "",
-                JobId = jobParam.JobId,
+                JobId = jobParam.ReferedJobId,
                 ProductId = "",
                 PinNo = "",
                 SerialNo = "",

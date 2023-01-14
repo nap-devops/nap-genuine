@@ -48,11 +48,18 @@ namespace Its.Jenuiue.Core.Services.Jobs
             return cnt;
         }
 
-        public MJob AddJob(MJob param)
+        public MJob AddJob(MJob param, string projectId, string topicName)
         {
             var act = new AddJobAction(database, orgId);
+            act.SetPubSubTopic(projectId, topicName);
+
+            Guid guid = Guid.NewGuid();
+            string regId = guid.ToString();
 
             param.JobDate = DateTime.Now;
+            param.JobId = regId;
+            param.Organization = orgId;
+
             var result = act.Apply<MJob>(param);
 
             return result;
