@@ -8,6 +8,7 @@ using Its.Jenuiue.Core.Models.Organization;
 using Its.Jenuiue.Core.Services.Jobs;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Configuration;
 
 namespace Its.Jenuiue.Api.Controllers
 {
@@ -18,11 +19,13 @@ namespace Its.Jenuiue.Api.Controllers
     {
         private readonly IJobsService service;
         private readonly IMapper mapper;
+        private readonly IConfiguration cfg = null;
 
-        public JobsController(IJobsService svc, IMapper mppr)
+        public JobsController(IJobsService svc, IMapper mppr, IConfiguration configuration)
         {
             service = svc;
             mapper = mppr;
+            cfg = configuration;
         }
 
         [HttpGet]
@@ -61,16 +64,37 @@ namespace Its.Jenuiue.Api.Controllers
         }
 
         [HttpPost]
-        [Route("org/{id}/action/AddJob")]
-        public IActionResult AddJob(string id, [FromBody] MVJob data)
+        [Route("org/{id}/action/CreateAssets")]
+        public IActionResult CreateAssets(string id, [FromBody] MVJob data)
         {
             service.SetOrgId(id);
             var job = mapper.Map<MVJob, MJob>(data);
+            job.Type = "CreateAsset";
 
-            var addedJob = service.AddJob(job);
+            string projectId = cfg["Pubsub:ProjectId"];
+            string topic = cfg["Pubsub:Topic"];
+
+            var addedJob = service.AddJob(job, projectId, topic);
             var result = mapper.Map<MJob, MVJob>(addedJob);
 
             return Ok(result);
         }
+
+        [HttpPost]
+        [Route("org/{id}/action/ExportAssets")]
+        public IActionResult ExportAssets(string id, [FromBody] MVJob data)
+        {
+            service.SetOrgId(id);
+            var job = mapper.Map<MVJob, MJob>(data);
+            job.Type = "ExportAsset";
+
+            string projectId = cfg["Pubsub:ProjectId"];
+            string topic = cfg["Pubsub:Topic"];
+
+            var addedJob = service.AddJob(job, projectId, topic);
+            var result = mapper.Map<MJob, MVJob>(addedJob);
+
+            return Ok(result);
+        }        
     }
 }

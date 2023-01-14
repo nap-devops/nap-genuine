@@ -12,6 +12,7 @@ WORKDIR /source
 # copy csproj and restore as distinct layers
 COPY jenuine-worker/* ./jenuine-worker/
 COPY jenuine-core/* ./jenuine-core/
+COPY jenuine-api/* ./jenuine-api/
 COPY nap-genuine.sln .
 
 RUN dotnet restore jenuine-worker/jenuine-worker.csproj

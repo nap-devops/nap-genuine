@@ -28,7 +28,7 @@ namespace Its.Jenuiue.Api.Controllers
             cfg = configuration;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("org/{id}/action/GetAssets")]
         public IEnumerable<MVAsset> GetAssets(string id, [FromBody] MVAssetQuery data)
         {

@@ -38,14 +38,14 @@ namespace Its.Jenuiue.Worker.Executors
 
         protected override void Init()
         {
-            Log.Information($"[{jobParam.JobId}] - Started CreateAsset job");
-            Log.Information($"[{jobParam.JobId}] - Generating [{jobParam.Quantity}] assets");
-            Log.Information($"[{jobParam.JobId}] - Backend host -> [{url}]");
+            Log.Information($"[{jobParam.Type}:{jobParam.JobId}] - Started CreateAsset job");
+            Log.Information($"[{jobParam.Type}:{jobParam.JobId}] - Generating [{jobParam.Quantity}] assets");
+            Log.Information($"[{jobParam.Type}:{jobParam.JobId}] - Backend host -> [{url}]");
         }
 
         private void Final()
         {
-            Log.Information($"[{jobParam.JobId}] - Finished CreateAsset job Total=[{jobParam.Quantity}], Succeed=[{succeedCount}], Failed=[{failedCount}]");
+            Log.Information($"[{jobParam.Type}:{jobParam.JobId}] - Finished CreateAsset job Total=[{jobParam.Quantity}], Succeed=[{succeedCount}], Failed=[{failedCount}]");
         }
 
         private HttpClient GetHttpClient()
@@ -107,7 +107,7 @@ namespace Its.Jenuiue.Worker.Executors
                 try
                 {
                     response.EnsureSuccessStatusCode();
-                    Log.Information($"[{jobParam.JobId}] - Added asset Pin=[{asset.PinNo}], Serial=[{asset.SerialNo}]");
+                    Log.Information($"[{jobParam.Type}:{jobParam.JobId}] - Added asset Pin=[{asset.PinNo}], Serial=[{asset.SerialNo}]");
                     succeedCount++;
                 }
                 catch (Exception e)

@@ -2,10 +2,10 @@ using System;
 using Serilog;
 using Its.Jenuiue.Core.Models.Organization;
 using Google.Cloud.PubSub.V1;
-using System.Threading.Tasks;
 using System.Threading;
 using System.Linq;
 using System.Collections.Generic;
+using System.Text.Json;
 
 namespace Its.Jenuiue.Core.MessageQue
 {
@@ -21,26 +21,61 @@ namespace Its.Jenuiue.Core.MessageQue
             subscriptionId = subscrId;
         }
 
-        private async Task<int> SubscribePubSub()
+        private void SinglePullPubSub(SubscriberServiceApiClient client, SubscriptionName name)
         {
-            Log.Information($"Subscribe Pub/Sub project=[{projectId}] subscription=[{subscriptionId}]");
+            int messageCount = 0;
 
-            var subscriptionName = SubscriptionName.FromProjectSubscription(projectId, subscriptionId);
-            var subscriber = await SubscriberClient.CreateAsync(subscriptionName);
-
-            await subscriber.StartAsync((PubsubMessage message, CancellationToken cancel) =>
+            var options = new JsonSerializerOptions
             {
-                string text = System.Text.Encoding.UTF8.GetString(message.Data.ToArray());
-                //Console.WriteLine($"Message {message.MessageId}: {text}");
+                PropertyNameCaseInsensitive = true
+            };
 
-                //queue.Enqueue(text);
-                return Task.FromResult(SubscriberClient.Reply.Ack);
-            });
+            PullResponse response = null;
+            try
+            {                
+                response = client.Pull(name, maxMessages: 1);
 
-            //startTask.Start();
-            return 0;
+                foreach (ReceivedMessage msg in response.ReceivedMessages)
+                {
+                    string json = System.Text.Encoding.UTF8.GetString(msg.Message.Data.ToArray());
+                    Log.Information($"Raw data --> [{json}]");
+
+                    var job = JsonSerializer.Deserialize<MJob>(json, options);
+                    if (job == null)
+                    {
+                        Log.Error("Unable to parse JSON result in method [SinglePullPubSub]");
+                    }
+                    else
+                    {
+                        queue.Enqueue(job);
+                    }
+
+                    messageCount++;
+                }
+
+                if (messageCount > 0)
+                {
+                    client.Acknowledge(name, response.ReceivedMessages.Select(msg => msg.AckId));
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.Message);
+                client.Acknowledge(name, response.ReceivedMessages.Select(msg => msg.AckId));
+            }
         }
 
+        private void PullPubSub()
+        {
+            SubscriptionName subscriptionName = SubscriptionName.FromProjectSubscription(projectId, subscriptionId);
+            SubscriberServiceApiClient subscriberClient = SubscriberServiceApiClient.Create();
+            
+            while (true)
+            {
+                SinglePullPubSub(subscriberClient, subscriptionName);
+            }
+        }
+/*
         private void EnQueue()
         {
             while (true)
@@ -57,23 +92,35 @@ namespace Its.Jenuiue.Core.MessageQue
                     ProductId = "638b1360a853c317ed000b77",
                     Organization = "napbiotec"
                 };
-
                 queue.Enqueue(m);
+
+                Thread.Sleep(30 * 1000); //Every 3 minutes
+
+                m = new MJob
+                {
+                    JobDate = DateTime.Now,
+                    JobId = regId,
+                    Type = "ExportAsset",
+                    Quantity = 100,
+                    ProductId = "638b1360a853c317ed000b77",
+                    Organization = "napbiotec"
+                };
+                queue.Enqueue(m);
+
                 Thread.Sleep(1 * 3600 * 1000); //Every 1 hour
             }
         }
-
-        private void SubscribePubSubSimulate()
+*/
+        private void SubscribePubSub()
         {
-            Thread t = new Thread(new ThreadStart(EnQueue));
+            Thread t = new Thread(new ThreadStart(PullPubSub));
             t.Start();
         }
 
         protected override void Initlize()
         {
-            Log.Information("Initialize Pub/Sub message retrieval");
-            //SubscribePubSub();
-            SubscribePubSubSimulate();
+            Log.Information("Waiting for message(s) in Pub/Sub...");
+            SubscribePubSub();
         }
 
         public override MJob GetMessage()
