@@ -3,7 +3,7 @@ using System.Collections;
 using Its.Jenuiue.Core.MessageQue;
 using Its.Jenuiue.Worker.Executors;
 using Microsoft.Extensions.Configuration;
-using Its.Jenuiue.Worker.Utils;
+using Its.Jenuiue.Core.Utils;
 
 namespace Its.Jenuiue.Worker.Processors
 {

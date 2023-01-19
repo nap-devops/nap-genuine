@@ -1,6 +1,7 @@
+using System;
 using Microsoft.Extensions.Configuration;
 
-namespace Its.Jenuiue.Worker.Utils
+namespace Its.Jenuiue.Core.Utils
 {
     public class ConfigUtils
     {
