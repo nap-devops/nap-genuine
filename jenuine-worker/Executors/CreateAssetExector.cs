@@ -5,7 +5,6 @@ using System.Net.Http.Headers;
 using Microsoft.Extensions.Configuration;
 using Its.Jenuiue.Core.Models.Organization;
 using Its.Jenuiue.Core.Utils;
-using Its.Jenuiue.Worker.Utils;
 
 namespace Its.Jenuiue.Worker.Executors
 {
