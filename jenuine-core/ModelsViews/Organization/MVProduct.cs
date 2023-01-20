@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Its.Jenuiue.Api.ModelsViews.Organization
+namespace Its.Jenuiue.Core.ModelsViews.Organization
 {
     public class MVProduct : BaseModelView
     {

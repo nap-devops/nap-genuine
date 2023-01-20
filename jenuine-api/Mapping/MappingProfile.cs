@@ -1,6 +1,6 @@
 using AutoMapper;
 using Its.Jenuiue.Core.Models.Organization;
-using Its.Jenuiue.Api.ModelsViews.Organization;
+using Its.Jenuiue.Core.ModelsViews.Organization;
 
 namespace Its.Jenuiue.Api.Mapping
 {

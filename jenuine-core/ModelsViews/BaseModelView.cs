@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Its.Jenuiue.Core.Models;
 
-namespace Its.Jenuiue.Api.ModelsViews
+namespace Its.Jenuiue.Core.ModelsViews
 {
     public class BaseModelView
     {

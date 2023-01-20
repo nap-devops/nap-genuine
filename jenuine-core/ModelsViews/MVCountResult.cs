@@ -1,4 +1,4 @@
-namespace Its.Jenuiue.Api.ModelsViews
+namespace Its.Jenuiue.Core.ModelsViews
 {
     public class MVCountResult
     {

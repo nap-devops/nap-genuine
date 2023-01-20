@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using Its.Jenuiue.Api.ModelsViews;
-using Its.Jenuiue.Api.ModelsViews.Organization;
+using Its.Jenuiue.Core.ModelsViews;
+using Its.Jenuiue.Core.ModelsViews.Organization;
 using Its.Jenuiue.Core.Models;
 using Its.Jenuiue.Core.Models.Organization;
 using Its.Jenuiue.Core.Services.Assets;
