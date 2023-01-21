@@ -1,4 +1,5 @@
 using Its.Jenuiue.Cli.Options;
+using Microsoft.Extensions.Configuration;
 
 namespace Its.Jenuiue.Cli.Actions
 {
@@ -12,6 +13,17 @@ namespace Its.Jenuiue.Cli.Actions
     {
         private static IAction jobAction = new ActionJob();
         private static IAction assetAction = new ActionAsset();
+        public static IConfiguration? configuration;
+
+        public static void SetConfiguration(IConfiguration cfg)
+        {
+            configuration = cfg;
+        }
+
+        public static IConfiguration? GetConfiguration()
+        {
+            return configuration;
+        }
 
         public static void SetAction(ActionType type, IAction action)
         {

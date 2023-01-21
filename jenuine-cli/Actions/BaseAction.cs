@@ -1,22 +1,47 @@
+using System.Net;
 using Its.Jenuiue.Cli.Options;
+using Its.Jenuiue.Core.Commands;
+using Its.Jenuiue.Core.Utils;
 
 namespace Its.Jenuiue.Cli.Actions
 {
     public abstract class BaseAction : IAction
     {
-        private int lastRunStatus = 1;
+        protected CommandParam param = new CommandParam();
 
-        protected abstract int RunAction(BaseOptions options);
+        protected abstract CommandResult RunAction(BaseOptions options);
 
-        public int Run(BaseOptions options)
+        private void PopulateParam()
         {
-            lastRunStatus = RunAction(options);
-            return lastRunStatus;
+            var cfg = UtilsAction.GetConfiguration();
+
+            param = new CommandParam()
+            {
+                Organization = "napbiotec",
+                BasicAuthUser = ConfigUtils.GetConfig(cfg, "backend:user"),
+                BasicAuthPassword = ConfigUtils.GetConfig(cfg, "backend:password"),
+                Host = ConfigUtils.GetConfig(cfg, "backend:url"),
+                UserAgent = ConfigUtils.GetConfig(cfg, "backend:userAgent"),
+                UserAgentVersion = ConfigUtils.GetConfig(cfg, "backend:userAgentVersion")
+            };
         }
 
-        public int GetLastRunStatus()
+        public CommandResult Run(BaseOptions options)
         {
-            return lastRunStatus;
+            PopulateParam();
+
+            var result = RunAction(options);
+
+            if (result.StatusCode.Equals(HttpStatusCode.OK))
+            {
+                Console.WriteLine(result.ResponseText);
+            }
+            else
+            {
+                Console.WriteLine(result.ErrorText);
+            }
+
+            return result;
         }
     }
 }

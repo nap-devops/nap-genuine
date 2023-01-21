@@ -1,6 +1,8 @@
 using Serilog;
+using CommandLine;
 using Microsoft.Extensions.Configuration;
-using Its.Jenuiue.Core.Utils;
+using Its.Jenuiue.Cli.Options;
+using Its.Jenuiue.Cli.Actions;
 
 namespace Its.Jenuiue.Cli.Processors
 {
@@ -8,13 +10,15 @@ namespace Its.Jenuiue.Cli.Processors
     {
         private readonly IConfiguration configuration;
 
-        protected override void Init()
+        protected override void Init(string[] args)
         {
-            var url = ConfigUtils.GetConfig(configuration, "backend:url");
-            var user = ConfigUtils.GetConfig(configuration, "backend:user");
-            var password = ConfigUtils.GetConfig(configuration, "backend:password");
+            //Log.Information($"Started Command processor");
 
-            Log.Information($"Started Command processor");
+            UtilsAction.SetConfiguration(configuration);
+
+            Parser.Default.ParseArguments<JobOptions, AssetOptions>(args)
+                .WithParsed<AssetOptions>(UtilsAction.RunAssetAction)
+                .WithParsed<JobOptions>(UtilsAction.RunJobAction);
         }
 
         public Commandrocessor(IConfiguration cfg)
