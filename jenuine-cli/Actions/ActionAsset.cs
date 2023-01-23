@@ -1,15 +1,24 @@
 using Serilog;
-using Its.Jenuiue.Cli.Options;
-using Its.Jenuiue.Core.Commands;
+using Its.Jenuiue.Core.Commands.Assets;
+using System.Collections;
+using Its.Jenuiue.Core.ModelsViews.Organization;
 
 namespace Its.Jenuiue.Cli.Actions
 {
     public class ActionAsset : BaseAction
     {
-        protected override CommandResult RunAction(BaseOptions options)
+        protected override Hashtable GetActionMap()
         {
-            Log.Information($"Action = [Asset] Verbose = [{options.Verbosity}]"); 
-            return new CommandResult();
+            Hashtable map = new Hashtable();
+
+            map["GetAssets"] = new ActionCfg()
+            {
+                ActionClassType = typeof(CommandGetAssets),
+                DataClassType = typeof(MVAssetQuery),
+                NeedBody = true
+            };
+
+            return map;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Its.Jenuiue.Core.Commands.Jobs
             return HttpMethod.Get;
         }
 
-        protected override string GetBodyText()        
+        protected override string GetBodyText(CommandParam param)        
         {
             return "";
         }

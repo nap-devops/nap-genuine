@@ -1,20 +1,20 @@
-using Serilog;
-using Its.Jenuiue.Cli.Options;
 using Its.Jenuiue.Core.Commands.Jobs;
-using Its.Jenuiue.Core.Commands;
+using System.Collections;
 
 namespace Its.Jenuiue.Cli.Actions
 {
     public class ActionJob : BaseAction
     {
-        protected override CommandResult RunAction(BaseOptions options)
+        protected override Hashtable GetActionMap()
         {
-            //Log.Information($"Action = [Job] Verbose = [{options.Verbosity}]");
+            Hashtable map = new Hashtable();
+            map["GetJobs"] = new ActionCfg()
+            {
+                ActionClassType = typeof(CommandGetJob),                
+                NeedBody = false
+            };
 
-            var cmd = new CommandGetJob();
-            var result = cmd.Run(param);
-
-            return result;
+            return map;
         }
     }
 }

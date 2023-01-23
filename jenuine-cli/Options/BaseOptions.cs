@@ -6,5 +6,8 @@ namespace Its.Jenuiue.Cli.Options
     {
         [Option('v', "verbosity", Required = false, HelpText = "Set output to verbose messages.")]
         public string? Verbosity { get; set; }
+
+        [Option('a', "action", Required = true, HelpText = "Set action of the event")]
+        public string? Action { get; set; }        
     }
 }

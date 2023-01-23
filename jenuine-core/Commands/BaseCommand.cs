@@ -10,7 +10,7 @@ namespace Its.Jenuiue.Core.Commands
         protected abstract string GetServiceName();
         protected abstract string GetActionName();
         protected abstract HttpMethod GetMethod();
-        protected abstract string GetBodyText();
+        protected abstract string GetBodyText(CommandParam param);
 
         private HttpClient GetHttpClient(CommandParam param)
         {
@@ -43,18 +43,18 @@ namespace Its.Jenuiue.Core.Commands
         public CommandResult Run(CommandParam param)
         {
             CommandResult cmdResult = new CommandResult();
-
             var client = GetHttpClient(param);
+
             var msg = GetRequestMessage(param);
+            if (param.BodyData != null)
+            {
+                var json = GetBodyText(param);
+                var ctn = new StringContent(json, Encoding.Default, "application/json");
+                msg.Content = ctn;
+            }
 
             var task = client.SendAsync(msg);
             var response = task.Result;
-            if (param.BodyData != null)
-            {
-                var json = GetBodyText();
-                var ctn = new StringContent(json, Encoding.Default, "application/json");
-                response.Content = ctn;
-            }
 
             try
             {

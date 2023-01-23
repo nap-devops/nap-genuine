@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#./run-cli.bash job --action=GetJobs
+
 . ./export-dev.bash
 
 export backend__user=${USER}
