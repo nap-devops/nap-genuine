@@ -1,3 +1,4 @@
+using Serilog;
 using System.Net;
 using Its.Jenuiue.Cli.Options;
 using Its.Jenuiue.Core.Commands;
@@ -13,10 +14,30 @@ namespace Its.Jenuiue.Cli.Actions
         protected CommandParam param = new CommandParam();
         protected abstract Hashtable GetActionMap();
 
+        private string GetFileContent(BaseOptions options)
+        {
+            var fname = options.DataFile;
+
+            if (String.IsNullOrEmpty(fname))
+            {
+                Log.Error($"File name is empty, please provide option --data or -d");
+                Environment.Exit(1);
+            }
+
+            if (!File.Exists(fname))
+            {
+                Log.Error($"File not found - [{fname}]");
+                Environment.Exit(1);
+            }
+
+            var data = File.ReadAllText(fname);
+
+            return data;
+        }
+
         private BaseModelView? GetBodyData(ActionCfg cfg, BaseOptions options)
         {
-            //Need to get from --data instead
-            var data = "{}";
+            var data = GetFileContent(options);
             var convertOption = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true

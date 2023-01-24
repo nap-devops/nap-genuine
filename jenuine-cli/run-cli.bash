@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#./run-cli.bash job --action=GetJobs
+#./run-cli.bash job --action=GetJobs --data=data/assets-query.json
 
 . ./export-dev.bash
 

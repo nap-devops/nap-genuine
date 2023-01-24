@@ -4,6 +4,7 @@
     "PinNo":"",
     "SerialNo":"",
     "LastActionStatus":"",
+    "isRegistered": "",
     "Id":"",
 
     "QueryParam":{
