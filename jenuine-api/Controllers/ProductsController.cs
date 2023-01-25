@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Its.Jenuiue.Core.ModelsViews;
 using Its.Jenuiue.Core.ModelsViews.Organization;
-using Its.Jenuiue.Core.Models;
 using Its.Jenuiue.Core.Models.Organization;
 using Its.Jenuiue.Core.Services.Products;
 using AutoMapper;
@@ -25,12 +24,13 @@ namespace Its.Jenuiue.Api.Controllers
             mapper = mppr;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("org/{id}/action/GetProducts")]
-        public IEnumerable<MVProduct> GetProducts(string id) //[FromBody] MVProduct data
+        public IEnumerable<MVProduct> GetProducts(string id, [FromBody] MVProductQuery data)
         {
             service.SetOrgId(id);
-            var products = service.GetProducts(null, new QueryParam());
+            var product = mapper.Map<MVProductQuery, MProduct>(data);
+            var products = service.GetProducts(product, data.QueryParam);
 
             var result = mapper.Map<IEnumerable<MProduct>, IEnumerable<MVProduct>>(products);
             return result;

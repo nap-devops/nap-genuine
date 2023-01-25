@@ -10,6 +10,8 @@ namespace Its.Jenuiue.Api.Mapping
         {
             CreateMap<MProduct, MVProduct>();
             CreateMap<MVProduct, MProduct>();
+            CreateMap<MProduct,MVProductQuery>();
+            CreateMap<MVProductQuery,MProduct>();
 
             CreateMap<MAsset,MVAsset>();            
             CreateMap<MVAsset,MAsset>();
