@@ -30,6 +30,14 @@ namespace Its.Jenuiue.Cli.Actions
                 NeedId = true
             };
 
+            map["UpdateProductById"] = new ActionCfg()
+            {
+                ActionClassType = typeof(CommandUpdateProductById),
+                DataClassType = typeof(MVProduct),
+                NeedId = true,
+                NeedBody = true
+            };
+
             return map;
         }
     }

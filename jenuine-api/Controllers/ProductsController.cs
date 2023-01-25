@@ -97,9 +97,12 @@ namespace Its.Jenuiue.Api.Controllers
             product.Id = objectId;
 
             var updateObj = service.UpdateProduct(product);
+            if (updateObj.UpdatedCount <= 0)
+            {
+                return BadRequest("No record match for the update!!!");
+            }
 
             var result = mapper.Map<MProduct, MVProduct>(updateObj);
-
             return Ok(result);
         }        
     }
