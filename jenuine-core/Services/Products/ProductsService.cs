@@ -3,6 +3,7 @@ using Its.Jenuiue.Core.Database;
 using Its.Jenuiue.Core.Models;
 using Its.Jenuiue.Core.Actions.Products;
 using Its.Jenuiue.Core.Models.Organization;
+using System;
 
 namespace Its.Jenuiue.Core.Services.Products
 {
@@ -49,7 +50,11 @@ namespace Its.Jenuiue.Core.Services.Products
 
         public MProduct AddProduct(MProduct param)
         {
+            Guid guid = Guid.NewGuid();
+            string regId = guid.ToString();
+            
             var act = new AddProductAction(database, orgId);
+            param.ProductId = regId;
             var result = act.Apply<MProduct>(param);
 
             return result;

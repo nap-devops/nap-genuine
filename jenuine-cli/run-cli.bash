@@ -4,6 +4,7 @@
 #./run-cli.bash job --action=CreateAssets --data=data/jobs-create-assets.json
 #./run-cli.bash job --action=ExportAssets --data=data/jobs-export-assets.json
 #./run-cli.bash product --action=GetProducts --data=data/products-query.json
+#./run-cli.bash product --action=AddProduct --data=data/products-add.json
 
 . ./export-dev.bash
 

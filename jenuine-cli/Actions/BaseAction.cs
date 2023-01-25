@@ -103,6 +103,10 @@ namespace Its.Jenuiue.Cli.Actions
             else
             {
                 Console.WriteLine(result.ErrorText);
+                if (!String.IsNullOrEmpty(result.ResponseText))
+                {
+                    Console.WriteLine(result.ResponseText);
+                }
             }
 
             return result;

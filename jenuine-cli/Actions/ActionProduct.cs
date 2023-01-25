@@ -17,6 +17,13 @@ namespace Its.Jenuiue.Cli.Actions
                 NeedBody = true
             };
 
+            map["AddProduct"] = new ActionCfg()
+            {
+                ActionClassType = typeof(CommandAddProduct),
+                DataClassType = typeof(MVProduct),
+                NeedBody = true
+            };
+
             return map;
         }
     }

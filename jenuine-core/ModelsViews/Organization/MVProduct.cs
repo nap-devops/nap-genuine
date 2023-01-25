@@ -4,7 +4,6 @@ namespace Its.Jenuiue.Core.ModelsViews.Organization
 {
     public class MVProduct : BaseModelView
     {
-        [Required]
         public string ProductId { get; set; }
         
         [Required]
