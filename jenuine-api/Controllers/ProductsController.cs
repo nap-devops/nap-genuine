@@ -36,12 +36,13 @@ namespace Its.Jenuiue.Api.Controllers
             return result;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("org/{id}/action/GetProductsCount")]
-        public IActionResult GetProductsCount(string id)
+        public IActionResult GetProductsCount(string id, [FromBody] MVProductQuery data)
         {
             service.SetOrgId(id);
-            long cnt = service.GetProductsCount();
+            var product = mapper.Map<MVProductQuery, MProduct>(data);
+            long cnt = service.GetProductsCount(product);
 
             return Ok(new MVCountResult(cnt));
         }

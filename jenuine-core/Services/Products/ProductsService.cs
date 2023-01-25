@@ -38,12 +38,10 @@ namespace Its.Jenuiue.Core.Services.Products
             return product;            
         }
 
-        public long GetProductsCount()
+        public long GetProductsCount(MProduct param)
         {
-            var m = new MProduct();
-
             var act = new GetProductCountAction(database, orgId);
-            var cnt = act.Apply<MProduct>(m);
+            var cnt = act.Apply<MProduct>(param);
 
             return cnt;
         }

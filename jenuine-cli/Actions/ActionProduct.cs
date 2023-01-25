@@ -38,6 +38,19 @@ namespace Its.Jenuiue.Cli.Actions
                 NeedBody = true
             };
 
+            map["GetProductById"] = new ActionCfg()
+            {
+                ActionClassType = typeof(CommandGetProductById),
+                NeedId = true
+            };
+
+            map["GetProductsCount"] = new ActionCfg()
+            {
+                ActionClassType = typeof(CommandGetProductsCount),
+                DataClassType = typeof(MVProductQuery),
+                NeedBody = true
+            };
+
             return map;
         }
     }
