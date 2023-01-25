@@ -4,7 +4,7 @@ using Its.Jenuiue.Core.ModelsViews.Organization;
 
 namespace Its.Jenuiue.Core.Commands.Jobs
 {
-    public class CommandExportAsset : BaseCommand
+    public class CommandExportAsset : BaseCommandNoId
     {
         protected override string GetServiceName()
         {

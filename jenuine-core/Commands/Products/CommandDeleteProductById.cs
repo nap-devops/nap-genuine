@@ -1,11 +1,9 @@
 using System;
 using System.Net.Http;
-using System.Text.Json;
-using Its.Jenuiue.Core.ModelsViews.Organization;
 
 namespace Its.Jenuiue.Core.Commands.Assets
 {
-    public class CommandGetProducts : BaseCommandNoId
+    public class CommandDeleteProductById : BaseCommandWithId
     {
         protected override string GetServiceName()
         {
@@ -14,20 +12,17 @@ namespace Its.Jenuiue.Core.Commands.Assets
 
         protected override string GetActionName()
         {
-            return "GetProducts";
+            return "DeleteProductById";
         }
 
         protected override HttpMethod GetMethod()
         {
-            return HttpMethod.Post;
+            return HttpMethod.Delete;
         }
 
         protected override string GetBodyText(CommandParam param)        
         {
-            MVProductQuery mvProd = (MVProductQuery) param.BodyData;
-            var json = JsonSerializer.Serialize(mvProd);
-
-            return json;
+            return "";
         }
     }
 }

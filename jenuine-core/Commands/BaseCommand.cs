@@ -6,11 +6,9 @@ using System.Text;
 namespace Its.Jenuiue.Core.Commands
 {
     public abstract class BaseCommand : ICommand
-    {
-        protected abstract string GetServiceName();
-        protected abstract string GetActionName();
-        protected abstract HttpMethod GetMethod();
+    {        
         protected abstract string GetBodyText(CommandParam param);
+        protected abstract HttpRequestMessage GetHttpRequest(CommandParam param);
 
         private HttpClient GetHttpClient(CommandParam param)
         {
@@ -28,10 +26,7 @@ namespace Its.Jenuiue.Core.Commands
             var authenticationString = $"{param.BasicAuthUser}:{param.BasicAuthPassword}";
             var base64EncodedAuthenticationString = Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(authenticationString));
 
-            var svc = GetServiceName();
-            var action = GetActionName();
-
-            var requestMessage = new HttpRequestMessage(GetMethod(), $"/api/{svc}/org/{param.Organization}/action/{action}");
+            var requestMessage = GetHttpRequest(param);
             requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Basic", base64EncodedAuthenticationString);
 
             var productValue = new ProductInfoHeaderValue(param.UserAgent, param.UserAgentVersion);

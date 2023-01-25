@@ -14,6 +14,15 @@ namespace Its.Jenuiue.Cli.Actions
         protected CommandParam param = new CommandParam();
         protected abstract Hashtable GetActionMap();
 
+        private void VerifyIdField(BaseOptions options)
+        {
+            if (String.IsNullOrEmpty(options.Id))
+            {
+                Log.Error("ID is required, please provide option --id or -i");
+                Environment.Exit(1);
+            }
+        }
+
         private string GetFileContent(BaseOptions options)
         {
             var fname = options.DataFile;
@@ -60,6 +69,12 @@ namespace Its.Jenuiue.Cli.Actions
                 {
                     param.BodyData = GetBodyData(cfg, options);
                 }
+
+                if (cfg.NeedId)
+                {
+                    VerifyIdField(options);
+                    param.Id = options.Id;
+                }                
 
                 ICommand? cmd = (ICommand?) Activator.CreateInstance(cfg.ActionClassType);
                 if (cmd != null)

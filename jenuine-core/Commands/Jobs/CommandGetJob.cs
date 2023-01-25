@@ -2,7 +2,7 @@ using System.Net.Http;
 
 namespace Its.Jenuiue.Core.Commands.Jobs
 {
-    public class CommandGetJob : BaseCommand
+    public class CommandGetJob : BaseCommandNoId
     {
         protected override string GetServiceName()
         {

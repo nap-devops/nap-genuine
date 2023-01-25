@@ -5,7 +5,7 @@ using Its.Jenuiue.Core.ModelsViews.Organization;
 
 namespace Its.Jenuiue.Core.Commands.Assets
 {
-    public class CommandAddProduct : BaseCommand
+    public class CommandAddProduct : BaseCommandNoId
     {
         protected override string GetServiceName()
         {

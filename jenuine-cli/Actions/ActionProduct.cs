@@ -24,6 +24,12 @@ namespace Its.Jenuiue.Cli.Actions
                 NeedBody = true
             };
 
+            map["DeleteProductById"] = new ActionCfg()
+            {
+                ActionClassType = typeof(CommandDeleteProductById),
+                NeedId = true
+            };
+
             return map;
         }
     }

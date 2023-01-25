@@ -5,6 +5,7 @@ namespace Its.Jenuiue.Core.Commands
 {
     public class CommandParam
     {
+        public string Id {get; set;}
         public string Host {get; set;}
         public string UserAgent {get; set;}
         public string UserAgentVersion {get; set;}

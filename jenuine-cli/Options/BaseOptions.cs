@@ -11,6 +11,9 @@ namespace Its.Jenuiue.Cli.Options
         public string? Action { get; set; }
 
         [Option('d', "data", Required = false, HelpText = "File name contains JSON input data")]
-        public string? DataFile { get; set; }           
+        public string? DataFile { get; set; }
+
+        [Option('i', "id", Required = false, HelpText = "Object ID")]
+        public string? Id { get; set; }        
     }
 }
