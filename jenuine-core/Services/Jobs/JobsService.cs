@@ -38,12 +38,10 @@ namespace Its.Jenuiue.Core.Services.Jobs
             return Job;
         }
 
-        public long GetJobsCount()
+        public long GetJobsCount(MJob param)
         {
-            var m = new MJob();
-
             var act = new GetJobCountAction(database, orgId);
-            var cnt = act.Apply<MJob>(m);
+            var cnt = act.Apply<MJob>(param);
 
             return cnt;
         }

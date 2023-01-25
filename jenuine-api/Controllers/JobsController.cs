@@ -28,23 +28,25 @@ namespace Its.Jenuiue.Api.Controllers
             cfg = configuration;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("org/{id}/action/GetJobs")]
-        public IEnumerable<MVJob> GetJobs(string id) //[FromBody] MVJob data
+        public IEnumerable<MVJob> GetJobs(string id, [FromBody] MVJobQuery data)
         {
             service.SetOrgId(id);
-            var jobs = service.GetJobs(null, new QueryParam());
+            var job = mapper.Map<MVJobQuery, MJob>(data);
+            var jobs = service.GetJobs(job, data.QueryParam);
 
             var result = mapper.Map<IEnumerable<MJob>, IEnumerable<MVJob>>(jobs);
             return result;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("org/{id}/action/GetJobsCount")]
-        public IActionResult GetJobsCount(string id)
+        public IActionResult GetJobsCount(string id, [FromBody] MVJobQuery data)
         {
             service.SetOrgId(id);
-            long cnt = service.GetJobsCount();
+            var job = mapper.Map<MVJobQuery, MJob>(data);
+            long cnt = service.GetJobsCount(job);
 
             return Ok(new MVCountResult(cnt));
         }

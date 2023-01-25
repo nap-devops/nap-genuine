@@ -20,7 +20,9 @@ namespace Its.Jenuiue.Api.Mapping
             CreateMap<MVAssetQuery,MAsset>();
 
             CreateMap<MJob,MVJob>();
-            CreateMap<MVJob,MJob>();            
+            CreateMap<MVJob,MJob>();
+            CreateMap<MJob,MVJobQuery>();
+            CreateMap<MVJobQuery,MJob>();            
         }
     }
 }

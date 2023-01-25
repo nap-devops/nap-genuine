@@ -11,8 +11,16 @@ namespace Its.Jenuiue.Cli.Actions
             Hashtable map = new Hashtable();
             map["GetJobs"] = new ActionCfg()
             {
-                ActionClassType = typeof(CommandGetJob),                
-                NeedBody = false
+                ActionClassType = typeof(CommandGetJob),    
+                DataClassType = typeof(MVJobQuery),            
+                NeedBody = true
+            };
+
+            map["GetJobsCount"] = new ActionCfg()
+            {
+                ActionClassType = typeof(CommandGetJobCount),
+                DataClassType = typeof(MVJobQuery),
+                NeedBody = true
             };
 
             map["CreateAssets"] = new ActionCfg()

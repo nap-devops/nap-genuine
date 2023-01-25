@@ -4,7 +4,7 @@ using Its.Jenuiue.Core.ModelsViews.Organization;
 
 namespace Its.Jenuiue.Core.Commands.Jobs
 {
-    public class CommandGetJob : BaseCommandNoId
+    public class CommandGetJobCount : BaseCommandNoId
     {
         protected override string GetServiceName()
         {
@@ -13,7 +13,7 @@ namespace Its.Jenuiue.Core.Commands.Jobs
 
         protected override string GetActionName()
         {
-            return "GetJobs";
+            return "GetJobsCount";
         }
 
         protected override HttpMethod GetMethod()
