@@ -60,6 +60,26 @@ namespace Its.Jenuiue.Cli.Actions
                 NeedBody = true
             };
 
+            map["UpdateAssetRegisterFlagById"] = new ActionCfg()
+            {
+                ActionClassType = typeof(CommandUpdateAssetRegisterFlagById),
+                DataClassType = typeof(MVAsset),
+                NeedId = true,
+                NeedBody = true
+            };
+
+            map["RegisterAsset"] = new ActionCfg()
+            {
+                ActionClassType = typeof(CommandRegisterAsset),
+                NeedPinSerial = true
+            };
+
+            map["RegisterAssetRedirect"] = new ActionCfg()
+            {
+                ActionClassType = typeof(CommandRegisterAssetRedirect),
+                NeedPinSerial = true
+            };
+
             return map;
         }
     }

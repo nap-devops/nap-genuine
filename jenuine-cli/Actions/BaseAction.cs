@@ -23,6 +23,21 @@ namespace Its.Jenuiue.Cli.Actions
             }
         }
 
+        private void VerifyPinSerialFields(AssetOptions options)
+        {
+            if (String.IsNullOrEmpty(options.Pin))
+            {
+                Log.Error("Pin is required, please provide option --pin or -p");
+                Environment.Exit(1);
+            }
+
+            if (String.IsNullOrEmpty(options.Pin))
+            {
+                Log.Error("Serial is required, please provide option --serial or -s");
+                Environment.Exit(1);
+            }
+        }        
+
         private string GetFileContent(BaseOptions options)
         {
             var fname = options.DataFile;
@@ -74,6 +89,14 @@ namespace Its.Jenuiue.Cli.Actions
                 {
                     VerifyIdField(options);
                     param.Id = options.Id;
+                }
+
+                if (cfg.NeedPinSerial)
+                {
+                    var assetOption = (AssetOptions) options;
+                    VerifyPinSerialFields(assetOption);
+                    param.Serial = assetOption.Serial;
+                    param.Pin = assetOption.Pin;
                 }                
 
                 ICommand? cmd = (ICommand?) Activator.CreateInstance(cfg.ActionClassType);

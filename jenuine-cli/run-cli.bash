@@ -7,6 +7,8 @@
 #./run-cli.bash asset --action=DeleteAssetById --id=63d229be680cc279f4f5cce4
 #./run-cli.bash asset --action=UpdateAssetById --id=63ba4ae63e0e99fd4847daae --data=data/assets-update.json
 #./run-cli.bash asset --action=UpdateAssetRegisterFlagById --id=63ba4ae63e0e99fd4847daae --data=data/assets-update.json
+#./run-cli.bash asset --action=RegisterAsset --serial=ABCIXIYSK --pin=091879007
+#./run-cli.bash asset --action=RegisterAssetRedirect --serial=ABCIXIYSK --pin=091879007
 
 #./run-cli.bash job --action=GetJobs --data=data/jobs-query.json
 #./run-cli.bash job --action=GetJobsCount --data=data/jobs-query.json
@@ -24,7 +26,7 @@
 #./run-cli.bash product --action=UpdateProductById --id=638b1fad415438d07a5b9d51 --data=data/products-update.json
 #./run-cli.bash product --action=GetProductById --id=638b1fad415438d07a5b9d51
 
-. ./export-dev.bash
+. ./export-local.bash
 
 export backend__user=${USER}
 export backend__password=${PASSWORD}

@@ -13,6 +13,8 @@ namespace Its.Jenuiue.Core.Commands
         public string Organization {get; set;}
         public string BasicAuthUser {get; set;}
         public string BasicAuthPassword {get; set;}
+        public string Serial {get; set;}
+        public string Pin {get; set;}
         public BaseModelView BodyData {get; set;}
     }
 }
