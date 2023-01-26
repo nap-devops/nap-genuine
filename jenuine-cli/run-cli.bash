@@ -4,6 +4,12 @@
 #./run-cli.bash job --action=GetJobsCount --data=data/jobs-query.json
 #./run-cli.bash job --action=CreateAssets --data=data/jobs-create-assets.json
 #./run-cli.bash job --action=ExportAssets --data=data/jobs-export-assets.json
+#./run-cli.bash job --action=GetJobById --id=63c28a1b0f6189ad9bf9d2d3
+#./run-cli.bash job --action=DeleteJobById --id=63c28a1b0f6189ad9bf9d2d3
+
+#./run-cli.bash job --action=UpdateJobStatusById --id=63c27808451a4f65bd83ce94 --data=data/jobs-update.json
+#./run-cli.bash job --action=UpdateJobProgressById --id=63c27808451a4f65bd83ce94 --data=data/jobs-update.json
+
 #./run-cli.bash product --action=GetProducts --data=data/products-query.json
 #./run-cli.bash product --action=GetProductsCount --data=data/products-query.json
 #./run-cli.bash product --action=AddProduct --data=data/products-add.json

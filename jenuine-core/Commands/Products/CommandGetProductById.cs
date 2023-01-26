@@ -1,7 +1,7 @@
 using System;
 using System.Net.Http;
 
-namespace Its.Jenuiue.Core.Commands.Assets
+namespace Its.Jenuiue.Core.Commands.Products
 {
     public class CommandGetProductById : BaseCommandWithId
     {

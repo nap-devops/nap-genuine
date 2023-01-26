@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Its.Jenuiue.Core.ModelsViews;
 using Its.Jenuiue.Core.ModelsViews.Organization;
-using Its.Jenuiue.Core.Models;
 using Its.Jenuiue.Core.Models.Organization;
 using Its.Jenuiue.Core.Services.Jobs;
 using AutoMapper;
@@ -97,6 +96,42 @@ namespace Its.Jenuiue.Api.Controllers
             var result = mapper.Map<MJob, MVJob>(addedJob);
 
             return Ok(result);
-        }        
+        }
+
+        [HttpPut]
+        [Route("org/{id}/action/UpdateJobProgressById/{objectId}")]
+        public IActionResult UpdateJobProgressById(string id, string objectId, [FromBody] MVJob data)
+        {
+            service.SetOrgId(id);
+            var job = mapper.Map<MVJob, MJob>(data);
+            job.Id = objectId;
+
+            var updateObj = service.UpdateJobProgressById(job);
+            if (updateObj.UpdatedCount <= 0)
+            {
+                return BadRequest("No record match for the update!!!");
+            }
+
+            var result = mapper.Map<MJob, MVJob>(updateObj);
+            return Ok(result);
+        }
+
+        [HttpPut]
+        [Route("org/{id}/action/UpdateJobStatusById/{objectId}")]
+        public IActionResult UpdateJobStatusById(string id, string objectId, [FromBody] MVJob data)
+        {
+            service.SetOrgId(id);
+            var job = mapper.Map<MVJob, MJob>(data);
+            job.Id = objectId;
+
+            var updateObj = service.UpdateJobStatusById(job);
+            if (updateObj.UpdatedCount <= 0)
+            {
+                return BadRequest("No record match for the update!!!");
+            }
+
+            var result = mapper.Map<MJob, MVJob>(updateObj);
+            return Ok(result);
+        }
     }
 }

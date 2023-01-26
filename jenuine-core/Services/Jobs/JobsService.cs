@@ -62,5 +62,21 @@ namespace Its.Jenuiue.Core.Services.Jobs
 
             return result;
         }
+
+        public MJob UpdateJobProgressById(MJob job)
+        {
+            var act = new UpdateJobProgressByIdAction(database, orgId);
+            var result = act.Apply<MJob>(job);
+
+            return result;
+        }
+
+        public MJob UpdateJobStatusById(MJob job)
+        {
+            var act = new UpdateJobStatusByIdAction(database, orgId);
+            var result = act.Apply<MJob>(job);
+
+            return result;
+        }
     }
 }

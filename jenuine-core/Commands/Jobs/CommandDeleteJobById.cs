@@ -1,18 +1,19 @@
 using System;
 using System.Net.Http;
 
-namespace Its.Jenuiue.Core.Commands.Products
+namespace Its.Jenuiue.Core.Commands.Jobs
 {
-    public class CommandDeleteProductById : BaseCommandWithId
+    public class CommandDeleteJobById : BaseCommandWithId
     {
+        //NOTE : Web API has not been implemented now.
         protected override string GetServiceName()
         {
-            return "products";
+            return "jobs";
         }
 
         protected override string GetActionName()
         {
-            return "DeleteProductById";
+            return "DeleteJobById";
         }
 
         protected override HttpMethod GetMethod()

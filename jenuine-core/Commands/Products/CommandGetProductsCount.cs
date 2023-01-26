@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Text.Json;
 using Its.Jenuiue.Core.ModelsViews.Organization;
 
-namespace Its.Jenuiue.Core.Commands.Assets
+namespace Its.Jenuiue.Core.Commands.Products
 {
     public class CommandGetProductsCount : BaseCommandNoId
     {

@@ -1,23 +1,23 @@
 using System;
 using System.Net.Http;
 
-namespace Its.Jenuiue.Core.Commands.Products
+namespace Its.Jenuiue.Core.Commands.Jobs
 {
-    public class CommandDeleteProductById : BaseCommandWithId
+    public class CommandGetJobById : BaseCommandWithId
     {
         protected override string GetServiceName()
         {
-            return "products";
+            return "jobs";
         }
 
         protected override string GetActionName()
         {
-            return "DeleteProductById";
+            return "GetJobById";
         }
 
         protected override HttpMethod GetMethod()
         {
-            return HttpMethod.Delete;
+            return HttpMethod.Get;
         }
 
         protected override string GetBodyText(CommandParam param)        

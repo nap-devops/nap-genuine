@@ -1,4 +1,4 @@
-using Its.Jenuiue.Core.Commands.Assets;
+using Its.Jenuiue.Core.Commands.Products;
 using System.Collections;
 using Its.Jenuiue.Core.ModelsViews.Organization;
 

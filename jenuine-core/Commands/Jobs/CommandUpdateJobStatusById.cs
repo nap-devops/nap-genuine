@@ -3,18 +3,18 @@ using System.Net.Http;
 using System.Text.Json;
 using Its.Jenuiue.Core.ModelsViews.Organization;
 
-namespace Its.Jenuiue.Core.Commands.Products
+namespace Its.Jenuiue.Core.Commands.Jobs
 {
-    public class CommandUpdateProductById : BaseCommandWithId
+    public class CommandUpdateJobStatusById : BaseCommandWithId
     {
         protected override string GetServiceName()
         {
-            return "products";
+            return "jobs";
         }
 
         protected override string GetActionName()
         {
-            return "UpdateProductById";
+            return "UpdateJobStatusById";
         }
 
         protected override HttpMethod GetMethod()
@@ -24,8 +24,8 @@ namespace Its.Jenuiue.Core.Commands.Products
 
         protected override string GetBodyText(CommandParam param)        
         {
-            MVProduct mvProd = (MVProduct) param.BodyData;
-            var json = JsonSerializer.Serialize(mvProd);
+            MVJob data = (MVJob) param.BodyData;
+            var json = JsonSerializer.Serialize(data);
 
             return json;
         }

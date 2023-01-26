@@ -23,6 +23,12 @@ namespace Its.Jenuiue.Cli.Actions
                 NeedBody = true
             };
 
+            map["GetJobById"] = new ActionCfg()
+            {
+                ActionClassType = typeof(CommandGetJobById),
+                NeedId = true
+            };
+
             map["CreateAssets"] = new ActionCfg()
             {
                 ActionClassType = typeof(CommandCreateAsset),
@@ -34,6 +40,28 @@ namespace Its.Jenuiue.Cli.Actions
             {
                 ActionClassType = typeof(CommandExportAsset),
                 DataClassType = typeof(MVJob),
+                NeedBody = true
+            };
+
+            map["DeleteJobById"] = new ActionCfg()
+            {
+                ActionClassType = typeof(CommandDeleteJobById),
+                NeedId = true
+            };
+
+            map["UpdateJobStatusById"] = new ActionCfg()
+            {
+                ActionClassType = typeof(CommandUpdateJobStatusById),
+                DataClassType = typeof(MVJob),
+                NeedId = true,
+                NeedBody = true
+            };
+
+            map["UpdateJobProgressById"] = new ActionCfg()
+            {
+                ActionClassType = typeof(CommandUpdateJobProgressById),
+                DataClassType = typeof(MVJob),
+                NeedId = true,
                 NeedBody = true
             };
 

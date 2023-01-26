@@ -105,6 +105,6 @@ namespace Its.Jenuiue.Api.Controllers
 
             var result = mapper.Map<MProduct, MVProduct>(updateObj);
             return Ok(result);
-        }        
+        }
     }
 }
