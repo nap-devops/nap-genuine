@@ -18,6 +18,48 @@ namespace Its.Jenuiue.Cli.Actions
                 NeedBody = true
             };
 
+            map["GetAssetsCount"] = new ActionCfg()
+            {
+                ActionClassType = typeof(CommandGetAssetsCount),
+                DataClassType = typeof(MVAssetQuery),
+                NeedBody = true
+            };
+
+            map["GetAssetById"] = new ActionCfg()
+            {
+                ActionClassType = typeof(CommandGetAssetById),
+                NeedId = true
+            };
+
+            map["AddAsset"] = new ActionCfg()
+            {
+                ActionClassType = typeof(CommandAddAsset),
+                DataClassType = typeof(MVAsset),
+                NeedBody = true
+            };
+
+            map["DeleteAssetById"] = new ActionCfg()
+            {
+                ActionClassType = typeof(CommandDeleteAssetById),
+                NeedId = true
+            };
+
+            map["UpdateAssetById"] = new ActionCfg()
+            {
+                ActionClassType = typeof(CommandUpdateAssetById),
+                DataClassType = typeof(MVAsset),
+                NeedId = true,
+                NeedBody = true
+            };
+
+            map["UpdateAssetRegisterFlagById"] = new ActionCfg()
+            {
+                ActionClassType = typeof(CommandUpdateAssetRegisterFlagById),
+                DataClassType = typeof(MVAsset),
+                NeedId = true,
+                NeedBody = true
+            };
+
             return map;
         }
     }

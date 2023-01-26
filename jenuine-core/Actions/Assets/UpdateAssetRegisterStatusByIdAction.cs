@@ -20,7 +20,6 @@ namespace Its.Jenuiue.Core.Actions.Assets
             var fields = new List<string>() 
             {
                 "IsRegistered",
-                "RegisteredInfo"
             };
 
             return fields;

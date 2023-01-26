@@ -56,12 +56,10 @@ namespace Its.Jenuiue.Core.Services.Assets
             return asset;            
         }
 
-        public long GetAssetsCount()
+        public long GetAssetsCount(MAsset param)
         {
-            var m = new MAsset();
-
             var act = new GetAssetCountAction(database, orgId);
-            var cnt = act.Apply<MAsset>(m);
+            var cnt = act.Apply<MAsset>(param);
 
             return cnt;
         }
