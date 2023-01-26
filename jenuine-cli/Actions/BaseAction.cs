@@ -84,7 +84,7 @@ namespace Its.Jenuiue.Cli.Actions
             }
             else
             {
-                Console.WriteLine("Type is null");
+                Console.WriteLine($"Action [{actName}] not found!!!");
             }
 
             return result;
