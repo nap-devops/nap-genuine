@@ -22,7 +22,12 @@ namespace Its.Jenuiue.Api.Mapping
             CreateMap<MJob,MVJob>();
             CreateMap<MVJob,MJob>();
             CreateMap<MJob,MVJobQuery>();
-            CreateMap<MVJobQuery,MJob>();            
+            CreateMap<MVJobQuery,MJob>();
+
+            CreateMap<MConfig,MVConfig>();
+            CreateMap<MVConfig,MConfig>();
+            CreateMap<MConfig,MVConfigQuery>();
+            CreateMap<MVConfigQuery,MConfig>();
         }
     }
 }
