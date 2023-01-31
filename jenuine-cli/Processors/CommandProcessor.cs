@@ -16,10 +16,14 @@ namespace Its.Jenuiue.Cli.Processors
 
             UtilsAction.SetConfiguration(configuration);
 
-            Parser.Default.ParseArguments<JobOptions, AssetOptions, ProductOptions>(args)
+            Parser.Default.ParseArguments<JobOptions, 
+                AssetOptions, 
+                ProductOptions,
+                ConfigOptions>(args)
                 .WithParsed<AssetOptions>(UtilsAction.RunAssetAction)
                 .WithParsed<JobOptions>(UtilsAction.RunJobAction)
-                .WithParsed<ProductOptions>(UtilsAction.RunProductAction);
+                .WithParsed<ProductOptions>(UtilsAction.RunProductAction)
+                .WithParsed<ConfigOptions>(UtilsAction.RunConfigAction);
         }
 
         public Commandrocessor(IConfiguration cfg)

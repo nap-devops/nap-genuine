@@ -1,0 +1,5 @@
+{
+    "redirectKey": "xAuhiwDHS248sAeD23",
+    "redirectUrlTemplate": "https://aldamex.com/register-product/result?status={0}&serial={1}&pin={2}",
+    "redirectUrlTemplateProductLevel": true
+}

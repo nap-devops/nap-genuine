@@ -1,5 +1,10 @@
 #!/bin/bash
 
+#./run-cli.bash config --action=GetConfigs --data=data/configs-query.json
+#./run-cli.bash config --action=AddConfig --data=data/configs-add.json
+#./run-cli.bash config --action=UpdateConfigById --id=63d9a46f393d3afc4d707697 --data=data/configs-update.json
+
+
 #./run-cli.bash asset --action=GetAssets --data=data/assets-query.json
 #./run-cli.bash asset --action=GetAssetsCount --data=data/assets-query.json
 #./run-cli.bash asset --action=GetAssetById --id=63ba4bc02c73d154cca0e371
