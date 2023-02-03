@@ -32,7 +32,7 @@
 #./run-cli.bash product --action=UpdateProductById --id=638b1fad415438d07a5b9d51 --data=data/products-update.json
 #./run-cli.bash product --action=GetProductById --id=638b1fad415438d07a5b9d51
 
-. ./export-local.bash
+. ./export-dev.bash
 
 export backend__user=${USER}
 export backend__password=${PASSWORD}
