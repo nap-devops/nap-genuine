@@ -11,7 +11,9 @@ namespace Its.Jenuiue.Core.Services.Products
 
         public MProduct GetProductById(MProduct param);
 
-        public long GetProductsCount();
+        public MProduct GetProductByGeneratedId(MProduct param);
+
+        public long GetProductsCount(MProduct param);
 
         public MProduct AddProduct(MProduct param);
 

@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using Its.Jenuiue.Api.ModelsViews;
-using Its.Jenuiue.Api.ModelsViews.Organization;
-using Its.Jenuiue.Core.Models;
+using Its.Jenuiue.Core.ModelsViews;
+using Its.Jenuiue.Core.ModelsViews.Organization;
 using Its.Jenuiue.Core.Models.Organization;
 using Its.Jenuiue.Core.Services.Products;
 using AutoMapper;
@@ -25,23 +24,25 @@ namespace Its.Jenuiue.Api.Controllers
             mapper = mppr;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("org/{id}/action/GetProducts")]
-        public IEnumerable<MVProduct> GetProducts(string id) //[FromBody] MVProduct data
+        public IEnumerable<MVProduct> GetProducts(string id, [FromBody] MVProductQuery data)
         {
             service.SetOrgId(id);
-            var products = service.GetProducts(null, new QueryParam());
+            var product = mapper.Map<MVProductQuery, MProduct>(data);
+            var products = service.GetProducts(product, data.QueryParam);
 
             var result = mapper.Map<IEnumerable<MProduct>, IEnumerable<MVProduct>>(products);
             return result;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("org/{id}/action/GetProductsCount")]
-        public IActionResult GetProductsCount(string id)
+        public IActionResult GetProductsCount(string id, [FromBody] MVProductQuery data)
         {
             service.SetOrgId(id);
-            long cnt = service.GetProductsCount();
+            var product = mapper.Map<MVProductQuery, MProduct>(data);
+            long cnt = service.GetProductsCount(product);
 
             return Ok(new MVCountResult(cnt));
         }
@@ -55,6 +56,20 @@ namespace Its.Jenuiue.Api.Controllers
 
             service.SetOrgId(id);
             var product = service.GetProductById(m);
+            var result = mapper.Map<MProduct, MVProduct>(product);
+
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("org/{id}/action/GetProductByGeneratedId/{objectId}")]
+        public IActionResult GetProductByGeneratedId(string id, string objectId)
+        {
+            MProduct m = new MProduct();
+            m.ProductId = objectId;
+
+            service.SetOrgId(id);
+            var product = service.GetProductByGeneratedId(m);
             var result = mapper.Map<MProduct, MVProduct>(product);
 
             return Ok(result);
@@ -97,10 +112,13 @@ namespace Its.Jenuiue.Api.Controllers
             product.Id = objectId;
 
             var updateObj = service.UpdateProduct(product);
+            if (updateObj.UpdatedCount <= 0)
+            {
+                return BadRequest("No record match for the update!!!");
+            }
 
             var result = mapper.Map<MProduct, MVProduct>(updateObj);
-
             return Ok(result);
-        }        
+        }
     }
 }

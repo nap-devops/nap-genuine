@@ -16,6 +16,7 @@ namespace Its.Jenuiue.Core.Models
         public DateTime CreatedDtm { get; set; }
 
         public List<Label> Labels { get; set; }
+        public long UpdatedCount { get; set; }
 
         public BaseModel()
         {

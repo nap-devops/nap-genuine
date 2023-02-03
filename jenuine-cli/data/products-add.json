@@ -1,0 +1,5 @@
+{
+  "productName": "aldamex-alvaprim-lot00001abcd",
+  "description": "Test add product from CLI, lot lot00001abcd",
+  "redirectUrl": "https://aldamex.com/register-product/result?status={0}&serial={1}&pin={2}"
+}

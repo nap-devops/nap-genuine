@@ -16,7 +16,7 @@ namespace Its.Jenuiue.Core.Actions.Products
         
         protected override FilterDefinition<T> GetFilter<T>(T model)
         {
-            var filter = FilterDefinition<T>.Empty;
+            var filter = UtilsProductAction.GetQueryFilter<T>(model);
             return filter;
         }
     }

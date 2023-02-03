@@ -5,7 +5,6 @@ using System.Net.Http.Headers;
 using Microsoft.Extensions.Configuration;
 using Its.Jenuiue.Core.Models.Organization;
 using Its.Jenuiue.Core.Utils;
-using Its.Jenuiue.Worker.Utils;
 
 namespace Its.Jenuiue.Worker.Executors
 {
@@ -82,7 +81,7 @@ namespace Its.Jenuiue.Worker.Executors
 
             MAsset asset = new MAsset()
             {
-                ProductId = dummyProductId, //jobParam.ProductId,
+                ProductId = jobParam.ProductId,
                 IsRegistered = false,
                 AssetName = "",
                 AssetId = "DUMMY",
@@ -93,7 +92,7 @@ namespace Its.Jenuiue.Worker.Executors
             {
                 asset.PinNo = RandomUtil.RandomNumber(1, 9999999).ToString("0000000");
                 asset.SerialNo = RandomUtil.RandomString(7, false);
-                asset.AssetName = "Dummy asset name";
+                asset.AssetName = $"Asset created by worker - Product ID [{asset.ProductId}]";
 
                 var json = JsonSerializer.Serialize(asset);
                 var ctn = new StringContent(json, Encoding.Default, "application/json");
@@ -101,6 +100,7 @@ namespace Its.Jenuiue.Worker.Executors
                 var requestMessage = GetRequestMessage(org);
                 requestMessage.Content = ctn;
 
+                //TODO - Change this to use Command class instead.
                 //make the request
                 var task = client.SendAsync(requestMessage);
                 var response = task.Result;

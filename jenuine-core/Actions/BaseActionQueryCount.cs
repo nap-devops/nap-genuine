@@ -39,7 +39,7 @@ namespace Its.Jenuiue.Core.Actions
                 collection = db.GetCollection<T>(collName);
             }
 
-            var filter = GetFilter<T>(param);
+            var filter = GetFilter<T>(param);        
             var results = collection.Find(filter);
 
             return results.CountDocuments();

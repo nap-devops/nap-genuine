@@ -56,7 +56,8 @@ namespace Its.Jenuiue.Core.Actions
                 updateDef = updateDef.Set(field, value);
             }
 
-            collection.UpdateOne(filter, updateDef);
+            var result = collection.UpdateOne(filter, updateDef);
+            (param as BaseModel).UpdatedCount = result.ModifiedCount;
 
             return param;
         }

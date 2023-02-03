@@ -19,8 +19,10 @@ namespace Its.Jenuiue.Core.Actions.Assets
         {
             var fields = new List<string>() 
             {
-                "AssetId",
-                "IsRegistered"
+                "Description",
+                "AssetName",
+                "JobId",
+                "ProductId"
             };
 
             return fields;

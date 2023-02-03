@@ -19,9 +19,9 @@ namespace Its.Jenuiue.Core.Actions.Products
         {
             var fields = new List<string>() 
             {
-                "ProductId",
                 "ProductName",
-                "Description"
+                "Description",
+                "RedirectUrl",
             };
 
             return fields;

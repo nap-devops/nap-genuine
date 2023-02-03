@@ -1,0 +1,14 @@
+{
+    "ProductId":"",
+    "JobId":"",
+    "PinNo":"091879008",
+    "SerialNo":"",
+    "LastActionStatus":"",
+    "isRegistered": "",
+    "Id":"",
+
+    "QueryParam":{
+        "Offset":0,
+        "Limit":100
+    }
+}

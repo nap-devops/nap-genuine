@@ -1,5 +1,8 @@
 using MongoDB.Driver;
 using Its.Jenuiue.Core.Database;
+using Its.Jenuiue.Core.Models.Organization;
+using System.Collections.Generic;
+using System;
 
 namespace Its.Jenuiue.Core.Actions.Products
 {
@@ -17,7 +20,7 @@ namespace Its.Jenuiue.Core.Actions.Products
         
         protected override FilterDefinition<T> GetFilter<T>(T model)
         {
-            var filter = FilterDefinition<T>.Empty;
+            var filter = UtilsProductAction.GetQueryFilter<T>(model);
             return filter;
         }
     }

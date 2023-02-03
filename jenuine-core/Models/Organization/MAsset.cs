@@ -7,6 +7,7 @@ namespace Its.Jenuiue.Core.Models.Organization
         public string JobId { get; set; }
         public string PinNo { get; set; }
         public string SerialNo { get; set; }
+        public string Description { get; set; }
         
         public string AssetName { get; set; }
         public bool IsRegistered { get; set; }

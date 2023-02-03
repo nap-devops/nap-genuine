@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using Its.Jenuiue.Api.ModelsViews;
-using Its.Jenuiue.Api.ModelsViews.Organization;
+using Its.Jenuiue.Core.ModelsViews;
+using Its.Jenuiue.Core.ModelsViews.Organization;
 using Its.Jenuiue.Core.Models;
 using Its.Jenuiue.Core.Models.Organization;
 using Its.Jenuiue.Core.Services.Assets;
@@ -40,23 +40,13 @@ namespace Its.Jenuiue.Api.Controllers
             return result;
         }
 
-        [HttpGet]
-        [Route("org/{id}/action/GetAssetsNoFilter")]
-        public IEnumerable<MVAsset> GetAssets(string id)
-        {
-            service.SetOrgId(id);
-            var assets = service.GetAssets(null, new QueryParam());
-
-            var result = mapper.Map<IEnumerable<MAsset>, IEnumerable<MVAsset>>(assets);
-            return result;
-        }
-
-        [HttpGet]
+        [HttpPost]
         [Route("org/{id}/action/GetAssetsCount")]
-        public IActionResult GetAssetsCount(string id)
+        public IActionResult GetAssetsCount(string id, [FromBody] MVAssetQuery data)
         {
             service.SetOrgId(id);
-            long cnt = service.GetAssetsCount();
+            var asset = mapper.Map<MVAssetQuery, MAsset>(data);
+            long cnt = service.GetAssetsCount(asset);
 
             return Ok(new MVCountResult(cnt));
         }
@@ -118,7 +108,6 @@ namespace Its.Jenuiue.Api.Controllers
             asset.Id = objectId;
 
             var updateObj = service.UpdateAsset(asset);
-
             var result = mapper.Map<MAsset, MVAsset>(updateObj);
 
             return Ok(result);

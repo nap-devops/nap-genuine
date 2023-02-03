@@ -3,6 +3,7 @@ using Its.Jenuiue.Core.Database;
 using Its.Jenuiue.Core.Models;
 using Its.Jenuiue.Core.Actions.Products;
 using Its.Jenuiue.Core.Models.Organization;
+using System;
 
 namespace Its.Jenuiue.Core.Services.Products
 {
@@ -37,19 +38,34 @@ namespace Its.Jenuiue.Core.Services.Products
             return product;            
         }
 
-        public long GetProductsCount()
+        public MProduct GetProductByGeneratedId(MProduct param)
         {
-            var m = new MProduct();
+            var act = new GetProductByGeneratedIdAction(database, orgId);            
+            var product = act.Apply<MProduct>(param);
 
+            return product;
+        }
+
+        public long GetProductsCount(MProduct param)
+        {
             var act = new GetProductCountAction(database, orgId);
-            var cnt = act.Apply<MProduct>(m);
+            var cnt = act.Apply<MProduct>(param);
 
             return cnt;
         }
 
         public MProduct AddProduct(MProduct param)
         {
+            string regId = param.ProductId;
+            if (string.IsNullOrEmpty(regId))
+            {
+                //Create if if not provided by caller
+                Guid guid = Guid.NewGuid();
+                regId = guid.ToString();
+            }
+            
             var act = new AddProductAction(database, orgId);
+            param.ProductId = regId;
             var result = act.Apply<MProduct>(param);
 
             return result;

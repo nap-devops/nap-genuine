@@ -10,7 +10,7 @@ namespace Its.Jenuiue.Core.Services.Assets
         public MAsset AddAsset(MAsset param);
         public List<MAsset> GetAssets(MAsset param, QueryParam queryParam);
         public MAsset GetAssetById(MAsset param);
-        public long GetAssetsCount();
+        public long GetAssetsCount(MAsset param);
         public MAsset UpdateAsset(MAsset param);
         public MAsset UpdateAssetRegisterFlag(MAsset param);
         public MAsset DeleteAsset(MAsset param);

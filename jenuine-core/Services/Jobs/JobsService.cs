@@ -38,12 +38,10 @@ namespace Its.Jenuiue.Core.Services.Jobs
             return Job;
         }
 
-        public long GetJobsCount()
+        public long GetJobsCount(MJob param)
         {
-            var m = new MJob();
-
             var act = new GetJobCountAction(database, orgId);
-            var cnt = act.Apply<MJob>(m);
+            var cnt = act.Apply<MJob>(param);
 
             return cnt;
         }
@@ -61,6 +59,22 @@ namespace Its.Jenuiue.Core.Services.Jobs
             param.Organization = orgId;
 
             var result = act.Apply<MJob>(param);
+
+            return result;
+        }
+
+        public MJob UpdateJobProgressById(MJob job)
+        {
+            var act = new UpdateJobProgressByIdAction(database, orgId);
+            var result = act.Apply<MJob>(job);
+
+            return result;
+        }
+
+        public MJob UpdateJobStatusById(MJob job)
+        {
+            var act = new UpdateJobStatusByIdAction(database, orgId);
+            var result = act.Apply<MJob>(job);
 
             return result;
         }

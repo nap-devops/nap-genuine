@@ -5,23 +5,50 @@ using Its.Jenuiue.Core.Database;
 using Its.Jenuiue.Core.Models.Organization;
 using Its.Jenuiue.Core.Actions.Registration;
 using Its.Jenuiue.Core.Actions.Products;
+using Its.Jenuiue.Core.Actions.Configs;
 using Its.Jenuiue.Core.Utils;
+using Its.Jenuiue.Core.Models;
 
 namespace Its.Jenuiue.Core.Actions.Assets
 {
     public class RegisterAssetAction : IActionManipulate
     {
-        private readonly string defaultUrl = "https://aldamex.com/product-registration/?status={0}&serial={1}&pin={2}&statusCode={3}";
+        private readonly string defaultUrl = "https://yourdomain.com/config-error";
         private IDatabase dbConn;
         private IMongoDatabase db;
         private string org;
-        private string key = null; //This should get from DB instead
+        private string deFaultKey = null; //This should get from DB instead
+        private MConfig cfg = null;
 
         public RegisterAssetAction(IDatabase conn, string orgId)
         {
             dbConn = conn;
             db = conn.GetOrganizeDb(orgId);
             org = orgId;
+
+            cfg = GetConfiguration();
+        }
+
+        private MConfig GetConfiguration()
+        {
+            var qp = new QueryParam()
+            {
+                Limit = 1,
+                Offset = 0
+            };
+
+            var c = new MConfig();
+            
+            var cfgAct = new GetConfigsAction(dbConn, org);
+            var configs = cfgAct.Apply<MConfig>(c, qp);
+            if (configs.Count <= 0)
+            {
+                Log.Error($"Unable to find [Configuration] object for organization [{org}]");
+                return null;
+            }
+
+            c = configs[0];
+            return c;
         }
 
         private string GetCollectionName()
@@ -49,10 +76,10 @@ namespace Its.Jenuiue.Core.Actions.Assets
             }
 
             String formattedUrl = String.Format(templateUrl, 
-                EncryptUtil.EncryptString(status, key),
-                EncryptUtil.EncryptString(serial, key), 
-                EncryptUtil.EncryptString(pin, key),
-                EncryptUtil.EncryptString(statusCode, key));
+                EncryptUtil.EncryptString(status, cfg.RedirectKey),
+                EncryptUtil.EncryptString(serial, cfg.RedirectKey), 
+                EncryptUtil.EncryptString(pin, cfg.RedirectKey),
+                EncryptUtil.EncryptString(statusCode, cfg.RedirectKey));
 
             return formattedUrl;
         }
@@ -70,27 +97,34 @@ namespace Its.Jenuiue.Core.Actions.Assets
             if (String.IsNullOrEmpty(asset.ProductId))
             {
                 Log.Error($"Unable to find [ProductId] value for asset serial=[{serial}] pin=[{pin}]");
-                return FormatUrl(defaultUrl, status, serial, pin, "ERROR");
+                return FormatUrl(cfg.RedirectUrlTemplate, status, serial, pin, "ERROR");
             }
 
+            //Product Level
             var p = new MProduct()
             {
-                Id = asset.ProductId
+                ProductId = asset.ProductId
             };
-            var act = new GetProductByIdAction(dbConn, org);
+            var act = new GetProductByGeneratedIdAction(dbConn, org);
             var assetProduct = act.Apply<MProduct>(p);
             if (assetProduct == null)
             {
-                Log.Error($"Unable to find [Production] object for asset serial=[{serial}] pin=[{pin}]");
-                return FormatUrl(defaultUrl, status, serial, pin, "ERROR");
+                Log.Error($"Unable to find [Product] object for asset serial=[{serial}] pin=[{pin}]");
+                return FormatUrl(cfg.RedirectUrlTemplate, status, serial, pin, "ERROR");
             }
 
-            return FormatUrl(assetProduct.RedirectUrl, status, serial, pin, statusCode);;
+            var urlTemplate = p.RedirectUrl;
+            if (!cfg.RedirectUrlTemplateProductLevel)
+            {
+                urlTemplate = cfg.RedirectUrlTemplate;
+            }
+
+            return FormatUrl(urlTemplate, status, serial, pin, statusCode);;
         }
 
         public void SetSymetricKey(string keyStr)
         {
-            key = keyStr;
+            deFaultKey = keyStr;
         }
 
         public T Apply<T>(T param)
@@ -105,11 +139,20 @@ namespace Its.Jenuiue.Core.Actions.Assets
             var filter = GetFilter<T>(param);
             var results = collection.Find(filter).ToList();
 
+            if (cfg == null)
+            {
+                status = "Configuration for the organization not found!!!";
+                (param as MAsset).LastActionStatus = status;
+
+                Log.Error($"Status=[{status}] serial=[{serial}] pin=[{pin}]");
+                return param;
+            }
+
             if (results.Count <= 0)
             {
                 status = "Serial and pin not found!!!";
                 (param as MAsset).LastActionStatus = status;
-                (param as MAsset).RedirectUrl = FormatUrl(defaultUrl, status, serial, pin, "ERROR");
+                (param as MAsset).RedirectUrl = FormatUrl(cfg.RedirectUrlTemplate, status, serial, pin, "ERROR");
 
                 Log.Error($"Status=[{status}] serial=[{serial}] pin=[{pin}]");
                 return param;
@@ -119,7 +162,7 @@ namespace Its.Jenuiue.Core.Actions.Assets
             {
                 status = "Found serial and pin more than one instance!!!";
                 (param as MAsset).LastActionStatus = status;
-                (param as MAsset).RedirectUrl = FormatUrl(defaultUrl, status, serial, pin, "ERROR");
+                (param as MAsset).RedirectUrl = FormatUrl(cfg.RedirectUrlTemplate, status, serial, pin, "ERROR");
 
                 Log.Error($"Status=[{status}] serial=[{serial}] pin=[{pin}]");
                 return param;

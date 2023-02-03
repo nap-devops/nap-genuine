@@ -1,0 +1,38 @@
+ARG version
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+
+WORKDIR /install
+
+RUN apt-get -y update
+RUN apt-get -y install curl
+RUN apt-get -y install unzip
+
+WORKDIR /source
+
+# copy csproj and restore as distinct layers
+COPY jenuine-cli/* ./jenuine-cli/
+COPY jenuine-core/* ./jenuine-core/
+COPY jenuine-api/* ./jenuine-api/
+COPY nap-genuine.sln .
+
+RUN dotnet restore jenuine-cli/jenuine-cli.csproj
+RUN dotnet publish jenuine-cli/jenuine-cli.csproj -c release -o /app --no-restore -p:PackageVersion=${version}
+
+##### final stage/image
+FROM mcr.microsoft.com/dotnet/aspnet:6.0
+
+RUN apt-get -y update
+RUN apt-get -y install curl
+
+WORKDIR /app
+COPY --from=build /app .
+COPY run-cli.bash /app
+COPY jenuine-cli/Properties/* /app/Properties/
+
+RUN ls -lrt
+
+EXPOSE 8080
+
+ENTRYPOINT ["./run-cli.bash"]
+
+# test demo

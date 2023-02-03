@@ -3,8 +3,8 @@ using System.Text;
 using System.Text.Json;
 using System.Net.Http.Headers;
 using Microsoft.Extensions.Configuration;
-using Its.Jenuiue.Worker.Utils;
-using Its.Jenuiue.Api.ModelsViews.Organization;
+using Its.Jenuiue.Core.Utils;
+using Its.Jenuiue.Core.ModelsViews.Organization;
 using Google.Cloud.Storage.V1;
 
 namespace Its.Jenuiue.Worker.Executors

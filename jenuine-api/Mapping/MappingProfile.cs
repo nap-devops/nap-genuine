@@ -1,6 +1,6 @@
 using AutoMapper;
 using Its.Jenuiue.Core.Models.Organization;
-using Its.Jenuiue.Api.ModelsViews.Organization;
+using Its.Jenuiue.Core.ModelsViews.Organization;
 
 namespace Its.Jenuiue.Api.Mapping
 {
@@ -10,6 +10,8 @@ namespace Its.Jenuiue.Api.Mapping
         {
             CreateMap<MProduct, MVProduct>();
             CreateMap<MVProduct, MProduct>();
+            CreateMap<MProduct,MVProductQuery>();
+            CreateMap<MVProductQuery,MProduct>();
 
             CreateMap<MAsset,MVAsset>();            
             CreateMap<MVAsset,MAsset>();
@@ -18,7 +20,14 @@ namespace Its.Jenuiue.Api.Mapping
             CreateMap<MVAssetQuery,MAsset>();
 
             CreateMap<MJob,MVJob>();
-            CreateMap<MVJob,MJob>();            
+            CreateMap<MVJob,MJob>();
+            CreateMap<MJob,MVJobQuery>();
+            CreateMap<MVJobQuery,MJob>();
+
+            CreateMap<MConfig,MVConfig>();
+            CreateMap<MVConfig,MConfig>();
+            CreateMap<MConfig,MVConfigQuery>();
+            CreateMap<MVConfigQuery,MConfig>();
         }
     }
 }

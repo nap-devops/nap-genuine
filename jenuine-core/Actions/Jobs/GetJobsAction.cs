@@ -17,7 +17,7 @@ namespace Its.Jenuiue.Core.Actions.Jobs
 
         protected override FilterDefinition<T> GetFilter<T>(T model)
         {
-            var filter = FilterDefinition<T>.Empty;
+            var filter = UtilsJobAction.GetQueryFilter<T>(model);
             return filter;
         }
     }

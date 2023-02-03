@@ -53,7 +53,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        service: [ jenuine-api, jenuine-worker ]
+        service: [ jenuine-api, jenuine-worker, jenuine-cli ]
     outputs:
       imageTag: ${{ steps.prep.outputs.version }}
       autoDeployEnv: ${{ steps.prep.outputs.deployEnv }}
