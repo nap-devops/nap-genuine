@@ -8,6 +8,7 @@ namespace Its.Jenuiue.Cli.Actions
         public Type DataClassType { get; set; }
         public bool NeedBody { get; set; }
         public bool NeedId { get; set; }
+        public bool NeedGeneratedId { get; set; }
         public bool NeedPinSerial { get; set; }
 
         public ActionCfg()
@@ -17,6 +18,7 @@ namespace Its.Jenuiue.Cli.Actions
             NeedBody = false;
             NeedId = false;
             NeedPinSerial = false;
+            NeedGeneratedId = false;
         }
     }
 }

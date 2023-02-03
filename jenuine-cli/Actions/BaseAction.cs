@@ -89,7 +89,7 @@ namespace Its.Jenuiue.Cli.Actions
                 {
                     VerifyIdField(options);
                     param.Id = options.Id;
-                }
+                }        
 
                 if (cfg.NeedPinSerial)
                 {

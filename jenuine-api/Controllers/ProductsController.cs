@@ -61,6 +61,20 @@ namespace Its.Jenuiue.Api.Controllers
             return Ok(result);
         }
 
+        [HttpGet]
+        [Route("org/{id}/action/GetProductByGeneratedId/{objectId}")]
+        public IActionResult GetProductByGeneratedId(string id, string objectId)
+        {
+            MProduct m = new MProduct();
+            m.ProductId = objectId;
+
+            service.SetOrgId(id);
+            var product = service.GetProductByGeneratedId(m);
+            var result = mapper.Map<MProduct, MVProduct>(product);
+
+            return Ok(result);
+        }
+
         [HttpPost]
         [Route("org/{id}/action/AddProduct")]
         public IActionResult AddProduct(string id, [FromBody] MVProduct data)

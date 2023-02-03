@@ -103,9 +103,9 @@ namespace Its.Jenuiue.Core.Actions.Assets
             //Product Level
             var p = new MProduct()
             {
-                Id = asset.ProductId
+                ProductId = asset.ProductId
             };
-            var act = new GetProductByIdAction(dbConn, org);
+            var act = new GetProductByGeneratedIdAction(dbConn, org);
             var assetProduct = act.Apply<MProduct>(p);
             if (assetProduct == null)
             {

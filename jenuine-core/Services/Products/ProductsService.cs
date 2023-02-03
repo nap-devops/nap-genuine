@@ -38,6 +38,14 @@ namespace Its.Jenuiue.Core.Services.Products
             return product;            
         }
 
+        public MProduct GetProductByGeneratedId(MProduct param)
+        {
+            var act = new GetProductByGeneratedIdAction(database, orgId);            
+            var product = act.Apply<MProduct>(param);
+
+            return product;
+        }
+
         public long GetProductsCount(MProduct param)
         {
             var act = new GetProductCountAction(database, orgId);
@@ -48,8 +56,13 @@ namespace Its.Jenuiue.Core.Services.Products
 
         public MProduct AddProduct(MProduct param)
         {
-            Guid guid = Guid.NewGuid();
-            string regId = guid.ToString();
+            string regId = param.ProductId;
+            if (string.IsNullOrEmpty(regId))
+            {
+                //Create if if not provided by caller
+                Guid guid = Guid.NewGuid();
+                regId = guid.ToString();
+            }
             
             var act = new AddProductAction(database, orgId);
             param.ProductId = regId;

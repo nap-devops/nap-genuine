@@ -38,11 +38,17 @@ namespace Its.Jenuiue.Cli.Actions
                 NeedBody = true
             };
 
+            map["GetProductByGeneratedId"] = new ActionCfg()
+            {
+                ActionClassType = typeof(CommandGetProductByGeneratedId),
+                NeedId = true
+            };
+
             map["GetProductById"] = new ActionCfg()
             {
                 ActionClassType = typeof(CommandGetProductById),
                 NeedId = true
-            };
+            };            
 
             map["GetProductsCount"] = new ActionCfg()
             {
