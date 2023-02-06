@@ -24,6 +24,11 @@ namespace Its.Jenuiue.Api.Mapping
             CreateMap<MJob,MVJobQuery>();
             CreateMap<MVJobQuery,MJob>();
 
+            CreateMap<MCustomer,MVCustomer>();
+            CreateMap<MVCustomer,MCustomer>();
+            CreateMap<MCustomer,MVCustomerQuery>();
+            CreateMap<MVCustomerQuery,MCustomer>();
+
             CreateMap<MConfig,MVConfig>();
             CreateMap<MVConfig,MConfig>();
             CreateMap<MConfig,MVConfigQuery>();

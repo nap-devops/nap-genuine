@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ORG=napbiotec
+ORG=aldamex
 DATA_DIR=data-import/${ORG}
 PRODUCT_ID=DEMO-00001-LOT-00001
 

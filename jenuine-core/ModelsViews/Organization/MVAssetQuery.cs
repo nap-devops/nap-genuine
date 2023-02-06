@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace Its.Jenuiue.Core.ModelsViews.Organization
 {
     public class MVAssetQuery : BaseModelView
