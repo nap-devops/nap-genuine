@@ -13,7 +13,7 @@ namespace Its.Jenuiue.Cli.Actions
             map["GetCustomers"] = new ActionCfg()
             {
                 ActionClassType = typeof(CommandGetCustomers),
-                DataClassType = typeof(MVProductQuery),
+                DataClassType = typeof(MVCustomerQuery),
                 NeedBody = true
             };
 

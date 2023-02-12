@@ -9,6 +9,7 @@ namespace Its.Jenuiue.Cli.Actions
         Asset,
         Product,
         Config,
+        Customer
     }
 
     public static class UtilsAction
@@ -17,6 +18,7 @@ namespace Its.Jenuiue.Cli.Actions
         private static IAction assetAction = new ActionAsset();
         private static IAction productAction = new ActionProduct();
         private static IAction configAction = new ActionConfig();
+        private static IAction customerAction = new ActionCustomer();
 
         public static IConfiguration? configuration;
 
@@ -48,6 +50,10 @@ namespace Its.Jenuiue.Cli.Actions
             {
                 configAction = action;
             }
+            else if (type == ActionType.Customer)
+            {
+                customerAction = action;
+            }            
         }
 
         public static void RunJobAction(BaseOptions o)
@@ -68,6 +74,11 @@ namespace Its.Jenuiue.Cli.Actions
         public static void RunConfigAction(BaseOptions o)
         {
             configAction.Run(o);
-        }        
+        }
+
+        public static void RunCustomerAction(BaseOptions o)
+        {
+            customerAction.Run(o);
+        }
     }
 }

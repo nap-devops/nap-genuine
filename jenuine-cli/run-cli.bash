@@ -1,9 +1,17 @@
 #!/bin/bash
 
+#./run-cli.bash customer --action=GetCustomers --data=data/customers-query.json
+#./run-cli.bash customer --action=GetProductsCount --data=data/products-query.json
+#./run-cli.bash customer --action=AddProduct --data=data/products-add.json
+#./run-cli.bash customer --action=DeleteProductById --id=63d0aa043b537043c3080073
+#./run-cli.bash customer --action=GetProductByGeneratedId --id=abcxyz-hygkd-13500
+#./run-cli.bash customer --action=UpdateProductById --id=638b1fad415438d07a5b9d51 --data=data/products-update.json
+#./run-cli.bash customer --action=GetProductById --id=638b1fad415438d07a5b9d51
+
+
 #./run-cli.bash config --action=GetConfigs --data=data/configs-query.json
 #./run-cli.bash config --action=AddConfig --data=data/configs-add.json
 #./run-cli.bash config --action=UpdateConfigById --id=63d9a46f393d3afc4d707697 --data=data/configs-update.json
-
 
 #./run-cli.bash asset --action=GetAssets --data=data/assets-query.json
 #./run-cli.bash asset --action=GetAssetsCount --data=data/assets-query.json
@@ -32,8 +40,9 @@
 #./run-cli.bash product --action=UpdateProductById --id=638b1fad415438d07a5b9d51 --data=data/products-update.json
 #./run-cli.bash product --action=GetProductById --id=638b1fad415438d07a5b9d51
 
-. ./export-prod.bash
+. ./export-dev.bash
 
+export backend__organization=napbiotec
 export backend__user=${USER}
 export backend__password=${PASSWORD}
 export backend__url=${URL}
