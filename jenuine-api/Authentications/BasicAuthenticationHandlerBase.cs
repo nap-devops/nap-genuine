@@ -1,4 +1,5 @@
 using System;
+using Serilog;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
@@ -9,21 +10,31 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Its.Jenuiue.Api.Authentications.Utils;
+using Microsoft.Extensions.Configuration;
 
 namespace Its.Jenuiue.Api.Authentications
 {
-    public class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
+    public abstract class BasicAuthenticationHandlerBase : AuthenticationHandler<AuthenticationSchemeOptions>
     {
-        private readonly IBasicAuthenticationRepo authenRepo = null;
+        protected abstract User Authenticate(string username, string password);
+        private static IConfiguration cfg = null;
 
-        public BasicAuthenticationHandler(
+        public BasicAuthenticationHandlerBase(
             IOptionsMonitor<AuthenticationSchemeOptions> options, 
             ILoggerFactory logger,
             UrlEncoder encoder,
-            IBasicAuthenticationRepo authRepo,
             ISystemClock clock) : base(options, logger, encoder, clock)
         {
-            authenRepo = authRepo;            
+        }
+
+        public static void SetConfiguration(IConfiguration config)
+        {
+            cfg = config;
+        }
+
+        public IConfiguration GetConfiguration()
+        {
+            return(cfg);
         }
 
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
@@ -50,10 +61,11 @@ namespace Its.Jenuiue.Api.Authentications
                 var username = credentials[0];
                 var password = credentials[1];
 
-                user = authenRepo.Authenticate(username, password);
+                user = await Task.Run(() => Authenticate(username, password));
             }
-            catch
+            catch (Exception e)
             {
+                Log.Error($"[BasicAuthenticationHandlerBase] --> [{e.Message}]");
                 return AuthenticateResult.Fail("Invalid Authorization Header");
             }
 
