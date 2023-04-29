@@ -47,8 +47,12 @@ namespace Its.Jenuiue.Api
             services.AddScoped<ICustomersService>(sp => new CustomersService(db));
             services.AddSingleton<IBasicAuthenticationRepo, BasicAuthenticationRepo>();
 
-            services.AddAuthentication("BasicAuthentication")
-                .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandlerFile>("BasicAuthentication", null);            
+            BasicAuthenticationHandlerKeycloak.SetConfiguration(Configuration);
+
+            services.AddAuthentication("BasicAuthenticationKeycloak")
+                .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandlerKeycloak>("BasicAuthenticationKeycloak", null);
+            //services.AddAuthentication("BasicAuthenticationFile")
+            //    .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandlerFile>("BasicAuthenticationFile", null);
 
             services.AddAutoMapper(typeof(Startup));
 

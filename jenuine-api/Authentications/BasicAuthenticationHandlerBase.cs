@@ -1,4 +1,5 @@
 using System;
+using Serilog;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
@@ -9,12 +10,14 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Its.Jenuiue.Api.Authentications.Utils;
+using Microsoft.Extensions.Configuration;
 
 namespace Its.Jenuiue.Api.Authentications
 {
     public abstract class BasicAuthenticationHandlerBase : AuthenticationHandler<AuthenticationSchemeOptions>
     {
         protected abstract User Authenticate(string username, string password);
+        private static IConfiguration cfg = null;
 
         public BasicAuthenticationHandlerBase(
             IOptionsMonitor<AuthenticationSchemeOptions> options, 
@@ -22,6 +25,16 @@ namespace Its.Jenuiue.Api.Authentications
             UrlEncoder encoder,
             ISystemClock clock) : base(options, logger, encoder, clock)
         {
+        }
+
+        public static void SetConfiguration(IConfiguration config)
+        {
+            cfg = config;
+        }
+
+        public IConfiguration GetConfiguration()
+        {
+            return(cfg);
         }
 
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
@@ -50,8 +63,9 @@ namespace Its.Jenuiue.Api.Authentications
 
                 user = await Task.Run(() => Authenticate(username, password));
             }
-            catch
+            catch (Exception e)
             {
+                Log.Error($"[BasicAuthenticationHandlerBase] --> [{e.Message}]");
                 return AuthenticateResult.Fail("Invalid Authorization Header");
             }
 

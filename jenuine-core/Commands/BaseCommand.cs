@@ -12,7 +12,13 @@ namespace Its.Jenuiue.Core.Commands
 
         private HttpClient GetHttpClient(CommandParam param)
         {
-            var client = new HttpClient();
+            // TODO : Dynamically config this
+            var handler = new HttpClientHandler() 
+            { 
+                ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+            };
+
+            var client = new HttpClient(handler);
             Uri baseUri = new Uri(param.Host);
             client.BaseAddress = baseUri;
             client.Timeout = TimeSpan.FromMinutes(0.05);
