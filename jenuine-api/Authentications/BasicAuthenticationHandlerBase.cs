@@ -48,7 +48,7 @@ namespace Its.Jenuiue.Api.Authentications
                 var username = credentials[0];
                 var password = credentials[1];
 
-                user = Authenticate(username, password);
+                user = await Task.Run(() => Authenticate(username, password));
             }
             catch
             {
