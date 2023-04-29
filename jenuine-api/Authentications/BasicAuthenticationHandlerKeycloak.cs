@@ -44,6 +44,7 @@ namespace Its.Jenuiue.Api.Authentications
 
             //TODO : Cache the token
             //TODO : Validate JWT signature
+            //TODO : Only allow basic authen for Service Account role
 
             var data = new[]
             {
