@@ -48,7 +48,7 @@ namespace Its.Jenuiue.Api
             services.AddSingleton<IBasicAuthenticationRepo, BasicAuthenticationRepo>();
 
             services.AddAuthentication("BasicAuthentication")
-                .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);            
+                .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandlerFile>("BasicAuthentication", null);            
 
             services.AddAutoMapper(typeof(Startup));
 

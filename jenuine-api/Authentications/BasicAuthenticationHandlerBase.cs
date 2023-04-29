@@ -12,18 +12,16 @@ using Its.Jenuiue.Api.Authentications.Utils;
 
 namespace Its.Jenuiue.Api.Authentications
 {
-    public class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
+    public abstract class BasicAuthenticationHandlerBase : AuthenticationHandler<AuthenticationSchemeOptions>
     {
-        private readonly IBasicAuthenticationRepo authenRepo = null;
+        protected abstract User Authenticate(string username, string password);
 
-        public BasicAuthenticationHandler(
+        public BasicAuthenticationHandlerBase(
             IOptionsMonitor<AuthenticationSchemeOptions> options, 
             ILoggerFactory logger,
             UrlEncoder encoder,
-            IBasicAuthenticationRepo authRepo,
             ISystemClock clock) : base(options, logger, encoder, clock)
         {
-            authenRepo = authRepo;            
         }
 
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
@@ -50,7 +48,7 @@ namespace Its.Jenuiue.Api.Authentications
                 var username = credentials[0];
                 var password = credentials[1];
 
-                user = authenRepo.Authenticate(username, password);
+                user = Authenticate(username, password);
             }
             catch
             {

@@ -40,9 +40,9 @@
 #./run-cli.bash product --action=UpdateProductById --id=638b1fad415438d07a5b9d51 --data=data/products-update.json
 #./run-cli.bash product --action=GetProductById --id=638b1fad415438d07a5b9d51
 
-. ./export-dev.bash
+. ./export-prod.bash
 
-export backend__organization=napbiotec
+export backend__organization=aldamex
 export backend__user=${USER}
 export backend__password=${PASSWORD}
 export backend__url=${URL}

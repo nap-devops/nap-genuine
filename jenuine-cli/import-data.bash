@@ -1,10 +1,10 @@
 #!/bin/bash
 
+PRODUCT1=ALDAMEX-CINNAFACT-E-10ML
+
 ORG=aldamex
 DATA_DIR=data-import/${ORG}
-PRODUCT_ID=DEMO-00001-LOT-00001
-
-./run-cli.bash config --action=AddConfig --data=${DATA_DIR}/configs-add.json
+PRODUCT_ID=${PRODUCT1}
 
 cp ${DATA_DIR}/product-add-template.json ${DATA_DIR}/product-add.json
 sed -i "s#__GENERATED_PRODUCT_ID__#${PRODUCT_ID}#g" ${DATA_DIR}/product-add.json
