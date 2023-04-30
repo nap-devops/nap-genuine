@@ -16,6 +16,10 @@ using Its.Jenuiue.Core.Services.Configs;
 using Its.Jenuiue.Core.Services.Customers;
 using Its.Jenuiue.Api.Authentications;
 using Its.Jenuiue.Api.Middlewares.AuditLog;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Its.Jenuiue.Api
 {
@@ -49,16 +53,32 @@ namespace Its.Jenuiue.Api
 
             BasicAuthenticationHandlerKeycloak.SetConfiguration(Configuration);
 
-            services.AddAuthentication("BasicAuthenticationKeycloak")
-                .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandlerKeycloak>("BasicAuthenticationKeycloak", null);
-            //services.AddAuthentication("BasicAuthenticationFile")
-            //    .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandlerFile>("BasicAuthenticationFile", null);
+            services.AddAuthentication("Basic")
+                .AddJwtBearer("BearerKeycloak", o => {
+                    byte[] data = Convert.FromBase64String(Configuration["BearerAuthen:Keycloak:jsonKey"]);
+                    string decodedString = Encoding.UTF8.GetString(data);
+
+                    o.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidIssuer = Configuration["BearerAuthen:Keycloak:issuer"],
+                        ValidAudience = Configuration["BearerAuthen:Keycloak:audience"],
+                        IssuerSigningKey = new JsonWebKey(decodedString),
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                    };
+                })
+                .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandlerKeycloak>("Basic", null);
+
+            services.AddAuthorization(options => {
+                var defaultAuthorizationPolicyBuilder = new AuthorizationPolicyBuilder("Basic", "BearerKeycloak");
+                defaultAuthorizationPolicyBuilder = defaultAuthorizationPolicyBuilder.RequireAuthenticatedUser();
+                options.DefaultPolicy = defaultAuthorizationPolicyBuilder.Build();
+            });
 
             services.AddAutoMapper(typeof(Startup));
-
-            services.AddControllers()
-                .AddJsonOptions(options => options.JsonSerializerOptions.WriteIndented = true);
-
+            services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.WriteIndented = true);
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "jenuine_api", Version = "v1" });

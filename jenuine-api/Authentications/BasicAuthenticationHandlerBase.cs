@@ -49,13 +49,22 @@ namespace Its.Jenuiue.Api.Authentications
 
             if (!Request.Headers.ContainsKey("Authorization"))
             {
-                return AuthenticateResult.Fail("Missing Authorization Header");
+                return AuthenticateResult.Fail("No Authorization header found");
+            }
+
+            var authHeader = AuthenticationHeaderValue.Parse(Request.Headers["Authorization"]);
+            if (authHeader.Scheme.Equals("Bearer"))
+            {
+                return AuthenticateResult.NoResult();
+            }
+            else if (!authHeader.Scheme.Equals("Basic"))
+            {
+                return AuthenticateResult.Fail($"Unknown scheme [{authHeader.Scheme}]");
             }
 
             User user = null;
             try
             {
-                var authHeader = AuthenticationHeaderValue.Parse(Request.Headers["Authorization"]);
                 var credentialBytes = Convert.FromBase64String(authHeader.Parameter);
                 var credentials = Encoding.UTF8.GetString(credentialBytes).Split(new[] { ':' }, 2);
                 var username = credentials[0];
@@ -71,7 +80,7 @@ namespace Its.Jenuiue.Api.Authentications
 
             if (user == null)
             {
-                return AuthenticateResult.Fail("Invalid Username or Password");
+                return AuthenticateResult.Fail("Invalid username or password");
             }
 
             var claims = new Claim[]

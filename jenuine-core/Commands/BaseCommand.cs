@@ -54,6 +54,8 @@ namespace Its.Jenuiue.Core.Commands
                 msg.Content = ctn;
             }
 
+            Console.WriteLine($"Endpoint -> [{msg.RequestUri}]");
+
             var task = client.SendAsync(msg);
             var response = task.Result;
 
