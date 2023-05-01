@@ -1,3 +1,5 @@
+using System;
+using System.Net;
 using Serilog;
 using System.Net.Http;
 using System.Text.Encodings.Web;
@@ -5,9 +7,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
-using System.Net;
 using System.Collections.Generic;
+using Its.Jenuiue.Api.Authentications.Utils;
 
 namespace Its.Jenuiue.Api.Authentications
 {
@@ -81,18 +82,14 @@ namespace Its.Jenuiue.Api.Authentications
 
             var result = response.Content.ReadAsStringAsync().Result;
             Log.Information($"[BasicAuthenticationHandlerKeycloak] Status Code => [{response.StatusCode}]");
-           
+
             var isOK = response.StatusCode.Equals(HttpStatusCode.OK);
  
             User user = null;
             if (isOK)
             {
                 user = new User();
-
-                user.UserName = username;
-                user.Password = password;
-                user.Role = "Fake";
-                //Console.WriteLine(result);
+                AuthenticationUtils.PopulateClaims("Basic", user, result);
             }
 
             return user;
