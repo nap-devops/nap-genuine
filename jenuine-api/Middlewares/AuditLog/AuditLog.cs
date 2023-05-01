@@ -1,10 +1,10 @@
 using System;
-using Serilog;
 using System.Collections.Generic;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.Collections;
 
 namespace Its.Jenuiue.Api.Middlewares.AuditLog
 {
@@ -14,9 +14,26 @@ namespace Its.Jenuiue.Api.Middlewares.AuditLog
         private readonly string pattern3 = @"^\/api\/(.+?)\/org\/(.+?)\/action\/(.+?)$";
         private readonly string pattern2 = @"^\/api\/(.+?)\/org\/(.+?)\/action\/(.+?)\/(.+?)$";
         private readonly string pattern1 = @"^\/api\/(.+?)\/org\/(.+?)\/action\/(.+?)\/(.+?)\/(.+?)$";
+        private ArrayList excludeFields = new ArrayList();
+
+        private void populateExcludeList()
+        {
+            //These 2 claims caused the JSON formatting issue
+            excludeFields.Add("realm_access");
+            excludeFields.Add("resource_access");
+            
+            excludeFields.Add("exp");
+            excludeFields.Add("iat");
+            excludeFields.Add("jti");
+            excludeFields.Add("iss");
+            excludeFields.Add("session_state");
+            excludeFields.Add("authnclassreference");
+            excludeFields.Add("sid");
+        }
 
         public Api(HttpContext httpContext)
         {
+            populateExcludeList();
             ctx = httpContext;
 
             path = ctx.Request.Path.ToString();
@@ -53,6 +70,11 @@ namespace Its.Jenuiue.Api.Middlewares.AuditLog
             foreach (Claim clm in ctx.User.Claims)
             {
                 var type = Path.GetFileName(clm.Type);
+                if (excludeFields.Contains(type))
+                {
+                    continue;
+                }
+
                 claims[type] = clm.Value;
             }
 
