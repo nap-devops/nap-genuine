@@ -29,7 +29,7 @@ namespace Its.Jenuiue.Core.Commands
         private HttpRequestMessage GetRequestMessage(CommandParam param)
         {
             //Basic Authentication
-            var authenticationString = $"{param.BasicAuthUser}:{param.BasicAuthPassword}";
+            var authenticationString = $"{param.BasicAuthUser} {param.BasicAuthPassword}";
             var base64EncodedAuthenticationString = Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(authenticationString));
 
             var requestMessage = GetHttpRequest(param);

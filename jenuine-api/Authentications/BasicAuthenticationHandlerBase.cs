@@ -66,7 +66,7 @@ namespace Its.Jenuiue.Api.Authentications
             try
             {
                 var credentialBytes = Convert.FromBase64String(authHeader.Parameter);
-                var credentials = Encoding.UTF8.GetString(credentialBytes).Split(new[] { ':' }, 2);
+                var credentials = Encoding.UTF8.GetString(credentialBytes).Split(new[] { ' ' }, 2);
                 var username = credentials[0];
                 var password = credentials[1];
 

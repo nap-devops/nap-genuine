@@ -57,6 +57,7 @@ namespace Its.Jenuiue.Api.Authentications
                 new KeyValuePair<string, string>("client_id", config["BasicAuthen:Keycloak:resource"]),
                 new KeyValuePair<string, string>("client_secret", config["BasicAuthen:Keycloak:credentials:secret"]),
             };
+Console.WriteLine($"[{username}][{password}]");
 
             var uri = config["BasicAuthen:Keycloak:auth-server-url"];
             var realm = config["BasicAuthen:Keycloak:realm"];
