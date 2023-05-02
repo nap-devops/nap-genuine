@@ -67,8 +67,11 @@ namespace Its.Jenuiue.Api.Middlewares.AuditLog
                 action = matches3[0].Groups[3].Value;
             }
 
+            int cnt = 0;
             foreach (Claim clm in ctx.User.Claims)
             {
+                cnt++;
+
                 var type = Path.GetFileName(clm.Type);
                 if (excludeFields.Contains(type))
                 {
@@ -76,6 +79,16 @@ namespace Its.Jenuiue.Api.Middlewares.AuditLog
                 }
 
                 claims[type] = clm.Value;
+            }
+
+            authenScheme = ctx.Request.Headers["AuthenScheme"];
+            if (authenScheme == null)
+            {
+                authenScheme = "Undefined";
+                if (cnt > 0)
+                {
+                    authenScheme = "Bearer";
+                }
             }
 
             method = ctx.Request.Method;
@@ -89,6 +102,7 @@ namespace Its.Jenuiue.Api.Middlewares.AuditLog
         public string resourceId { get; set; }
         public string data1 { get; set; }
         public string data2 { get; set; }
+        public string authenScheme { get; set; }
 
         public Dictionary<string, string> claims { get; set; }
     }
@@ -100,7 +114,6 @@ namespace Its.Jenuiue.Api.Middlewares.AuditLog
         public Connection(HttpContext httpContext)
         {
             ctx = httpContext;
-
             remoteIP = ctx.Connection.RemoteIpAddress.ToString();
             remotePort = ctx.Connection.RemotePort;
             localIP = ctx.Connection.LocalIpAddress.ToString();

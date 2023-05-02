@@ -87,6 +87,8 @@ namespace Its.Jenuiue.Api.Authentications
             var principal = new ClaimsPrincipal(identity);
             var ticket = new AuthenticationTicket(principal, Scheme.Name);
 
+            Context.Request.Headers.Add("AuthenScheme", "Basic");
+
             return AuthenticateResult.Success(ticket);
         }
     }

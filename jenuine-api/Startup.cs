@@ -1,4 +1,6 @@
+using System;
 using Serilog;
+using System.Text;
 using MongoDB.Driver;
 using Its.Jenuiue.Core.Database;
 using Microsoft.AspNetCore.Builder;
@@ -17,8 +19,6 @@ using Its.Jenuiue.Core.Services.Customers;
 using Its.Jenuiue.Api.Authentications;
 using Its.Jenuiue.Api.Middlewares.AuditLog;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using System;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Its.Jenuiue.Api

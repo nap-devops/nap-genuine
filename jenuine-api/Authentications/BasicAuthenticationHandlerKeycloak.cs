@@ -9,6 +9,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using Its.Jenuiue.Api.Authentications.Utils;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Its.Jenuiue.Api.Authentications
 {
@@ -44,7 +46,6 @@ namespace Its.Jenuiue.Api.Authentications
             var client = GetHttpClient();
 
             //TODO : Cache the token
-            //TODO : Validate JWT signature
             //TODO : Only allow basic authen for Service Account role
 
             var data = new[]
@@ -57,7 +58,6 @@ namespace Its.Jenuiue.Api.Authentications
                 new KeyValuePair<string, string>("client_id", config["BasicAuthen:Keycloak:resource"]),
                 new KeyValuePair<string, string>("client_secret", config["BasicAuthen:Keycloak:credentials:secret"]),
             };
-Console.WriteLine($"[{username}][{password}]");
 
             var uri = config["BasicAuthen:Keycloak:auth-server-url"];
             var realm = config["BasicAuthen:Keycloak:realm"];
@@ -83,14 +83,37 @@ Console.WriteLine($"[{username}][{password}]");
 
             var result = response.Content.ReadAsStringAsync().Result;
             Log.Information($"[BasicAuthenticationHandlerKeycloak] Status Code => [{response.StatusCode}]");
-
             var isOK = response.StatusCode.Equals(HttpStatusCode.OK);
  
             User user = null;
             if (isOK)
             {
-                user = new User();
-                AuthenticationUtils.PopulateClaims("Basic", user, result);
+                byte[] jsonKey = Convert.FromBase64String(config["BearerAuthen:Keycloak:jsonKey"]);
+                string decodedString = Encoding.UTF8.GetString(jsonKey);
+
+                var param = new TokenValidationParameters()
+                {
+                    ValidIssuer = config["BearerAuthen:Keycloak:issuer"],
+                    ValidAudience = config["BearerAuthen:Keycloak:audience"],
+                    IssuerSigningKey = new JsonWebKey(decodedString),
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                };
+
+                var errMsg = "";
+                var isTokenValid = AuthenticationUtils.ValidateJWT(result, param, out errMsg);
+
+                if (isTokenValid)
+                {
+                    user = new User();
+                    AuthenticationUtils.PopulateClaims("Basic", user, result);
+                }
+                else
+                {
+                    Log.Error($"[BasicAuthenticationHandlerKeycloak] Error [{errMsg}]");
+                }
             }
 
             return user;
