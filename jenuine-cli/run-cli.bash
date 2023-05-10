@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#./run-cli.bash coa_criteria --action=GetCoaCriteria --data=data/coa-criteria-query.json
+
 #./run-cli.bash customer --action=GetCustomers --data=data/customers-query.json
 #./run-cli.bash customer --action=GetProductsCount --data=data/products-query.json
 #./run-cli.bash customer --action=AddProduct --data=data/products-add.json
@@ -7,7 +9,6 @@
 #./run-cli.bash customer --action=GetProductByGeneratedId --id=abcxyz-hygkd-13500
 #./run-cli.bash customer --action=UpdateProductById --id=638b1fad415438d07a5b9d51 --data=data/products-update.json
 #./run-cli.bash customer --action=GetProductById --id=638b1fad415438d07a5b9d51
-
 
 #./run-cli.bash config --action=GetConfigs --data=data/configs-query.json
 #./run-cli.bash config --action=AddConfig --data=data/configs-add.json

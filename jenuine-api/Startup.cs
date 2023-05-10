@@ -16,6 +16,7 @@ using Its.Jenuiue.Core.Services.Assets;
 using Its.Jenuiue.Core.Services.Jobs;
 using Its.Jenuiue.Core.Services.Configs;
 using Its.Jenuiue.Core.Services.Customers;
+using Its.Jenuiue.Core.Services.CoaCriteria;
 using Its.Jenuiue.Api.Authentications;
 using Its.Jenuiue.Api.Middlewares.AuditLog;
 using Microsoft.IdentityModel.Tokens;
@@ -49,6 +50,7 @@ namespace Its.Jenuiue.Api
             services.AddScoped<IJobsService>(sp => new JobsService(db));
             services.AddScoped<IConfigsService>(sp => new ConfigsService(db));
             services.AddScoped<ICustomersService>(sp => new CustomersService(db));
+            services.AddScoped<ICoaCriteriaService>(sp => new CoaCriteriaService(db));
             services.AddSingleton<IBasicAuthenticationRepo, BasicAuthenticationRepo>();
 
             BasicAuthenticationHandlerKeycloak.SetConfiguration(Configuration);
