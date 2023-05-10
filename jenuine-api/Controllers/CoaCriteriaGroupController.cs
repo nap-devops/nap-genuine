@@ -14,14 +14,14 @@ namespace Its.Jenuiue.Api.Controllers
     [ApiController]
     [Route("/api/[controller]")]
     [Authorize]
-    public class CoaCriteriaController : ControllerBase
+    public class CoaCriteriaGroupController : ControllerBase
     {
-        private const int RefType = 1; //Criteria
+        private const int RefType = 2; //CriteriaGroup
         private readonly ICoaCriteriaService service;
         private readonly IMapper mapper;
         private readonly IConfiguration cfg;
 
-        public CoaCriteriaController(ICoaCriteriaService svc, IMapper mppr, IConfiguration configuration)
+        public CoaCriteriaGroupController(ICoaCriteriaService svc, IMapper mppr, IConfiguration configuration)
         {
             service = svc;
             mapper = mppr;
@@ -29,8 +29,8 @@ namespace Its.Jenuiue.Api.Controllers
         }
 
         [HttpPost]
-        [Route("org/{id}/action/GetCoaCriteria")]
-        public IEnumerable<MVCoaCriteria> GetCoaCriteria(string id, [FromBody] MVCoaCriteriaQuery data)
+        [Route("org/{id}/action/GetCoaCriteriaGroup")]
+        public IEnumerable<MVCoaCriteria> GetCoaCriteriaGroup(string id, [FromBody] MVCoaCriteriaQuery data)
         {
             service.SetOrgId(id);
             var model = mapper.Map<MVCoaCriteriaQuery, MCoaCriteria>(data);
@@ -42,8 +42,8 @@ namespace Its.Jenuiue.Api.Controllers
         }
 
         [HttpPost]
-        [Route("org/{id}/action/GetCoaCriteriaCount")]
-        public IActionResult GetCoaCriteriaCount(string id, [FromBody] MVCoaCriteriaQuery data)
+        [Route("org/{id}/action/GetCoaCriteriaGroupCount")]
+        public IActionResult GetCoaCriteriaGroupCount(string id, [FromBody] MVCoaCriteriaQuery data)
         {
             service.SetOrgId(id);
             var model = mapper.Map<MVCoaCriteriaQuery, MCoaCriteria>(data);
@@ -54,8 +54,8 @@ namespace Its.Jenuiue.Api.Controllers
         }
 
         [HttpGet]
-        [Route("org/{id}/action/GetCoaCriteriaById/{objectId}")]
-        public IActionResult GetCoaCriteriaById(string id, string objectId)
+        [Route("org/{id}/action/GetCoaCriteriaGroupById/{objectId}")]
+        public IActionResult GetCoaCriteriaGroupById(string id, string objectId)
         {
             MCoaCriteria m = new MCoaCriteria();
             m.Id = objectId;
@@ -68,8 +68,8 @@ namespace Its.Jenuiue.Api.Controllers
         }        
 
         [HttpPost]
-        [Route("org/{id}/action/AddCoaCriteria")]
-        public IActionResult AddCoaCriteria(string id, [FromBody] MVCoaCriteria data)
+        [Route("org/{id}/action/AddCoaCriteriaGroup")]
+        public IActionResult AddCoaCriteriaGroup(string id, [FromBody] MVCoaCriteria data)
         {
             service.SetOrgId(id);
             var model = mapper.Map<MVCoaCriteria, MCoaCriteria>(data);
@@ -77,7 +77,7 @@ namespace Its.Jenuiue.Api.Controllers
 
             var addedObj = service.AddCoaCriteria(model);
             var result = mapper.Map<MCoaCriteria, MVCoaCriteria>(addedObj);
-            
+
             var status = result.LastActionStatus;
             if (string.IsNullOrEmpty(status))
             {
@@ -88,8 +88,8 @@ namespace Its.Jenuiue.Api.Controllers
         }
 
         [HttpDelete]
-        [Route("org/{id}/action/DeleteCoaCriteriaById/{objectId}")]
-        public IActionResult DeleteCoaCriteriaById(string id, string objectId)
+        [Route("org/{id}/action/DeleteCoaCriteriaGroupById/{objectId}")]
+        public IActionResult DeleteCoaCriteriaGroupById(string id, string objectId)
         {
             MCoaCriteria m = new MCoaCriteria();
             m.Id = objectId;
@@ -103,8 +103,8 @@ namespace Its.Jenuiue.Api.Controllers
         }
 
         [HttpPut]
-        [Route("org/{id}/action/UpdateCoaCriteriaById/{objectId}")]
-        public IActionResult UpdateCoaCriteriaById(string id, string objectId, [FromBody] MVCoaCriteria data)
+        [Route("org/{id}/action/UpdateCoaCriteriaGroupById/{objectId}")]
+        public IActionResult UpdateCoaCriteriaGroupById(string id, string objectId, [FromBody] MVCoaCriteria data)
         {
             service.SetOrgId(id);
             var model = mapper.Map<MVCoaCriteria, MCoaCriteria>(data);
