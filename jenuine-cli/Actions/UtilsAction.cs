@@ -10,7 +10,8 @@ namespace Its.Jenuiue.Cli.Actions
         Product,
         Config,
         Customer,
-        CoaCriteria
+        CoaCriteria,
+        CoaCriteriaGroup
     }
 
     public static class UtilsAction
@@ -21,6 +22,7 @@ namespace Its.Jenuiue.Cli.Actions
         private static IAction configAction = new ActionConfig();
         private static IAction customerAction = new ActionCustomer();
         private static IAction coaCriteriaAction = new ActionCoaCriteria();
+        private static IAction coaCriteriaGroupAction = new ActionCoaCriteriaGroup();
 
         public static IConfiguration? configuration;
 
@@ -59,7 +61,11 @@ namespace Its.Jenuiue.Cli.Actions
             else if (type == ActionType.CoaCriteria)
             {
                 coaCriteriaAction = action;
-            }          
+            }
+            else if (type == ActionType.CoaCriteriaGroup)
+            {
+                coaCriteriaGroupAction = action;
+            }
         }
 
         public static void RunJobAction(BaseOptions o)
@@ -90,6 +96,11 @@ namespace Its.Jenuiue.Cli.Actions
         public static void RunCoaCriteriaAction(BaseOptions o)
         {
             coaCriteriaAction.Run(o);
+        }
+
+        public static void RunCoaCriteriaGroupAction(BaseOptions o)
+        {
+            coaCriteriaGroupAction.Run(o);
         }
     }
 }
