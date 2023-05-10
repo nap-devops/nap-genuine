@@ -23,6 +23,12 @@ namespace Its.Jenuiue.Core.Actions.CoaCriteria
                 filters.Add(filter1);
             }
 
+            if (m.RefType > 0)
+            {
+                var filter2 = Builders<T>.Filter.Where(p => (p as MCoaCriteria).RefType.Equals(m.RefType));
+                filters.Add(filter2);
+            }
+
             if (filters.Count <= 0)
             {
                 return FilterDefinition<T>.Empty;

@@ -7,7 +7,7 @@ using Its.Jenuiue.Core.Models.Organization;
 
 namespace Its.Jenuiue.Core.Services.CoaCriteria
 {
-    public class CoaCriteriaService : ICoaCriteria
+    public class CoaCriteriaService : ICoaCriteriaService
     {
         private readonly IDatabase database;
         private string orgId = "";

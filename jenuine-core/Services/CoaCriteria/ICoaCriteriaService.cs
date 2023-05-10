@@ -4,7 +4,7 @@ using Its.Jenuiue.Core.Models;
 
 namespace Its.Jenuiue.Core.Services.CoaCriteria
 {
-    public interface ICoaCriteria
+    public interface ICoaCriteriaService
     {
         public void SetOrgId(string id);
         public MCoaCriteria AddCoaCriteria(MCoaCriteria param);
