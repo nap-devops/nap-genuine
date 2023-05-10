@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Its.Jenuiue.Core.Database;
 
-namespace Its.Jenuiue.Core.Actions.Configs
+namespace Its.Jenuiue.Core.Actions.CoaCriteria
 {
     public class UpdateCoaCriteriaByIdAction : BaseActionUpdateById
     {

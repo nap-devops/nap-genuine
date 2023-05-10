@@ -1,6 +1,6 @@
 using Its.Jenuiue.Core.Database;
 
-namespace Its.Jenuiue.Core.Actions.Customers
+namespace Its.Jenuiue.Core.Actions.CoaCriteria
 {
     public class DeleteCoaCriteriaByIdAction : BaseActionDeleteById
     {
