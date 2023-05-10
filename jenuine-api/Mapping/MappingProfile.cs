@@ -13,7 +13,7 @@ namespace Its.Jenuiue.Api.Mapping
             CreateMap<MProduct,MVProductQuery>();
             CreateMap<MVProductQuery,MProduct>();
 
-            CreateMap<MAsset,MVAsset>();            
+            CreateMap<MAsset,MVAsset>();
             CreateMap<MVAsset,MAsset>();
 
             CreateMap<MAsset,MVAssetQuery>();
@@ -33,6 +33,11 @@ namespace Its.Jenuiue.Api.Mapping
             CreateMap<MVConfig,MConfig>();
             CreateMap<MConfig,MVConfigQuery>();
             CreateMap<MVConfigQuery,MConfig>();
+
+            CreateMap<MCoaCriteria,MVCoaCriteria>();
+            CreateMap<MVCoaCriteria,MCoaCriteria>();
+            CreateMap<MCoaCriteria,MVCoaCriteriaQuery>();
+            CreateMap<MVCoaCriteriaQuery,MCoaCriteria>();
         }
     }
 }
