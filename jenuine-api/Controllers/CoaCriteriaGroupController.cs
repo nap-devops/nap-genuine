@@ -12,7 +12,7 @@ using Microsoft.Extensions.Configuration;
 namespace Its.Jenuiue.Api.Controllers
 {
     [ApiController]
-    [Route("/api/[controller]")]
+    [Route("/api/coa_criteria_group")]
     [Authorize]
     public class CoaCriteriaGroupController : ControllerBase
     {
