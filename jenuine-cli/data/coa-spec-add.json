@@ -1,0 +1,28 @@
+{
+    "SpecificationId": "",
+    "SpecificationName": "Test - CoA specification",
+    "SpecificationDesc": "Test description",
+
+    "Criteria": [
+        {
+            "GroupName": "Physical Test",
+            "CriteriaList": [
+                {
+                    "Analysis": "Appearance",
+                    "Specification": "Clear brown solution",
+                    "Method": "Organoleptic"
+                }
+            ]
+        },
+        {
+            "GroupName": "Chemical Test",
+            "CriteriaList": [
+                {
+                    "Analysis": "pH",
+                    "Specification": "-",
+                    "Method": "USP 35 <791>"
+                }
+            ]
+        }
+    ]
+}
