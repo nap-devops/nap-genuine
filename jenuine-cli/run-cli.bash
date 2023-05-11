@@ -1,6 +1,7 @@
 #!/bin/bash
 
 #./run-cli.bash coa_spec --action=GetCoaSpec --data=data/coa-spec-query.json
+#./run-cli.bash coa_spec --action=AddCoaSpec --data=data/coa-spec-add.json
 
 #./run-cli.bash coa_criteria_group --action=GetCoaCriteriaGroup --data=data/coa-criteria-group-query.json
 #./run-cli.bash coa_criteria_group --action=AddCoaCriteriaGroup --data=data/coa-criteria-group-add.json

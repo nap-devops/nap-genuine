@@ -9,8 +9,8 @@ namespace Its.Jenuiue.Core.Services.CoaSpecs
         public void SetOrgId(string id);
         public MCoaSpec AddCoaSpec(MCoaSpec param);
         public List<MCoaSpec> GetCoaSpec(MCoaSpec param, QueryParam queryParam);
-/*
         public MCoaSpec UpdateCoaSpec(MCoaSpec param);
+/*
         public MCoaSpec DeleteCoaSpec(MCoaSpec param);
         public MCoaSpec GetCoaSpecById(MCoaSpec param);
         public long GetCoaSpecCount(MCoaSpec param);

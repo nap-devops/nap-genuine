@@ -24,6 +24,15 @@ namespace Its.Jenuiue.Cli.Actions
                 DataClassType = typeof(MVCoaSpec),
                 NeedBody = true
             };
+
+            map["UpdateCoaSpecById"] = new ActionCfg()
+            {
+                ActionClassType = typeof(CommandUpdateCoaSpecById),
+                DataClassType = typeof(MVCoaSpec),
+                NeedId = true,
+                NeedBody = true
+            };
+
 /*
             map["GetCoaSpecCount"] = new ActionCfg()
             {
@@ -42,14 +51,6 @@ namespace Its.Jenuiue.Cli.Actions
             {
                 ActionClassType = typeof(CommandDeleteCoaSpecById),
                 NeedId = true
-            };
-
-            map["UpdateCoaSpecById"] = new ActionCfg()
-            {
-                ActionClassType = typeof(UpdateCommandCoaSpecById),
-                DataClassType = typeof(MVCoaSpec),
-                NeedId = true,
-                NeedBody = true
             };
 */
             return map;

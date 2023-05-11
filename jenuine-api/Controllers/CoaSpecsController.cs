@@ -56,6 +56,20 @@ namespace Its.Jenuiue.Api.Controllers
 
             return BadRequest(status);
         }
+
+        [HttpPut]
+        [Route("org/{id}/action/UpdateCoaSpecById/{objectId}")]
+        public IActionResult UpdateCoaSpecById(string id, string objectId, [FromBody] MVCoaSpec data)
+        {
+            service.SetOrgId(id);
+            var model = mapper.Map<MVCoaSpec, MCoaSpec>(data);
+            model.Id = objectId;
+
+            var updateObj = service.UpdateCoaSpec(model);
+            var result = mapper.Map<MCoaSpec, MVCoaSpec>(updateObj);
+
+            return Ok(result);
+        }
 /*
         [HttpPost]
         [Route("org/{id}/action/GetCoaSpecCount")]
@@ -95,21 +109,6 @@ namespace Its.Jenuiue.Api.Controllers
             var deletedObj = service.DeleteCoaSpec(m);
 
             var result = mapper.Map<MCoaSpec, MVCoaSpec>(deletedObj);
-
-            return Ok(result);
-        }
-
-        [HttpPut]
-        [Route("org/{id}/action/UpdateCoaSpecById/{objectId}")]
-        public IActionResult UpdateCoaSpecById(string id, string objectId, [FromBody] MVCoaSpec data)
-        {
-            service.SetOrgId(id);
-            var model = mapper.Map<MVCoaSpec, MCoaSpec>(data);
-            model.Id = objectId;
-            model.RefType = RefType;
-
-            var updateObj = service.UpdateCoaSpec(model);
-            var result = mapper.Map<MCoaSpec, MVCoaSpec>(updateObj);
 
             return Ok(result);
         }

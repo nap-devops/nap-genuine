@@ -46,7 +46,7 @@ namespace Its.Jenuiue.Core.Services.CoaSpecs
 
             return result;
         }
-/*
+
         public MCoaSpec UpdateCoaSpec(MCoaSpec param)
         {
             var act = new UpdateCoaSpecByIdAction(database, orgId);
@@ -54,7 +54,7 @@ namespace Its.Jenuiue.Core.Services.CoaSpecs
 
             return result;
         }
-
+/*
         public MCoaSpec DeleteCoaSpec(MCoaSpec param)
         {
             var act = new DeleteCoaSpecByIdAction(database, orgId);
