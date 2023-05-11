@@ -24,7 +24,7 @@ namespace Its.Jenuiue.Core.Commands.CoaCriteria
 
         protected override string GetBodyText(CommandParam param)        
         {
-            MVCoaCriteriaQuery data = (MVCoaCriteriaQuery) param.BodyData;
+            MVCoaCriteria data = (MVCoaCriteria) param.BodyData;
             var json = JsonSerializer.Serialize(data);
 
             return json;

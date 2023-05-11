@@ -8,10 +8,9 @@
 
 #./run-cli.bash coa_criteria --action=GetCoaCriteria --data=data/coa-criteria-query.json
 #./run-cli.bash coa_criteria --action=AddCoaCriteria --data=data/coa-criteria-add.json
-
-#./run-cli.bash coa_criteria --action=DeleteCoaCriteriaById --id=645c41e83752070e1263feb3
 #./run-cli.bash coa_criteria --action=GetCoaCriteriaCount --data=data/coa-criteria-query.json
-#./run-cli.bash coa_criteria --action=UpdateCoaCriteriaById --id=645c44953752070e1263feb6 --data=data/coa-criteria-update.json
+#./run-cli.bash coa_criteria --action=UpdateCoaCriteriaById --id=645c76c5236a1d00d5594d21 --data=data/coa-criteria-update.json
+#./run-cli.bash coa_criteria --action=DeleteCoaCriteriaById --id=645c792c236a1d00d5594d22
 
 
 #./run-cli.bash customer --action=GetCustomers --data=data/customers-query.json
