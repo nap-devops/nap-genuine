@@ -1,6 +1,10 @@
 #!/bin/bash
 
-#./run-cli.bash coa_criteria --action=GetCoaCriteria --data=data/coa-criteria-query.json
+#./run-cli.bash coa_criteria_group --action=GetCoaCriteriaGroup --data=data/coa-criteria-group-query.json
+#./run-cli.bash coa_criteria_group --action=AddCoaCriteriaGroup --data=data/coa-criteria-group-add.json
+#./run-cli.bash coa_criteria_group --action=DeleteCoaCriteriaGroupById --id=645c41e83752070e1263feb3
+#./run-cli.bash coa_criteria_group --action=GetCoaCriteriaGroupCount --data=data/coa-criteria-group-query.json
+#./run-cli.bash coa_criteria_group --action=UpdateCoaCriteriaGroupById --id=645c44953752070e1263feb6 --data=data/coa-criteria-group-update.json
 
 #./run-cli.bash customer --action=GetCustomers --data=data/customers-query.json
 #./run-cli.bash customer --action=GetProductsCount --data=data/products-query.json

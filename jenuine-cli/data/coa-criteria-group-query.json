@@ -1,0 +1,9 @@
+{
+    "CriteriaId": "",
+    "Analysis": "",
+
+    "QueryParam":{
+        "Offset":0,
+        "Limit":100
+    }
+}
