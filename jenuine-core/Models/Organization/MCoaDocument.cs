@@ -26,6 +26,10 @@ namespace Its.Jenuiue.Core.Models.Organization
 
     public class MCoaDocument : BaseOrgModel
     {
+        public string DocumentId { get; set; }
+        public string DocumentNo { get; set; }
+        public string DocumentDate { get; set; }
+
         public string SpecificationId { get; set; }
         public string SpecificationName { get; set; }
         public string PrintingTemplateId { get; set; } // MPrintingTemplate
