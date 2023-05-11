@@ -35,6 +35,11 @@ namespace Its.Jenuiue.Core.Actions.CoaSpecs
                 filters.Add(filter3);
             }
 
+            if (filters.Count <= 0)
+            {
+                return FilterDefinition<T>.Empty;
+            }
+
             var filter = Builders<T>.Filter.And(filters);
             return filter;
         }
