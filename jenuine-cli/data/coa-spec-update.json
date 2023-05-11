@@ -1,0 +1,38 @@
+{
+    "SpecificationId": "",
+    "SpecificationName": "Test - CoA specification # 2",
+    "SpecificationDesc": "Test description # 2",
+
+    "Criteria": [
+        {
+            "GroupName": "Physical Test #2",
+            "CriteriaList": [
+                {
+                    "Analysis": "Appearance #2",
+                    "Specification": "Clear brown solution #2",
+                    "Method": "Organoleptic #2"
+                }
+            ]
+        },
+        {
+            "GroupName": "Chemical Test #2",
+            "CriteriaList": [
+                {
+                    "Analysis": "pH #2",
+                    "Specification": "- #2",
+                    "Method": "USP 35 <791> #2"
+                }
+            ]
+        },
+        {
+            "GroupName": "XXX Test #2",
+            "CriteriaList": [
+                {
+                    "Analysis": "XXX pH #2",
+                    "Specification": "XXX - #2",
+                    "Method": "XXX USP 35 <791> #2"
+                }
+            ]
+        }
+    ]
+}
