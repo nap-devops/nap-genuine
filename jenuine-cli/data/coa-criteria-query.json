@@ -1,8 +1,4 @@
 {
-    "CriteriaId": "",
-    "RefType": 0,
-    "Analysis": "",
-
     "QueryParam":{
         "Offset":0,
         "Limit":100
