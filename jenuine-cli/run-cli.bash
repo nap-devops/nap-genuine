@@ -3,6 +3,9 @@
 #./run-cli.bash coa_doc --action=GetCoaDoc --data=data/coa-doc-query.json
 #./run-cli.bash coa_doc --action=AddCoaDoc --data=data/coa-doc-add.json
 #./run-cli.bash coa_doc --action=GetCoaDocCount --data=data/coa-doc-query.json
+#./run-cli.bash coa_doc --action=DeleteCoaDocById --id=645e3fedd93b1808bc0661bf
+#./run-cli.bash coa_doc --action=UpdateCoaDocById --data=data/coa-doc-add.json --id=645e431d770340f72aad5d82
+#./run-cli.bash coa_doc --action=GetCoaDocById --id=645e431d770340f72aad5d82
 
 #./run-cli.bash coa_spec --action=GetCoaSpec --data=data/coa-spec-query.json
 #./run-cli.bash coa_spec --action=AddCoaSpec --data=data/coa-spec-add.json
