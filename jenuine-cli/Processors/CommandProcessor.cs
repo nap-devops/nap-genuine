@@ -23,7 +23,8 @@ namespace Its.Jenuiue.Cli.Processors
                 CustomerOptions,
                 CoaCriteriaOptions,
                 CoaCriteriaGroupOptions,
-                CoaSpecOptions>(args)
+                CoaSpecOptions,
+                CoaDocOptions>(args)
                 .WithParsed<AssetOptions>(UtilsAction.RunAssetAction)
                 .WithParsed<JobOptions>(UtilsAction.RunJobAction)
                 .WithParsed<ProductOptions>(UtilsAction.RunProductAction)
@@ -31,7 +32,8 @@ namespace Its.Jenuiue.Cli.Processors
                 .WithParsed<CustomerOptions>(UtilsAction.RunCustomerAction)
                 .WithParsed<CoaCriteriaOptions>(UtilsAction.RunCoaCriteriaAction)
                 .WithParsed<CoaCriteriaGroupOptions>(UtilsAction.RunCoaCriteriaGroupAction)
-                .WithParsed<CoaSpecOptions>(UtilsAction.RunCoaSpecAction);
+                .WithParsed<CoaSpecOptions>(UtilsAction.RunCoaSpecAction)
+                .WithParsed<CoaDocOptions>(UtilsAction.RunCoaDocAction);
         }
 
         public Commandrocessor(IConfiguration cfg)

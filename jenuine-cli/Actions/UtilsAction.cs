@@ -13,6 +13,7 @@ namespace Its.Jenuiue.Cli.Actions
         CoaCriteria,
         CoaCriteriaGroup,
         CoaSpec,
+        CoaDoc
     }
 
     public static class UtilsAction
@@ -25,6 +26,7 @@ namespace Its.Jenuiue.Cli.Actions
         private static IAction coaCriteriaAction = new ActionCoaCriteria();
         private static IAction coaCriteriaGroupAction = new ActionCoaCriteriaGroup();
         private static IAction coaSpecAction = new ActionCoaSpec();
+        private static IAction coaDocAction = new ActionCoaDoc();
 
         public static IConfiguration? configuration;
 
@@ -72,6 +74,10 @@ namespace Its.Jenuiue.Cli.Actions
             {
                 coaSpecAction = action;
             }
+            else if (type == ActionType.CoaDoc)
+            {
+                coaDocAction = action;
+            }
         }
 
         public static void RunJobAction(BaseOptions o)
@@ -112,6 +118,11 @@ namespace Its.Jenuiue.Cli.Actions
         public static void RunCoaSpecAction(BaseOptions o)
         {
             coaSpecAction.Run(o);
+        }
+
+        public static void RunCoaDocAction(BaseOptions o)
+        {
+            coaDocAction.Run(o);
         }
     }
 }
