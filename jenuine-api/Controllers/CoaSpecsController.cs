@@ -7,6 +7,7 @@ using Its.Jenuiue.Core.Models.Organization;
 using Its.Jenuiue.Core.Services.CoaSpecs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
+using Its.Jenuiue.Core.ModelsViews;
 
 namespace Its.Jenuiue.Api.Controllers
 {
@@ -70,14 +71,13 @@ namespace Its.Jenuiue.Api.Controllers
 
             return Ok(result);
         }
-/*
+
         [HttpPost]
         [Route("org/{id}/action/GetCoaSpecCount")]
         public IActionResult GetCoaSpecCount(string id, [FromBody] MVCoaSpecQuery data)
         {
             service.SetOrgId(id);
             var model = mapper.Map<MVCoaSpecQuery, MCoaSpec>(data);
-            model.RefType = RefType;
             long cnt = service.GetCoaSpecCount(model);
 
             return Ok(new MVCountResult(cnt));
@@ -97,7 +97,6 @@ namespace Its.Jenuiue.Api.Controllers
             return Ok(result);
         }        
 
-
         [HttpDelete]
         [Route("org/{id}/action/DeleteCoaSpecById/{objectId}")]
         public IActionResult DeleteCoaSpecById(string id, string objectId)
@@ -112,6 +111,5 @@ namespace Its.Jenuiue.Api.Controllers
 
             return Ok(result);
         }
-*/
     }
 }

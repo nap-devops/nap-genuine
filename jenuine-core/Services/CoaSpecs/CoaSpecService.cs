@@ -54,7 +54,7 @@ namespace Its.Jenuiue.Core.Services.CoaSpecs
 
             return result;
         }
-/*
+
         public MCoaSpec DeleteCoaSpec(MCoaSpec param)
         {
             var act = new DeleteCoaSpecByIdAction(database, orgId);
@@ -66,9 +66,9 @@ namespace Its.Jenuiue.Core.Services.CoaSpecs
         public MCoaSpec GetCoaSpecById(MCoaSpec param)
         {
             var act = new GetCoaSpecByIdAction(database, orgId);            
-            var customer = act.Apply<MCoaSpec>(param);
+            var result = act.Apply<MCoaSpec>(param);
 
-            return customer;
+            return result;
         }
 
         public long GetCoaSpecCount(MCoaSpec param)
@@ -78,6 +78,5 @@ namespace Its.Jenuiue.Core.Services.CoaSpecs
 
             return cnt;
         }
-*/     
     }
 }

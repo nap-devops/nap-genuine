@@ -1,6 +1,6 @@
 using Serilog;
-using Its.Jenuiue.Core.Commands.CoaSpecs;
 using System.Collections;
+using Its.Jenuiue.Core.Commands.CoaSpecs;
 using Its.Jenuiue.Core.ModelsViews.Organization;
 
 namespace Its.Jenuiue.Cli.Actions
@@ -33,7 +33,6 @@ namespace Its.Jenuiue.Cli.Actions
                 NeedBody = true
             };
 
-/*
             map["GetCoaSpecCount"] = new ActionCfg()
             {
                 ActionClassType = typeof(CommandGetCoaSpecCount),
@@ -52,7 +51,7 @@ namespace Its.Jenuiue.Cli.Actions
                 ActionClassType = typeof(CommandDeleteCoaSpecById),
                 NeedId = true
             };
-*/
+
             return map;
         }
     }
