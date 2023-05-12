@@ -43,6 +43,11 @@ namespace Its.Jenuiue.Api.Mapping
             CreateMap<MVCoaSpec,MCoaSpec>();
             CreateMap<MCoaSpec,MVCoaSpecQuery>();
             CreateMap<MVCoaSpecQuery,MCoaSpec>();
+
+            CreateMap<MCoaDoc,MVCoaDoc>();
+            CreateMap<MVCoaDoc,MCoaDoc>();
+            CreateMap<MCoaDoc,MVCoaDocQuery>();
+            CreateMap<MVCoaDocQuery,MCoaDoc>();
         }
     }
 }
