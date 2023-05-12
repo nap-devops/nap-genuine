@@ -18,6 +18,7 @@ using Its.Jenuiue.Core.Services.Configs;
 using Its.Jenuiue.Core.Services.Customers;
 using Its.Jenuiue.Core.Services.CoaCriteria;
 using Its.Jenuiue.Core.Services.CoaSpecs;
+using Its.Jenuiue.Core.Services.CoaDocs;
 
 using Its.Jenuiue.Api.Authentications;
 using Its.Jenuiue.Api.Middlewares.AuditLog;
@@ -55,6 +56,7 @@ namespace Its.Jenuiue.Api
             services.AddScoped<ICoaCriteriaService>(sp => new CoaCriteriaService(db));
             services.AddScoped<ICoaCriteriaService>(sp => new CoaCriteriaService(db));
             services.AddScoped<ICoaSpecService>(sp => new CoaSpecService(db));
+            services.AddScoped<ICoaDocService>(sp => new CoaDocService(db));
 
             services.AddSingleton<IBasicAuthenticationRepo, BasicAuthenticationRepo>();
 
