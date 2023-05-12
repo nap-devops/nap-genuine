@@ -3,6 +3,10 @@
 #./run-cli.bash coa_spec --action=GetCoaSpec --data=data/coa-spec-query.json
 #./run-cli.bash coa_spec --action=AddCoaSpec --data=data/coa-spec-add.json
 #./run-cli.bash coa_spec --action=UpdateCoaSpecById --data=data/coa-spec-update.json --id=645cf490ef147d961b9d026b
+#./run-cli.bash coa_spec --action=GetCoaSpecCount --data=data/coa-spec-query.json
+#./run-cli.bash coa_spec --action=DeleteCoaSpecById --id=645cf421ef147d961b9d026a
+
+#./run-cli.bash coa_spec --action=GetCoaSpecById --id=645cf490ef147d961b9d026b
 
 #./run-cli.bash coa_criteria_group --action=GetCoaCriteriaGroup --data=data/coa-criteria-group-query.json
 #./run-cli.bash coa_criteria_group --action=AddCoaCriteriaGroup --data=data/coa-criteria-group-add.json

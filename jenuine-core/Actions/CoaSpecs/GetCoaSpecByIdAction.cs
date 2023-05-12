@@ -18,7 +18,7 @@ namespace Its.Jenuiue.Core.Actions.CoaSpecs
 
         protected override FilterDefinition<T> GetFilter<T>(T model)
         {
-            var md = model as MProduct;
+            var md = model as MCoaSpec;
             var filter = Builders<T>.Filter.Eq("Id", md.Id);
             return filter;
         }
