@@ -7,7 +7,7 @@ namespace Its.Jenuiue.Core.Models.Organization
     {
         public string DocumentId { get; set; }
         public string DocumentNo { get; set; }
-        public DateOnly DocumentDate { get; set; }
+        public DateTime DocumentDate { get; set; }
 
         public string SpecificationId { get; set; }
         public string SpecificationName { get; set; }
@@ -22,8 +22,8 @@ namespace Its.Jenuiue.Core.Models.Organization
         public string ExtractedSolvent { get; set; }
         public string ExtractedRatio { get; set; }
         public string PackagingSize { get; set; }
-        public DateOnly ManufacturingDate { get; set; }
-        public DateOnly ExpirationDate { get; set; }
+        public DateTime ManufacturingDate { get; set; }
+        public DateTime ExpirationDate { get; set; }
 
         //Body
         public List<CoaCriteriaGroup> Criteria { get; set; }

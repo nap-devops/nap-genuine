@@ -1,0 +1,47 @@
+{
+    "DocumentNo": "COA-0001",
+    "DocumentDate": "2023-05-12",
+    "ProductName": "",
+    "ScienctificName": "",
+    "Origin": "",
+    "PartUsed": "",
+    "LotNo": "",
+    "ExtractedSolvent": "",
+    "ExtractedRatio": "",
+    "PackagingSize": "",
+    "ManufacturingDate": "2023-05-10",
+    "ExpirationDate": "2024-05-12",
+
+    "Conclusion": "",
+    "Storage": "",
+    "ShelfLife": "",
+
+    "SpecificationId": "",
+    "SpecificationName": "Test - CoA specification",
+    "SpecificationDesc": "Test description",
+
+    "Criteria": [
+        {
+            "GroupName": "Physical Test",
+            "CriteriaList": [
+                {
+                    "Analysis": "Appearance",
+                    "Specification": "Clear brown solution",
+                    "Method": "Organoleptic",
+                    "Result": "Passed"
+                }
+            ]
+        },
+        {
+            "GroupName": "Chemical Test",
+            "CriteriaList": [
+                {
+                    "Analysis": "pH",
+                    "Specification": "-",
+                    "Method": "USP 35 <791>",
+                    "Result": "Passed"
+                }
+            ]
+        }
+    ]
+}

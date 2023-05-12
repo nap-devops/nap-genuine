@@ -1,5 +1,9 @@
 #!/bin/bash
 
+#./run-cli.bash coa_doc --action=GetCoaDoc --data=data/coa-doc-query.json
+#./run-cli.bash coa_doc --action=AddCoaDoc --data=data/coa-doc-add.json
+#./run-cli.bash coa_doc --action=GetCoaDocCount --data=data/coa-doc-query.json
+
 #./run-cli.bash coa_spec --action=GetCoaSpec --data=data/coa-spec-query.json
 #./run-cli.bash coa_spec --action=AddCoaSpec --data=data/coa-spec-add.json
 #./run-cli.bash coa_spec --action=UpdateCoaSpecById --data=data/coa-spec-update.json --id=645cf490ef147d961b9d026b
